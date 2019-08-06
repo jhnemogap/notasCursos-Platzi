@@ -40,12 +40,41 @@ Existe una forma más adecuada de concatenar texto y es por medio de la _interpo
 Los operadores matemáticos más comunes son:
 - suma ( + )
 - resta ( - )
-- multiplicación
-- división /
+- multiplicación ( * )
+- división ( / )
 
-Operaciones con decimales debemos realizar operaciones adicionales para conseguir un resultado preciso, ej:
+Operaciones con decimales debemos realizar operaciones adicionales para conseguir un resultado preciso, dado que JS no es tan preciso al guardar decimales. Ej:
 ```JavaScript
 var total = ( precioDeVino * 100 * 3) / 100
 ```
+* Para redondear una operación se utiliza la función: `Math.round(x)`
+* Para pasar de decimal a cadena de caracteres, donde el parámetro es la cantidad de decimales a tener en cuenta: `.toFixed(#)`
+* Y para convertir de string a decimal: `parseFloat("200.09")`
 
-Para redondear una operación se utiliza la función: Math.round
+[JavaScript Arithmetic - w3schools.com](https://www.w3schools.com/js/js_arithmetic.asp)
+
+---
+
+# Funciones
+Las funciones son fracciones de código reutilizable. Para definir una función se utiliza la palabra reservada `function`. [Definición de funciones - MDN web docs](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Funciones#Definici%C3%B3n_de_funciones)
+
+En términos generales, una función es un "subprograma" que puede ser llamado por código externo (o interno en caso de recursión) a la función. Al igual que el programa en sí mismo, una función se compone de una secuencia de declaraciones, que conforman el llamado cuerpo de la función. Se pueden pasar valores a una función, y la función puede devolver un valor.
+
+Delimitamos el cuerpo de la función usando llaves `{ }`. Los parámetros de la función son variables que se pasan a la función escribiéndolos entre paréntesis `()`.
+```JavaScript
+function nombre([param [,param [, ...param]]]) {
+   instrucciones
+}
+```
+JavaScript es un lenguaje interpretado, esto quiere decir que intentará ejecutar el código sin importar si los argumentos que se le pasen a la función estén invertidos o incluso incompletos.
+
+
+### Alcance de las funciones
+
+[Ámbito de las variables](https://uniwebsidad.com/libros/javascript/capitulo-4/ambito-de-las-variables)
+
+El ámbito de una variable (llamado "_scope_" en inglés) es la zona del programa en la que se define la variable. JavaScript define dos ámbitos para las variables: global y local.
+
+Si una variable se declara fuera de cualquier función, automáticamente se transforma en variable global independientemente de si se define utilizando la palabra reservada var o no. Sin embargo, las variables definidas dentro de una función pueden ser globales o locales.
+
+Si en el interior de una función, las variables se declaran mediante var se consideran locales y las variables que no se han declarado mediante var, se transforman automáticamente en variables globales.
