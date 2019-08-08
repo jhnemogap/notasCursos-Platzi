@@ -60,12 +60,26 @@ Las funciones son fracciones de código reutilizable. Para definir una función 
 En términos generales, una función es un "subprograma" que puede ser llamado por código externo (o interno en caso de recursión) a la función. Al igual que el programa en sí mismo, una función se compone de una secuencia de declaraciones, que conforman el llamado cuerpo de la función. Se pueden pasar valores a una función, y la función puede devolver un valor.
 
 Delimitamos el cuerpo de la función usando llaves `{ }`. Los parámetros de la función son variables que se pasan a la función escribiéndolos entre paréntesis `()`.
+
 ```JavaScript
 function nombre([param [,param [, ...param]]]) {
    instrucciones
 }
 ```
+
 JavaScript es un lenguaje interpretado, esto quiere decir que intentará ejecutar el código sin importar si los argumentos que se le pasen a la función estén invertidos o incluso incompletos.
+
+Un ejemplo de una función que devuelve un verdadero o falso:
+
+```javascript
+function aMayorb(a, b){
+  return a > b
+}
+
+console.log( aMayorb(5, 2) ); // true
+console.log( aMayorb(20, 37) ); // false
+console.log( aMayorb(13, 13) ); // false
+```
 
 
 ### Alcance de las funciones
@@ -78,7 +92,132 @@ Si una variable se declara fuera de cualquier función, automáticamente se tran
 
 Si en el interior de una función, las variables se declaran mediante `var` se consideran locales y las variables que no se han declarado mediante `var`, se transforman automáticamente en variables globales.
 
+
+### Arrow Functions
+Las funciones de flecha, o _arrow functions_ son una nueva forma de definir funciones y hay distintas variantes en la sintaxis.
+
+#### Un solo parámetro
+Al crear una arrow function de un solo parámetro no es necesario escribír los paréntesis, tampoco es necesario escribír las llaves, esto se puede cuando la función es de una sola línea y devuelve un valor.
+```javascript
+// convencional
+function saludo (nombre){
+  return `Hola ${nombre}`
+}
+console.log( saludo('Carlos') )
+
+// con arrow function
+let saludo = nombre => `Hola ${nombre}`;
+console.log( saludo('Carlos') ) //Imprime Hola Jonathan
+```
+
+#### Varios parámetros
+Cuando la función tenga más de un parámetro es necesario envolver el nombre de estos entre paréntesis.
+```javascript
+// convencional
+function sumar(a, b) {
+  return a + b;
+}
+console.log( sumar(10, 9) ) //Imprime 19
+
+// con arrow function
+let sumar = (a, b) => a + b;
+console.log( sumar(10, 9) ); //Imprime 19
+```
+
+#### Sin parámetros
+Cuando la función no reciba parámetros también son necesarios los paréntesis.
+```javascript
+// convencional
+function saludo() {
+  return 'Hola a todos';
+}
+console.log( saludo() ); // Imprime Hola a todos
+
+// con arrow function
+let saludo = () => `Hola a todos`;
+console.log( saludo() ); // Imprime Hola a todos
+```
+
+#### Con cuerpo
+Cuando la función tiene más de una línea (o no devuelve ningún valor) es necesario utilizar las llaves.
+```javascript
+let fecha = new Date(),
+hora = fecha.getHours()
+
+// convencional
+function saludarCompa(hr) {
+  if (hr <= 5) {
+    return 'No me jodas!!!'
+  }
+  else if (hr >= 6 && hr <= 11) {
+    return 'Buenos días!!!'
+  }
+  else if (hr >= 12 && hr <= 18) {
+    return 'Buenas tardes!!!'
+  }
+  else {
+    return 'Buenas noches!!!'
+  }
+}
+console.log( saludarCompa(hora) ) //Imprime el saludo dependiendo la hora del día
+
+// con arrow function
+let saludarCompa = hr => {
+  if (hr <= 5) {
+    return 'No me jodas!!!'
+  } else if(hr >= 6 && hr <= 11) {
+    return 'Buenos días!!!'
+  } else if(hr >= 12 && hr <= 18) {
+    return 'Buenas tardes!!!'
+  } else {
+    return 'Buenas noches!!!'
+  }
+}
+console.log( saludarCompa(hora) ) //Imprime el saludo dependiendo la hora del día
+```
+
+#### Evitar generar un nuevo contexto en `this`
+Tomado de [Arrow Functions en ES6](https://desarrolloweb.com/articulos/arrow-functions-es6.html)
+Cuando se usa funciones callback éstas generan un nuevo contexto sobre la variable "_this_". Es un efecto que si se tiene experiencia con Javascript se conoce de sobra; pero si no solo tener la idea es bueno para más adelante . En estos casos, para poder acceder al `this` anterior se hacían cosas como "``var that = this``", o quizás hayas el "``.bind(this)``" para _bindear_ el contexto.
+
+Por si no queda claro, miremos el siguiente código:
+```javascript
+var objTest = {
+  retardo: function() {
+    setTimeout(function() {
+      this.hacerAlgo();
+    }, 1000)
+  },
+  hacerAlgo: function() {
+    alert('hice algo')
+  }
+}
+
+objTest.retardo()
+```
+
+En la función ``setTimeout()`` se envia un _callback_ que genera un nuevo contexto, por tanto, no se puede acceder a ``this`` dentro de esa función. O mejor dicho, sí se puede acceder, pero no devolverá lo que quizás se espere, que sería el propio objeto ``objTest``. Es por eso que al ejecutar ese código saldría un error: `Uncaught TypeError: this.hacerAlgo is not a function`
+
+Realmente no importa mucho ver el código para resolver esto en ES5, ya que en ES6 y con las funciones flecha se podría resolver de una manera mucho más elegante.
+```javascript
+var objTest = {
+  retardo: function() {
+    setTimeout( () => {
+      this.hacerAlgo();
+    }, 1000)
+  },
+  hacerAlgo: function() {
+    alert('hice algo')
+  }
+}
+
+objTest.retardo()
+```
+
+Ahora la función enviada como _callback_ a `setTimeout()` está definida con una _arrow function_ y por tanto no genera contexto nuevo en la variable `this`. Es por ello que al intentar invocar a ``this.hacerAlgo()`` no generará ningún error y se ejecutará perfectamente ese método ``hacerAlgo()``.
+
 ---
+
 
 ## Objetos
 Es aquel material que ha sido creado y que tiene ciertos atributos o características que lo definen. Los atributos van entre llaves y separados por comas.
