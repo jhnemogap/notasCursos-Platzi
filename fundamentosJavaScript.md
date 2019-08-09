@@ -530,3 +530,154 @@ for(i in dias) {
 La variable que se indica como índice es la que se puede utilizar dentro del bucle ``for...in`` para acceder a los elementos del array. De esta forma, en la primera repetición del bucle la variable ``i`` vale ``0`` y en la última vale ``6``.
 
 Esta estructura de control es la más adecuada para recorrer _arrays_ (y objetos), ya que evita tener que indicar la inicialización y las condiciones del bucle ``for`` simple y funciona correctamente cualquiera que sea la longitud del array. De hecho, sigue funcionando igual aunque varíe el número de elementos del array.
+
+---
+
+## Arreglos de datos _Array_
+Los _arrays_ son estructuras que nos permiten organizar elementos dentro de una colección. Estos elementos pueden ser números, strings, booleanos, objetos, etc.
+
+Los _arrays_ (arreglo o matrices) son objetos de tipo lista cuyo prototipo tiene métodos para realizar operaciones de recorrido y mutación. Ni la longitud o los tipos de los elementos del array son fijos. Dado que la longitud de un _array_ puede cambiar en cualquier momento, y los datos pueden almacenarse en ubicaciones no contiguas en él, no se garantiza que los _arrays_ JavaScript sean densos, esto depende de cómo el programador opte por usarlos. En general, estas son características convenientes, pero si estas características no son deseables para su uso en particular, se podría considerar usar _arrays_ tipados
+
+#### Crear un Array
+```javascript
+var frutas = ['Manzana', 'Banana']
+console.log(frutas.length) // se imprime un: 2
+```
+
+#### Acceder (por índice) a un elemento Array
+```javascript
+var primero = frutas[0] // Manzana
+var ultimo = frutas[frutas.length - 1] // Banana
+```
+
+#### Bucle sobre un Array
+Modo convencional
+```javascript
+for (var i = 0; i < frutas.length; i++) {
+  console.log(frutas[i])
+}
+// Manzana 0
+// Banana 1
+```
+Usando el método interno de los arreglos:
+```javascript
+frutas.forEach( function (elemento, indice, array) {
+    console.log(elemento, indice)
+})
+// Manzana 0
+// Banana 1
+```
+
+#### Añadir elemento al final de un Array
+```javascript
+var nuevaLongitud = frutas.push('Naranja')
+// ["Manzana", "Banana", "Naranja"]
+```
+
+#### Eliminar elemento del final de un Array
+```javascript
+var ultimo = frutas.pop() // elimina Naranja del final
+// ["Manzana", "Banana"]
+```
+
+#### Añadir elemento al inicio de un Array
+```javascript
+var nuevaLongitud = frutas.unshift('Fresa') // añade al inicio
+// ["Fresa", "Banana"]
+```
+
+#### Eliminar elemento del inicio de un Array
+```javascript
+var primero = frutas.shift() // elimina Manzana del inicio
+// ["Banana"]
+```
+
+#### Encontrar el índice de un elemento en el Array
+```javascript
+frutas.push('Mango')
+// ["Fresa", "Banana", "Mango"]
+
+var pos = frutas.indexOf('Banana')
+// 1
+```
+
+#### Eliminar un elemento con el índice de posición
+```javascript
+var elementoEliminado = frutas.splice(pos, 1) // así es como se elimina un elemento
+// ["Fresa", "Mango"]
+```
+
+#### Eliminar elementos con el índice de posición
+```javascript
+var vegetales = ['Repollo', 'Nabo', 'Rábano', 'Zanahoria']
+console.log(vegetales)
+// ["Repollo", "Nabo", "Rábano", "Zanahoria"]
+
+var pos = 1, n = 2;
+var elementosEliminados = vegetales.splice(pos, n)
+// así es como se eliminan elementos, n define la cantidad de elementos a eliminar,
+// de esa posicion(pos) en adelante hasta el final del array.
+
+console.log(vegetales)
+// ["Repollo", "Zanahoria"] (el array original ha cambiado)
+console.log(elementosEliminados)
+// ["Nabo", "Rábano"]
+```
+
+#### Copiar un Array
+```javascript
+var copiaSuperficial = frutas.slice() // esta es la forma de crear una copia
+// ["Fresa", "Mango"]
+```
+
+### Filtrar un array
+Para filtrar siempre se necesita establecer una condición. El método `.filter()` crea una nueva matriz con todos los elementos que pasan la prueba implementada por la función proporcionada.
+
+Recuerda que si no hay elementos que pasen la prueba, filter devuelve un _array_ vacío.
+```javascript
+var words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present']
+
+const result = words.filter(word => word.length > 6);
+console.log(result);
+// expected output: Array ["exuberant", "destruction", "present"]
+```
+
+### Transformar un array `.map()` ("mapeo")
+El método `.map()` itera sobre los elementos de un array en el orden de inserción y devuelve array nuevo con los elementos modificados.
+```javascript
+var numbers = [1, 5, 10, 15];
+let doubles = numbers.map(x => x * 2)
+// numbers is still [1, 5, 10, 15]
+// doubles is now [2, 10, 20, 30]
+
+numbers = [1, 4, 9];
+let roots = numbers.map( num => Math.sqrt(num) )
+// numbers is still [1, 4, 9]
+// roots is now [1, 2, 3]
+```
+
+### Reducir `.reduce()`
+El método ``.reduce()`` aplica una función a un acumulador y a cada valor de un array (de izquierda a derecha) para reducirlo a un único valor.
+Los invito a revisar un poco más de los parámetros de la función parámetro del método, en: [Array.prototype.reduce()](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/reduce#Sintaxis)
+
+```javascript
+[1, 3, 5, 7, 11].reduce( (acumulador, nuevoValor) => acumulador + nuevoValor, 10 )
+
+// Primera llamada
+acumulador = 11, nuevoValor = 1
+
+// Segunda llamada
+acumulador = 14, nuevoValor = 3
+
+// Tercera llamada
+acumulador = 19, nuevoValor = 5
+
+// Cuarta llamada
+acumulador = 26, nuevoValor = 7
+
+// Quinta llamada
+acumulador = 37, nuevoValor = 11
+
+// el array sobre el que se llama a reduce siempre es el objeto [1,3,5,7,11] 
+// Valor Devuelto: 37
+```
