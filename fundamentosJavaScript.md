@@ -532,6 +532,7 @@ La variable que se indica como índice es la que se puede utilizar dentro del bu
 Esta estructura de control es la más adecuada para recorrer _arrays_ (y objetos), ya que evita tener que indicar la inicialización y las condiciones del bucle ``for`` simple y funciona correctamente cualquiera que sea la longitud del array. De hecho, sigue funcionando igual aunque varíe el número de elementos del array.
 
 ---
+---
 
 ## Arreglos de datos _Array_
 Los _arrays_ son estructuras que nos permiten organizar elementos dentro de una colección. Estos elementos pueden ser números, strings, booleanos, objetos, etc.
@@ -680,4 +681,267 @@ acumulador = 37, nuevoValor = 11
 
 // el array sobre el que se llama a reduce siempre es el objeto [1,3,5,7,11] 
 // Valor Devuelto: 37
+```
+
+---
+---
+---
+
+## Programación Orientada a Objetos en JavaScript
+Tomado de [Introducción a JavaScript orientado a objetos](https://developer.mozilla.org/es/docs/Web/JavaScript/Introducci%C3%B3n_a_JavaScript_orientado_a_objetos)
+
+La programación orientada a objetos es un paradigma de programación que utiliza la abstracción para crear modelos basados ​​en el mundo real. Utiliza diversas técnicas de paradigmas previamente establecidas, incluyendo la modularidad, polimorfismo y encapsulamiento. Hoy en día, muchos lenguajes de programación (como Java, JavaScript, C#, C++, Python, PHP, Ruby y Objective-C) soportan programación orientada a objetos (POO).
+
+La programación orientada a objetos puede considerarse como el diseño de software a través de un conjunto de objetos que cooperan, a diferencia de un punto de vista tradicional en el que un programa puede considerarse como un conjunto de funciones, o simplemente como una lista de instrucciones para la computadora. En la programación orientada a objetos, cada objeto es capaz de recibir mensajes, procesar datos y enviar mensajes a otros objetos. Cada objeto puede verse como una pequeña máquina independiente con un papel o responsabilidad definida.
+
+#### Terminología
+- __Clase__: Define las características del Objeto.
+- __Objeto__: Una instancia de una Clase.
+- __Propiedad__: Una característica del Objeto, como el color.
+- __Método__: Una capacidad del Objeto, como caminar.
+- __Constructor__: Es un método llamado en el momento de la creación de instancias.
+- __Herencia__: Una Clase puede heredar características de otra Clase.
+- __Encapsulamiento__: Una Clase sólo define las características del Objeto, un Método sólo define cómo se ejecuta el Método.
+- __Abstracción__: La conjunción de herencia compleja, métodos y propiedades que un objeto debe ser capaz de simular en un modelo de la realidad.
+- __Polimorfismo__: Diferentes Clases podrían definir el mismo método o propiedad.
+
+
+## Programación basada ​​en prototipos
+> La programación basada ​​en prototipos es un estilo de programación orientada a objetos en la que las clases no están presentes y la reutilización de comportamiento (conocido como herencia en lenguajes basados ​​en clases) se lleva a cabo a través de un proceso de decoración de objetos existentes que sirven de prototipos. Este modelo también se conoce como programación sin clases, orientada a prototipos o basada en ejemplos.
+
+JavaScript tiene varios objetos incluidos en su núcleo, como Math, Object, Array y String. ___Cada objeto en JavaScript es una instancia del objeto ``Object``, por lo tanto, hereda todas sus propiedades y métodos.___
+
+### La clase
+JavaScript es un lenguaje basado en prototipos que no contiene ninguna declaración de clase, como se encuentra, por ejemplo, en C + + o Java. Esto es a veces confuso para los programadores acostumbrados a los lenguajes con una declaración de clase. En su lugar, JavaScript utiliza funciones como clases. Definir una clase es tan fácil como definir una función. En el ejemplo siguiente se define una nueva clase llamada ``Persona``.
+```javascript
+function Persona() { }
+```
+
+
+### El objeto (ejemplo de clase)
+Para crear un nuevo ejemplo de un objeto ``obj`` utilizamos la declaración ``new obj``, asignando el resultado (que es de tipo ``obj``) a una variable para tener acceso más tarde.
+
+En el siguiente ejemplo se define una clase llamada ``Persona`` y creamos dos instancias (``persona1`` y ``persona2``).
+
+```javascript
+function Persona() { }
+
+var persona1 = new Persona()
+var persona2 = new Persona()
+```
+
+
+### El constructor
+El constructor es llamado en el momento de la creación de la instancia (el momento en que se crea la instancia del objeto). El constructor es un método de la clase. En JavaScript, la función sirve como el constructor del objeto, por lo tanto, no hay necesidad de definir explícitamente un método constructor. Cada acción declarada en la clase es ejecutada en el momento de la creación de la instancia.
+
+El constructor se usa para establecer las propiedades del objeto o para llamar a los métodos para preparar el objeto para su uso. Más adelante describiremos como agregar métodos a clase y sus definiciones ya que se realiza utilizando una sintaxis diferente.
+
+En el siguiente ejemplo, el constructor de la clase ``Persona`` muestra un mensaje en consola que dice (__Una instancia de persona__) cuando se crea la instancia de la clase ``Persona``.
+
+```javascript
+function Persona() {
+  console.log('Una instancia de Persona')
+}
+
+var persona1 = new Persona()
+var persona2 = new Persona()
+```
+
+
+### La propiedad (atributo del objeto)
+Las propiedades son variables contenidas en la clase, cada instancia del objeto tiene dichas propiedades. Las propiedades deben establecerse a la propiedad prototipo de la clase (función), para que la herencia funcione correctamente.
+
+Para trabajar con propiedades dentro de la clase se utiliza la palabra reservada ``this``, que se refiere al objeto actual. El acceso (lectura o escritura) a una propiedad desde fuera de la clase se hace con la sintaxis: __NombreDeLaInstancia`.Propiedad`__. Es la misma sintaxis utilizada por C++, Java y algunos lenguajes más. (Desde dentro de la clase la sintaxis es `this.Propiedad` que se utiliza para obtener o establecer el valor de la propiedad).
+
+En el siguiente ejemplo definimos la propiedad ``primerNombre`` de la clase ``Persona`` y la definimos en la creación de la instancia.
+
+```javascript
+function Persona(firstName) {
+  this.primerNombre = firstName;
+}
+
+var persona1 = new Persona("Alicia");
+var persona2 = new Persona("Sebastian");
+
+// Muestra el primer nombre de persona1
+console.log('persona1 es ' + persona1.primerNombre); // muestra "persona1 es Alicia"
+console.log('persona2 es ' + persona2.primerNombre); // muestra "persona2 es Sebastian"
+```
+
+
+### Los métodos
+Los métodos siguen la misma lógica que las propiedades, la diferencia es que son funciones y se definen como funciones. Llamar a un método es similar a acceder a una propiedad, pero se agrega ``()`` al final del nombre del método, posiblemente con argumentos.
+
+En el siguiente ejemplo se define y utiliza el método ``diHola()`` para la clase ``Persona``.
+
+```javascript
+function Persona(primerNombre) {
+  this.primerNombre = primerNombre
+}
+
+Persona.prototype.diHola = function() {
+  console.log('Hola, Soy ' + this.primerNombre)
+};
+
+var persona1 = new Persona("Alicia")
+var persona2 = new Persona("Sebastian")
+
+// Llamadas al método diHola de la clase Persona.
+persona1.diHola() // muestra "Hola, Soy Alicia"
+persona2.diHola() // muestra "Hola, Soy Sebastian"
+```
+
+
+### Herencia
+Dado que la herencia no se realiza como en otros lenguajes, si no que todo es por medio de prototipos, la explicación con ejemplo se deja a la lectura recomendada (casi obligatoria) de este apartado en [Introducción a JavaScript orientado a objetos - Herencia](https://developer.mozilla.org/es/docs/Web/JavaScript/Introducción_a_JavaScript_orientado_a_objetos)
+
+
+
+## Clases en JS - apariencia de otros lenguajes
+Luego de leer, ahora es más claro que __las clases de javascript__, introducidas en ECMAScript 2015, __son una mejora sintáctica sobre la herencia basada en prototipos de JavaScript__. _La sintaxis de las clases __no introduce un nuevo modelo de herencia orientada a objetos__ en JavaScript_. Las clases de JavaScript proveen una sintaxis mucho más clara y simple para crear objetos y lidiar con la herencia. Tomado de [Clases](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Classes)
+
+
+### Definiendo clases
+Las clases son "funciones especiales", como las expresiones de funciones y declaraciones de funciones, la sintaxis de una clase tiene dos componentes: expresiones de clases y declaraciones de clases.
+
+#### Declaración de clases
+Una manera de definir una clase es mediante una **declaración de clase**. Para declarar una ``clase``, se utiliza la palabra reservada class y un nombre para la clase "Rectangulo".
+
+```javascript
+class Rectangle {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+}
+```
+
+##### Alojamiento
+Una importante diferencia entre las declaraciones de funciones y las declaraciones de clases es que las __declaraciones de funciones son alojadas__ y las __declaraciones de clases no lo son__. En primer lugar necesitas declarar tu clase y luego acceder a ella, de otra modo el ejemplo de código siguiente arrojará un ReferenceError:
+
+```javascript
+const p = new Rectangle() // ReferenceError
+class Rectangle {}
+```
+
+#### Expresiones de clases
+Una __expresión de clase__ es otra manera de definir una clase. Las expresiones de clase pueden ser nombradas o anónimas. El _nombre dado a la expresión de clase nombrada es local_ dentro del cuerpo de la misma.
+
+```javascript
+// Anonima
+var Poligono = class {
+  constructor(alto, ancho) {
+    this.alto = alto
+    this.ancho = ancho
+  }
+};
+
+// Nombrada
+var Poligono = class Poligono {
+  constructor(alto, ancho) {
+    this.alto = alto
+    this.ancho = ancho
+  }
+};
+```
+
+
+### Cuerpo de la clase y definición de métodos
+El contenido de una __clase__ es la parte que se encuentra entre las llaves `{}`. Este es el lugar se definen los __miembros de clase__, como los __métodos__ o __constructores__.
+
+
+#### Constructor
+El método ``constructor`` es un método especial para crear e inicializar un objeto creado con una ``clase``. Solo puede haber un método especial con el nombre "constructor" en una clase. Si esta contiene mas de una ocurrencia del método ``constructor``, se arrojará un _Error_ ``SyntaxError``.
+
+Un __constructor__ puede usar la _palabra reservada_ __super__ para llamar al __constructor__ de una _superclase_
+
+
+#### Métodos estáticos
+La _palabra clave_ `static` define un método estático para una clase. __Los métodos estáticos son llamados sin instanciar su clase__ y __no__ pueden ser llamados mediante una instancia de clase (en otras palabras, _se llaman desde la clase y no desde un objeto_). Los métodos estáticos son a menudo usados para crear funciones de utilidad para una aplicación.
+
+```javascript
+class Punto {
+  constructor ( x , y ){
+    this.x = x
+    this.y = y
+  }
+
+  static distancia ( a , b){
+    const dx = a.x - b.x
+    const dy = a.y - b.y
+    return Math.sqrt ( dx * dx + dy * dy )
+  }
+}
+
+const p1 = new Punto(5, 5)
+const p2 = new Punto(10, 10)
+
+console.log (Punto.distancia(p1, p2)) // 7.0710678118654755
+```
+
+
+### Herencia - Subclases con extends
+La palabra clave `extends` es usada en _declaraciones de clase o expresiones de clase_ para crear una clase hija.
+
+```javascript
+class Animal {
+  constructor(nombre) {
+    this.nombre = nombre
+  }
+  hablar() {
+    console.log(this.nombre + ' hace un ruido.')
+  }
+}
+
+class Perro extends Animal {
+  hablar() {
+    console.log(this.nombre + ' ladra.')
+  }
+}
+```
+
+También se pueden extender las clases tradicionales basadas en funciones:
+```javascript
+function Animal (nombre) {
+  this.nombre = nombre
+}
+
+Animal.prototype.hablar = function () {
+  console.log(this.nombre + ' hace un ruido.')
+}
+
+class Perro extends Animal {
+  ladrar() {
+    console.log(this.nombre + ' ladra')
+  }
+}
+
+var p = new Perro('Mitzie')
+p.hablar();
+```
+
+
+#### Llamadas a súperclases con super
+La palabra clave super es usada para llamar funciones del objeto padre.
+```javascript
+class felino {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
+  hablar() {
+    console.log(this.nombre + ' hace ruido');
+  }
+}
+
+class Leon extends felino {
+  hablar() {
+    super.hablar();
+    console.log(this.nombre + ' ronronea');
+  }
+}
+
+var miGatito = new Leon('reyLeon')
+miGatito.nombre // reyLeon
+// reyLeon hace ruido
+// reyLeon ronronea
 ```
