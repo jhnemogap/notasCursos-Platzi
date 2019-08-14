@@ -55,9 +55,9 @@ var total = ( precioDeVino * 100 * 3) / 100
 ---
 
 ## Funciones
-Las funciones son fracciones de código reutilizable. Para definir una función se utiliza la palabra reservada `function`. [Definición de funciones - MDN web docs](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Funciones#Definici%C3%B3n_de_funciones)
+Las funciones son fracciones de código para reutilizarse. Para definir una función se utiliza la palabra reservada `function`. [Definición de funciones - MDN web docs](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Funciones#Definici%C3%B3n_de_funciones)
 
-En términos generales, una función es un "subprograma" que puede ser llamado por código externo (o interno en caso de recursión) a la función. Al igual que el programa en sí mismo, una función se compone de una secuencia de declaraciones, que conforman el llamado cuerpo de la función. Se pueden pasar valores a una función, y la función puede devolver un valor.
+En términos generales, una función es un "subprograma" que puede ser llamado por código externo (o interno en caso de recursividad) a la función. Al igual que el programa en sí mismo, una función se compone de una secuencia de declaraciones, que conforman el llamado cuerpo de la función. Se pueden pasar valores a una función, y la función puede devolver un valor.
 
 Delimitamos el cuerpo de la función usando llaves `{ }`. Los parámetros de la función son variables que se pasan a la función escribiéndolos entre paréntesis `()`.
 
@@ -196,7 +196,7 @@ var objTest = {
 objTest.retardo()
 ```
 
-En la función ``setTimeout()`` se envia un _callback_ que genera un nuevo contexto, por tanto, no se puede acceder a ``this`` dentro de esa función. O mejor dicho, sí se puede acceder, pero no devolverá lo que quizás se espere, que sería el propio objeto ``objTest``. Es por eso que al ejecutar ese código saldría un error: `Uncaught TypeError: this.hacerAlgo is not a function`
+En la función ``setTimeout()`` se envía un _callback_ que genera un nuevo contexto, por tanto, no se puede acceder a ``this`` dentro de esa función. O mejor dicho, sí se puede acceder, pero no devolverá lo que quizás se espere, que sería el propio objeto ``objTest``. Es por eso que al ejecutar ese código saldría un error: `Uncaught TypeError: this.hacerAlgo is not a function`
 
 Realmente no importa mucho ver el código para resolver esto en ES5, ya que en ES6 y con las funciones flecha se podría resolver de una manera mucho más elegante.
 ```javascript
@@ -617,7 +617,7 @@ console.log(vegetales)
 var pos = 1, n = 2;
 var elementosEliminados = vegetales.splice(pos, n)
 // así es como se eliminan elementos, n define la cantidad de elementos a eliminar,
-// de esa posicion(pos) en adelante hasta el final del array.
+// de esa posición(pos) en adelante hasta el final del array.
 
 console.log(vegetales)
 // ["Repollo", "Zanahoria"] (el array original ha cambiado)
@@ -733,7 +733,7 @@ var persona2 = new Persona()
 
 ### El constructor
 El constructor es llamado en el momento de la creación de la instancia (el momento en que se crea la instancia del objeto). El constructor es un método de la clase. En JavaScript, la función sirve como el constructor del objeto, por lo tanto, no hay necesidad de definir explícitamente un método constructor. Cada acción declarada en la clase es ejecutada en el momento de la creación de la instancia.
-
+ 
 El constructor se usa para establecer las propiedades del objeto o para llamar a los métodos para preparar el objeto para su uso. Más adelante describiremos como agregar métodos a clase y sus definiciones ya que se realiza utilizando una sintaxis diferente.
 
 En el siguiente ejemplo, el constructor de la clase ``Persona`` muestra un mensaje en consola que dice (__Una instancia de persona__) cuando se crea la instancia de la clase ``Persona``.
@@ -805,7 +805,7 @@ Luego de leer, ahora es más claro que __las clases de javascript__, introducida
 Las clases son "funciones especiales", como las expresiones de funciones y declaraciones de funciones, la sintaxis de una clase tiene dos componentes: expresiones de clases y declaraciones de clases.
 
 #### Declaración de clases
-Una manera de definir una clase es mediante una **declaración de clase**. Para declarar una ``clase``, se utiliza la palabra reservada class y un nombre para la clase "Rectangulo".
+Una manera de definir una clase es mediante una **declaración de clase**. Para declarar una ``clase``, se utiliza la palabra reservada class y un nombre para la clase "Rectangle".
 
 ```javascript
 class Rectangle {
@@ -817,7 +817,7 @@ class Rectangle {
 ```
 
 ##### Alojamiento
-Una importante diferencia entre las declaraciones de funciones y las declaraciones de clases es que las __declaraciones de funciones son alojadas__ y las __declaraciones de clases no lo son__. En primer lugar necesitas declarar tu clase y luego acceder a ella, de otra modo el ejemplo de código siguiente arrojará un ReferenceError:
+Una importante diferencia entre las declaraciones de funciones y las declaraciones de clases es que las __declaraciones de funciones son alojadas__ y las __declaraciones de clases no lo son__. En primer lugar necesitas declarar tu clase y luego acceder a ella, de otra modo el ejemplo de código siguiente arrojará un ``ReferenceError``:
 
 ```javascript
 const p = new Rectangle() // ReferenceError
@@ -828,7 +828,7 @@ class Rectangle {}
 Una __expresión de clase__ es otra manera de definir una clase. Las expresiones de clase pueden ser nombradas o anónimas. El _nombre dado a la expresión de clase nombrada es local_ dentro del cuerpo de la misma.
 
 ```javascript
-// Anonima
+// Anónima
 var Poligono = class {
   constructor(alto, ancho) {
     this.alto = alto
@@ -921,7 +921,7 @@ p.hablar();
 ```
 
 
-#### Llamadas a súperclases con super
+#### Llamadas a súper-clase con super
 La palabra clave super es usada para llamar funciones del objeto padre.
 ```javascript
 class felino {
@@ -945,3 +945,152 @@ miGatito.nombre // reyLeon
 // reyLeon hace ruido
 // reyLeon ronronea
 ```
+
+
+---
+---
+---
+
+## Asincronismo
+Parte vital antes de iniciar hablar del "asincronismo" en JS, es conocer la posibilidad de pasar __funciones__ como parámetros a otras funciones.
+
+
+### Funciones como parámetros
+De esta forma, recordamos este concepto por medio del siguiente ejercicio.
+
+```javascript
+class Persona {
+  constructor(nombre, apellido, altura){
+      this.nombre = nombre,
+      this.apellido = apellido,
+      this.altura = altura
+  }
+
+  saludar (fn) {
+      console.log(`Hola, me llamo ${this.nombre}${this.apellido}`)
+      if (fn) {
+          fn(this.nombre, this.apellido, false)
+      }
+  }
+}
+
+class Desarrollador extends Persona {
+  constructor (nombre, apellido, altura) {
+      super(nombre,apellido,altura)
+  }
+
+  saludar (fn) {
+      console.log(`Hola, me llamo ${this.nombre}${this.apellido} y soy Desarrollador`)
+      if (fn) {
+          fn(this.nombre, this.apellido, true)
+      }
+  }
+}
+
+function responderSaludo (nombre, apellido, esDev) {
+  console.log(`Buen día ${nombre}${apellido}`)
+  if (esDev) {
+      console.log(`Ah mira, no sabia que eras desarrollador`)
+  }
+}
+
+let nestor = new Desarrollador('Nestor', 'Alvarado', 1.80)
+let sindy  = new Persona('Sindy', 'Jiménez', 1.65)
+
+nestor.saludar(responderSaludo)
+sindy.saludar(responderSaludo)
+
+// Hola, me llamo Nestor Alvarado y soy Desarrollador
+// Buen día Nestor Alvarado
+// Ah mira, no sabia que eras desarrollador
+
+// Hola, me llamo Sindy Jiménez
+// Buen día Sindy Jiménez
+```
+
+### Cómo funciona el asíncronismo en JavaScript
+JavaScript sólo puede hacer una cosa a la vez, sin embargo; es capaz de delegar la ejecución de ciertas funciones a otros procesos. Este modelo de concurrencia se llama _EventLoop_.
+
+JavaScript delega en el navegador ciertas tareas y les asocia funciones que deberán ser ejecutadas al ser completadas. Estas funciones se llaman _callbacks_, y una vez que el navegador ha regresado con la respuesta, el _callback_ asociado pasa a la cola de tareas para ser ejecutado una vez que JavaScript haya terminado todas las instrucciones que están en la pila de ejecución.
+
+Si se acumulan funciones en la cola de tareas y JavaScript se encuentra ejecutando procesos muy pesados, el _EventLoop_ quedará bloqueado y esas funciones pudieran tardar demasiado en ejecutarse.
+
+### Cómo funciona el tiempo en JavaScript
+En principio, cualquier tarea que se haya delegado al navegador a través de un _callback_, deberá esperar hasta que todas las instrucciones del programa principal se hayan ejecutado. Por esta razón el tiempo de espera definido en funciones como `setTimeout`, no garantizan que el _callback_ se ejecute en ese tiempo exactamente, sino en cualquier momento a partir de allí, sólo cuando la cola de tareas se haya vaciado.
+
+
+### Callbacks y Haciendo múltiples requests
+Un callback es una función que se pasa a otra función como un argumento. Esta función se invoca, después, dentro de la función externa para completar alguna acción.
+
+En el siguiente ejemplo las cuatro funciones `responseFn`,`personaFn`, `errorFn` y `yoCallbackName` son _callbacks_. Dado que se pasan como argumentos a otras funciones que las utilizan.
+
+```javascript
+function yoFn (laFnCallback) {
+  let nombre = laFnCallback( Math.random() )
+  console.log(`Soy el señor@ desarrollador y mi nombre real es: ${nombre}`)
+}
+
+function yoCallbackName (opt) {
+  let optionStr = 'TOP SECRET'
+  // Más random aún 
+  if (opt >= Math.random()) { optionStr = 'Lo olvide ... :V' }
+  return optionStr
+}
+
+yoFn(yoCallbackName)
+
+/* -- Caso de ejemplo, tiene variaciones --
+Soy el señor@ desarrollador y mi nombre real es: TOP SECRET
+Soy el señor@ desarrollador y mi nombre real es: Lo olvide ... :V
+*/
+```
+
+
+### Promesas
+
+En el siguiente ejemplo las cuatro funciones `responseFn`,`personaFn`, `errorFn` y `yoCallbackName` son _callbacks_. Dado que se pasan como argumentos a otras funciones que las utilizan.
+
+
+
+
+> Ejemplo dos:
+```javascript
+const URL = 'https://swapi.co/api'
+const PEOPLE_URL = '/people/:id'
+
+const responseFn = response => response.json()
+const personaFn = persona => {console.log(`Hola yo soy ${persona.name}`)}
+const errorFn = error => {console.error('Error: ', error)}
+
+for (let i=1; i<5; i++) {
+  let URL_FULL = `${URL}${PEOPLE_URL.replace(':id', i)}`
+  fetch( URL_FULL ) // Entrega una promesa
+  .then( responseFn )
+  .then( personaFn )
+  .catch( errorFn )
+}
+
+function yoFn (laFnCallback) {
+  let nombre = laFnCallback( Math.random() )
+  console.log(`Soy el señor@ desarrollador y mi nombre real es: ${nombre}`)
+}
+
+function yoCallbackName (opt) {
+  let optionStr = 'TOP SECRET'
+  if (opt >= 0.5) { optionStr = 'Lo olvide ... :V' }
+  return optionStr
+}
+
+yoFn(yoCallbackName)
+
+/* -- El orden de respuesta no se conoce apriori --
+Hola yo soy R2-D2
+Hola yo soy Luke Skywalker
+Hola yo soy C-3PO
+Hola yo soy Darth Vader
+*/
+```
+
+[Post en Platzi - original](https://platzi.com/comentario/665965/)
+
+[Utilizando Fetch](https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Utilizando_Fetch)
