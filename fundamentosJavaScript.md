@@ -72,13 +72,13 @@ JavaScript es un lenguaje interpretado, esto quiere decir que intentará ejecuta
 Un ejemplo de una función que devuelve un verdadero o falso:
 
 ```javascript
-function aMayorb(a, b){
+function aMoreb(a, b){
   return a > b
 }
 
-console.log( aMayorb(5, 2) ); // true
-console.log( aMayorb(20, 37) ); // false
-console.log( aMayorb(13, 13) ); // false
+console.log( aMoreb(5, 2) ); // true
+console.log( aMoreb(20, 37) ); // false
+console.log( aMoreb(13, 13) ); // false
 ```
 
 
@@ -176,9 +176,10 @@ let saludarCompa = hr => {
 console.log( saludarCompa(hora) ) //Imprime el saludo dependiendo la hora del día
 ```
 
+
 #### Evitar generar un nuevo contexto en `this`
 Tomado de [Arrow Functions en ES6](https://desarrolloweb.com/articulos/arrow-functions-es6.html)
-Cuando se usa funciones callback éstas generan un nuevo contexto sobre la variable "_this_". Es un efecto que si se tiene experiencia con Javascript se conoce de sobra; pero si no solo tener la idea es bueno para más adelante . En estos casos, para poder acceder al `this` anterior se hacían cosas como "``var that = this``", o quizás hayas el "``.bind(this)``" para _bindear_ el contexto.
+Cuando se usa funciones callback éstas generan un nuevo contexto sobre la variable "_this_". Es un efecto que si se tiene experiencia con Javascript se conoce de sobra; pero si no solo tener la idea es bueno para más adelante. En estos casos, para poder acceder al `this` anterior se hacían cosas como "``var that = this``", o quizás hayas el "``.bind(this)``" para _bindear_ el contexto.
 
 Por si no queda claro, miremos el siguiente código:
 ```javascript
@@ -216,6 +217,8 @@ objTest.retardo()
 
 Ahora la función enviada como _callback_ a `setTimeout()` está definida con una _arrow function_ y por tanto no genera contexto nuevo en la variable `this`. Es por ello que al intentar invocar a ``this.hacerAlgo()`` no generará ningún error y se ejecutará perfectamente ese método ``hacerAlgo()``.
 
+
+---
 ---
 
 
@@ -227,7 +230,7 @@ Un atributo se compone de una clave (_key_) y un valor (_value_), que se separan
 var viejoFer = {
   //Clave: valor,
   nombre:'Fernando', // -----> 'nombre' es un atributo de el objeto 'viejoFer'
-  apellido:'Huaman', // -----> 'apellido' es un atributo de el objeto 'viejoFer'
+  apellido:'Noel', // -----> 'apellido' es un atributo de el objeto 'viejoFer'
   edad:18// -----> 'edad' es un atributo de el objeto 'viejoFer'
 }
 ```
@@ -494,7 +497,7 @@ En el código anterior, el _resultado_ se multiplica en cada repetición por el 
 ### Estructura ``for``
 La estructura ``for`` permite realizar repeticiones (también llamadas bucles) de una forma muy sencilla. No obstante, su definición formal no es tan sencilla como la de _if()_:
 ```javascript
-for(inicializacion; condicion; actualizacion) {
+for(inicialización; condición; actualización) {
   ...
 }
 ```
@@ -537,7 +540,7 @@ Esta estructura de control es la más adecuada para recorrer _arrays_ (y objetos
 ## Arreglos de datos _Array_
 Los _arrays_ son estructuras que nos permiten organizar elementos dentro de una colección. Estos elementos pueden ser números, strings, booleanos, objetos, etc.
 
-Los _arrays_ (arreglo o matrices) son objetos de tipo lista cuyo prototipo tiene métodos para realizar operaciones de recorrido y mutación. Ni la longitud o los tipos de los elementos del array son fijos. Dado que la longitud de un _array_ puede cambiar en cualquier momento, y los datos pueden almacenarse en ubicaciones no contiguas en él, no se garantiza que los _arrays_ JavaScript sean densos, esto depende de cómo el programador opte por usarlos. En general, estas son características convenientes, pero si estas características no son deseables para su uso en particular, se podría considerar usar _arrays_ tipados
+Los _arrays_ (arreglo o matrices) son objetos de tipo lista cuyo prototipo tiene métodos para realizar operaciones de recorrido y mutación. Ni la longitud o los tipos de los elementos del array son fijos. Dado que la longitud de un _array_ puede cambiar en cualquier momento, y los datos pueden almacenarse en ubicaciones no contiguas en él, no se garantiza que los _arrays_ JavaScript sean densos, esto depende de cómo el programador opte por usarlos. En general, estas son características convenientes, pero si estas características no son deseables para su uso en particular, se podría considerar usar _arrays_ tipados.
 
 #### Crear un Array
 ```javascript
@@ -1019,10 +1022,10 @@ Si se acumulan funciones en la cola de tareas y JavaScript se encuentra ejecutan
 En principio, cualquier tarea que se haya delegado al navegador a través de un _callback_, deberá esperar hasta que todas las instrucciones del programa principal se hayan ejecutado. Por esta razón el tiempo de espera definido en funciones como `setTimeout`, no garantizan que el _callback_ se ejecute en ese tiempo exactamente, sino en cualquier momento a partir de allí, sólo cuando la cola de tareas se haya vaciado.
 
 
-### Callbacks y Haciendo múltiples requests
+### Callbacks
 Un callback es una función que se pasa a otra función como un argumento. Esta función se invoca, después, dentro de la función externa para completar alguna acción.
 
-En el siguiente ejemplo las cuatro funciones `responseFn`,`personaFn`, `errorFn` y `yoCallbackName` son _callbacks_. Dado que se pasan como argumentos a otras funciones que las utilizan.
+La función `yoCallbackName` es un _callback_. Dado que se pasan como argumentos a otras funciones que las utilizan.
 
 ```javascript
 function yoFn (laFnCallback) {
@@ -1046,14 +1049,57 @@ Soy el señor@ desarrollador y mi nombre real es: Lo olvide ... :V
 ```
 
 
-### Promesas
+### Promesas y Haciendo múltiples 
+[¡ENTENDIENDOLO TODO! reguests y promesas](https://platzi.com/tutoriales/1339-fundamentos-javascript/4308-entendiendolo-todo-reguests-y-promesas/)
 
-En el siguiente ejemplo las cuatro funciones `responseFn`,`personaFn`, `errorFn` y `yoCallbackName` son _callbacks_. Dado que se pasan como argumentos a otras funciones que las utilizan.
+CASO CON PROMISE directo
+1. La función inicial (__asin__) no requiere que se le pase un callback, para resolver las asíncronas.
+2. Para el envió de las respuesta se utiliza `resolve(respuesta satisfactoria)` y `reject(Error)`
+3. La función inicial retorna una promesa.
+4. Conforme necesitemos realizar peticiones al servidor podemos ponerlas en cola usando `then`.
+5. Para el manejo de los errores solo se utilizará un `catch` el cual resolverá el error de cualquiera de nuestra peticiones.
+6. Desaparece el temido _CallBackHell_ también conocido como _PyramidOfDoom_, por lo que el código es más fácil de mantener y leer.
+
+
+```javascript
+const asin = (list) => {
+    //declaración de la promesa.
+    let promesa = new Promise( (resolve, reject) => {
+        //se valida que el parámetro list sea un arreglo y no este vació
+        if (list instanceof Array && list.length > 0) {
+            //let potencia = list.map(valor => Math.pow(valor, 2));
+            for(let index = 0; index < list.length; index++){
+              let potencia = (list, index) => Math.pow(list[index], 2)
+              resolve(potencia)
+            }
+        }
+        //si no se cumple la condición se manda un error.
+        else {
+            let error = new Error("Error de ejecución . . . :( ");
+            reject(error);
+        }
+    });
+    return promesa;
+};
+
+//========== Consiguiendo la respuesta correcta ==========//
+asin([2, 3, 4, 5])
+.then( respuesta => console.log(respuesta))
+.catch( error => console.error(error));
+
+let dato = 0;
+for(let i=0; i<1000000; i++){
+    dato += Math.random();
+}
+console.log(dato)
+```
 
 
 
+> __Ejemplo dos__:
 
-> Ejemplo dos:
+En el siguiente ejemplo las tres funciones `responseFn`,`personaFn` y `errorFn` son _callbacks_. Dado que se pasan como argumentos a otras funciones que las utilizan.
+
 ```javascript
 const URL = 'https://swapi.co/api'
 const PEOPLE_URL = '/people/:id'
@@ -1069,21 +1115,7 @@ for (let i=1; i<5; i++) {
   .then( personaFn )
   .catch( errorFn )
 }
-
-function yoFn (laFnCallback) {
-  let nombre = laFnCallback( Math.random() )
-  console.log(`Soy el señor@ desarrollador y mi nombre real es: ${nombre}`)
-}
-
-function yoCallbackName (opt) {
-  let optionStr = 'TOP SECRET'
-  if (opt >= 0.5) { optionStr = 'Lo olvide ... :V' }
-  return optionStr
-}
-
-yoFn(yoCallbackName)
-
-/* -- El orden de respuesta no se conoce apriori --
+/* -- El orden de respuesta no se conoce a priori --
 Hola yo soy R2-D2
 Hola yo soy Luke Skywalker
 Hola yo soy C-3PO
@@ -1094,3 +1126,77 @@ Hola yo soy Darth Vader
 [Post en Platzi - original](https://platzi.com/comentario/665965/)
 
 [Utilizando Fetch](https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Utilizando_Fetch)
+
+
+### Funciones Async - Await
+_Async-await_ es la manera más simple y clara de realizar tareas asíncronas. Await detiene la ejecución del programa hasta que todas las promesas sean resueltas. Para poder utilizar esta forma, hay que colocar async antes de la definición de la función, y encerrar el llamado a `Promises.all()` dentro de un bloque `try ... catch`.
+
+---
+---
+---
+
+## Complementos
+
+### `var`, `let` y `const`: las diferencias entre ellos
+- `var` es la manera más antigua de declarar variables. No es muy estricta en cuanto al alcance, ya que al declarar variables de esta forma, dichas variables podrán ser accedidas, e incluso modificadas, dentro como fuera de los bloques internos en una función.
+
+- `let` por otra parte, el alcance se reduce al bloque (las llaves) en el cual la variable fue declarada. Fuera de este bloque la variable no existe. Una vez declarada la variable con `let`, no se puede volver a declarar en ninguna otra parte de la función.
+
+- `const` al igual que `let` se define en el contexto o alcance de un bloque, a diferencia de `let` y var, las variables definidas como constantes (const), ya no podrán ser modificadas ni declaradas nuevamente, en ninguna otra parte de la función o el contexto en el que ya existen.
+
+__La recomendación es reducir siempre al mínimo el alcance de las variables, por lo que se debe usar `let` en lugar de `var` mientras sea posible.__
+
+
+### Funciones recursivas
+La recursividad es un concepto muy importante en cualquier lenguaje de programación. Una función recursiva es básicamente aquella que se llama (o se ejecuta) a sí misma de forma controlada, hasta que sucede una condición base.
+
+__Ejemplo 1:__
+```javascript
+function division_entera(dividendo, divisor) {
+	if (dividendo < divisor) {
+		return 0;
+	}
+  else {
+		return 1 + division_entera(dividendo - divisor, divisor);
+	}
+}
+```
+
+__Ejemplo 2:__ Un factorial
+```javascript
+function Factorial (numero) {
+  if (numero === 0) {
+    return 1
+  }
+  return numero * Factorial(numero - 1)
+}
+```
+
+### Closures
+Un closure, básicamente, es una función que recuerda el estado de las variables al momento de ser invocada, y conserva este estado a través de reiteradas ejecuciones. Un aspecto fundamental de un closure es que es una función que retorna otras funciones.
+
+```javascript
+function saludoPersonal(country) {
+  return function(name) {
+    console.log(`Hola, mi nombre es ${name} y soy de ${country}`)
+  }
+}
+const saludo1 = saludoPersonal('Perú')
+const saludo2 = saludoPersonal('Colombia')
+const saludo3 = saludoPersonal('Brasil')
+
+saludo1('Carlos')
+saludo2('Andrés')
+saludo3('María')
+```
+
+
+### Cambiando de contexto al llamar a una función - ¡`this` es otro!
+El contexto (o alcance) de una función es por lo general, __window__. Así que en ciertos casos, cuando intentamos referirnos a `this` en alguna parte del código, es posible que tengamos un comportamiento inesperado, porque el contexto quizás no sea el que esperamos.
+
+Existen al menos tres maneras de cambiar el contexto de una función:
+- Usando el método `.bind()`, enviamos la referencia de la función sin ejecutarla, pasando el contexto como parámetro. Cualquier parámetro adicional se coloca luego seguido de comas.
+- Usando el método `.call()`, ejecutamos inmediatamente la función con el contexto indicado. Cualquier parámetro adicional se coloca luego seguido de comas.
+- Usando el método `.apply()`, es similar a `.call()` pero los parámetros adicionales se pasan como un arreglo de valores
+
+Un modo extra es pasar el contexto del `this` requerido a una variable local y usar ésta dentro del nuevo contexto. Los programadores y _frameworks_ tienden a usar la variable `self` en reemplazo `let self = this`
