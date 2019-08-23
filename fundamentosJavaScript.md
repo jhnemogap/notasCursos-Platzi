@@ -190,7 +190,7 @@ var objTest = {
     }, 1000)
   },
   hacerAlgo: function() {
-    alert('hice algo')
+    console.log('hice algo')
   }
 }
 
@@ -208,7 +208,7 @@ var objTest = {
     }, 1000)
   },
   hacerAlgo: function() {
-    alert('hice algo')
+    console.log('hice algo')
   }
 }
 
@@ -1049,77 +1049,124 @@ Soy el señor@ desarrollador y mi nombre real es: Lo olvide ... :V
 ```
 
 
-### Promesas y Haciendo múltiples 
+### Promesas (y haciendo múltiples)
 [¡ENTENDIENDOLO TODO! reguests y promesas](https://platzi.com/tutoriales/1339-fundamentos-javascript/4308-entendiendolo-todo-reguests-y-promesas/)
 
 CASO CON PROMISE directo
-1. La función inicial (__asin__) no requiere que se le pase un callback, para resolver las asíncronas.
+1. La función inicial (__asin__) no requiere que se le pase un callback, para resolver las peticiones asíncronas.
 2. Para el envió de las respuesta se utiliza `resolve(respuesta satisfactoria)` y `reject(Error)`
 3. La función inicial retorna una promesa.
 4. Conforme necesitemos realizar peticiones al servidor podemos ponerlas en cola usando `then`.
-5. Para el manejo de los errores solo se utilizará un `catch` el cual resolverá el error de cualquiera de nuestra peticiones.
+5. Para el manejo de los errores se utilizará un solo `catch` el cual resolverá el error de cualquiera de nuestra peticiones.
 6. Desaparece el temido _CallBackHell_ también conocido como _PyramidOfDoom_, por lo que el código es más fácil de mantener y leer.
 
-
+__Ejemplo uno__:
+Aquí recordamos que la promesa debe ser retornada como parte de la función. También, la promesa se declara como `new Promise`, recibiendo una función como parámetro la cual debe a su vez poseer como argumentos dos funciones: la primera en caso de que la promesa se resuelva correctamente y la segunda en caso de error.
 ```javascript
-const asin = (list) => {
-    //declaración de la promesa.
-    let promesa = new Promise( (resolve, reject) => {
-        //se valida que el parámetro list sea un arreglo y no este vació
-        if (list instanceof Array && list.length > 0) {
-            //let potencia = list.map(valor => Math.pow(valor, 2));
-            for(let index = 0; index < list.length; index++){
-              let potencia = (list, index) => Math.pow(list[index], 2)
-              resolve(potencia)
-            }
-        }
-        //si no se cumple la condición se manda un error.
-        else {
-            let error = new Error("Error de ejecución . . . :( ");
-            reject(error);
-        }
-    });
-    return promesa;
-};
-
-//========== Consiguiendo la respuesta correcta ==========//
-asin([2, 3, 4, 5])
-.then( respuesta => console.log(respuesta))
-.catch( error => console.error(error));
-
-let dato = 0;
-for(let i=0; i<1000000; i++){
-    dato += Math.random();
+function asin (valor) {
+  // declaración de la promesa.
+  return new Promise( (resolve, reject) => {
+    //se valida que el parámetro cumpla las condiciones
+    if (typeof(valor) == 'number' & (valor % 2) === 0) {
+      let potencia = Math.pow(valor, 2) // Esta sería la petición al servidor
+      resolve( potencia )
+    } 
+    //si no se cumple la condición se manda un error.
+    else {
+      let error = new Error(`Error de ejecución. Valor era: ${valor}`)
+      reject(error)
+    }
+  })
 }
-console.log(dato)
+
+//========== Consiguiendo las respuestas ==========//
+let numbers = ['Buenas', 2, 3, 4, 5, 6]
+for(let index=0; index<numbers.length; index++){
+  asin( numbers[index] )
+  .then( respuesta => console.log(respuesta) )
+  .catch( error => console.error(error) )
+}
+
+// 4
+// 16
+// 36
+// Error: Error de ejecución. Valor era: Buenas
+// Error: Error de ejecución. Valor era: 3
+// Error: Error de ejecución. Valor era: 5
 ```
 
+__Ejemplo dos__:
+En el siguiente ejemplo las tres funciones `responseFn`,`personaFn` y `errorFn` son _callbacks_; dado que se pasan como argumentos a otras funciones que las utilizan. En este caso la función `fetch` retorna una promesa (internamente ya fue diseñada así).
 
-
-> __Ejemplo dos__:
-
-En el siguiente ejemplo las tres funciones `responseFn`,`personaFn` y `errorFn` son _callbacks_. Dado que se pasan como argumentos a otras funciones que las utilizan.
+Lo interesante a notar en este ejemplo es que aquí si se ve que las respuestas a las promesas se ejecutan luego de que se termina el código base y su orden es incierto.
 
 ```javascript
 const URL = 'https://swapi.co/api'
 const PEOPLE_URL = '/people/:id'
+const NUM_PJs = 10
 
 const responseFn = response => response.json()
 const personaFn = persona => {console.log(`Hola yo soy ${persona.name}`)}
 const errorFn = error => {console.error('Error: ', error)}
 
-for (let i=1; i<5; i++) {
-  let URL_FULL = `${URL}${PEOPLE_URL.replace(':id', i)}`
+for (let index = 1; index < NUM_PJs; index++) {
+  let URL_FULL = `${URL}${PEOPLE_URL.replace(':id', index)}`
   fetch( URL_FULL ) // Entrega una promesa
   .then( responseFn )
   .then( personaFn )
   .catch( errorFn )
 }
+
 /* -- El orden de respuesta no se conoce a priori --
+Hola yo soy Luke Skywalker
+Hola yo soy Darth Vader
 Hola yo soy R2-D2
+Hola yo soy Owen Lars
+Hola yo soy R5-D4
+Hola yo soy Beru Whitesun lars
+Hola yo soy Leia Organa
+Hola yo soy C-3PO
+Hola yo soy Biggs Darklighter
+*/
+```
+
+__Ejemplo dos__: resolviendo las promesas en conjunto con 
+[Promise.resolve()](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Promise/resolve)
+```javascript
+const URL = 'https://swapi.co/api'
+const PEOPLE_URL = '/people/:id'
+const NUM_PJs = 10
+
+const responseFn = response => {
+  response.forEach((respuesta) => {
+    respuesta.json()
+      .then(persona => {console.log(`Hola yo soy ${persona.name}`)})
+  })
+}
+const errorFn = error => {console.error('Error: ', error)}
+
+const IDs = Array.from({length: NUM_PJs}, (val, index) => index + 1)
+
+let allPromesas = IDs.map( value => {
+  let URL_FULL = `${URL}${PEOPLE_URL.replace(':id', value)}`
+  return fetch( URL_FULL )
+})
+
+Promise.all(allPromesas)
+  .then( responseFn )
+  .catch( errorFn )
+
+/*
 Hola yo soy Luke Skywalker
 Hola yo soy C-3PO
+Hola yo soy R2-D2
 Hola yo soy Darth Vader
+Hola yo soy Leia Organa
+Hola yo soy Owen Lars
+Hola yo soy Beru Whitesun lars
+Hola yo soy Biggs Darklighter
+Hola yo soy R5-D4
+Hola yo soy Obi-Wan Kenobi
 */
 ```
 
