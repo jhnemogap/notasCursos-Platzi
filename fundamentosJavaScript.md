@@ -1,5 +1,5 @@
 
-# Fundamentos de JavaScript
+# Fundamentos de JavaScript - Platzi
 
 ## Variables
 Las variables son contenedores en los que puedes almacenar valores. Primero debes declarar la variable con la palabra clave `var`, seguida del nombre que le quieras dar:
