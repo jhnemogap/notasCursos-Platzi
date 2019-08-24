@@ -46,7 +46,7 @@ Existe una forma más adecuada de concatenar texto y es por medio de la _interpo
 ---
 
 
-## Números
+### Números
 
 Los operadores matemáticos más comunes son:
 - suma ( + )
