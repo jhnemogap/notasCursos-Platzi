@@ -6,34 +6,37 @@ Las variables son contenedores en los que puedes almacenar valores. Primero debe
 ```JavaScript
 var nombreDeLaVariable;
 ```
-Todas las líneas en JS deben acabar en punto y coma para indicar que es ahí donde termina la línea. Si no los incluyes puedes obtener resultados inesperados.
-
 Puedes llamar a una variable con casi cualquier nombre, pero hay algunas restricciones.
 
 JavaScript distingue entre mayúsculas y minúsculas — `miVariable` es una variable distinta a `mivariable`. Si estás teniendo problemas en tu código, revisa las mayúsculas y minúsculas.
 
+Todas las líneas en JS deben acabar en punto y coma para indicar que es ahí donde termina la línea. Si no los incluyes puedes obtener resultados inesperados. Este concepto es para controversia entre muchos desarrolladores, por lo que se deja a gusto de cada quien. Un punto a favor de usar el `;` es cuando se desea comprimir a una sola línea los scripts.
+
 [Fundamentos de JavaScript (MDN web docs) - Variables](https://developer.mozilla.org/es/docs/Learn/Getting_started_with_the_web/JavaScript_basics#Variables)
 
+
 ### Strings
+Los _strings_ son cadenas de texto. Para indicar que se está usando una cadena de texto se debe colocar las comillas simples o dobles.
 
-Los _strings_ son cadenas de texto. Para indicar que estamos usando una cadena de texto debemos de colocar las comillas simples.
-
-En este curso utilizamos los métodos:
+Algunos métodos muy usados con _strings_:
 - __toUpperCase__, que sirve para transformar un _string_ a mayúsculas.
 - __toLowerCase__, transforma el _string_ a minúsculas.
-- __charAt_, sirve par obtener un carácter especifico según su posición en la cadena de texto.
+- __charAt__, sirve par obtener un carácter especifico según su posición en la cadena de texto.
 - __substr__, obtiene una subcadena de la cadena principal de acuerdo a los dos parámetros que indican:
   1. Posición de carácter de inicio sobre la cadena principal.
   2. Cantidad de caracteres a tomar.
 
 También usamos el atributo:
 - __length__, que nos indica la cantidad de caracteres que tiene un _string_.
+
 Para concatenar dos _strings_ se utiliza el símbolo (+)
 ```JavaScript
 var nombreCompleto = nombre + ’ ’ + apellido
 ```
 
 Existe una forma más adecuada de concatenar texto y es por medio de la _interpolación de texto_: [Plantillas de cadena de texto - MDN web docs](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/template_strings#Summary)
+
+---
 
 ## Números
 Los operadores matemáticos más comunes son:
@@ -42,17 +45,21 @@ Los operadores matemáticos más comunes son:
 - multiplicación ( * )
 - división ( / )
 
-Operaciones con decimales debemos realizar operaciones adicionales para conseguir un resultado preciso, dado que JS no es tan preciso al guardar decimales. Ej:
+Al trabajar con decimales a veces se realizan operaciones adicionales para conseguir un resultado preciso, dado que JS no es tan preciso al guardar decimales. Ej:
 ```JavaScript
 var total = ( precioDeVino * 100 * 3) / 100
 ```
-* Para redondear una operación se utiliza la función: `Math.round(x)`
-* Para pasar de decimal a cadena de caracteres, donde el parámetro es la cantidad de decimales a tener en cuenta: `.toFixed(#)`
+* Redondear una operación se utiliza la función: `Math.round(x)`
+* Pasar de decimal a cadena de caracteres, donde el parámetro es la cantidad de decimales a tener en cuenta: `.toFixed(#)`
 * Y para convertir de string a decimal: `parseFloat("200.09")`
 
 [JavaScript Arithmetic - w3schools.com](https://www.w3schools.com/js/js_arithmetic.asp)
 
+
 ---
+---
+---
+
 
 ## Funciones
 Las funciones son fracciones de código para reutilizarse. Para definir una función se utiliza la palabra reservada `function`. [Definición de funciones - MDN web docs](https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Funciones#Definici%C3%B3n_de_funciones)
@@ -106,7 +113,7 @@ function saludo (nombre){
 console.log( saludo('Carlos') )
 
 // con arrow function
-let saludo = nombre => `Hola ${nombre}`;
+const saludo = nombre => `Hola ${nombre}`;
 console.log( saludo('Carlos') ) //Imprime Hola Jonathan
 ```
 
@@ -120,7 +127,7 @@ function sumar(a, b) {
 console.log( sumar(10, 9) ) //Imprime 19
 
 // con arrow function
-let sumar = (a, b) => a + b;
+const sumar = (a, b) => a + b;
 console.log( sumar(10, 9) ); //Imprime 19
 ```
 
@@ -134,7 +141,7 @@ function saludo() {
 console.log( saludo() ); // Imprime Hola a todos
 
 // con arrow function
-let saludo = () => `Hola a todos`;
+const saludo = () => `Hola a todos`;
 console.log( saludo() ); // Imprime Hola a todos
 ```
 
@@ -162,7 +169,7 @@ function saludarCompa(hr) {
 console.log( saludarCompa(hora) ) //Imprime el saludo dependiendo la hora del día
 
 // con arrow function
-let saludarCompa = hr => {
+const saludarCompa = hr => {
   if (hr <= 5) {
     return 'No me jodas!!!'
   } else if(hr >= 6 && hr <= 11) {
@@ -178,8 +185,7 @@ console.log( saludarCompa(hora) ) //Imprime el saludo dependiendo la hora del d�
 
 
 #### Evitar generar un nuevo contexto en `this`
-Tomado de [Arrow Functions en ES6](https://desarrolloweb.com/articulos/arrow-functions-es6.html)
-Cuando se usa funciones callback éstas generan un nuevo contexto sobre la variable "_this_". Es un efecto que si se tiene experiencia con Javascript se conoce de sobra; pero si no solo tener la idea es bueno para más adelante. En estos casos, para poder acceder al `this` anterior se hacían cosas como "``var that = this``", o quizás hayas el "``.bind(this)``" para _bindear_ el contexto.
+Cuando se usa funciones callback éstas generan un nuevo contexto sobre la variable "_this_". Es un efecto que si se tiene experiencia con Javascript se conoce de sobra; pero si no solo tener la idea es bueno para más adelante. En estos casos, para poder acceder al `this` anterior se hacían cosas como "``var that = this``", o quizás hayas el "``.bind(this)``" para _bindear_ el contexto. Tomado de [Arrow Functions en ES6](https://desarrolloweb.com/articulos/arrow-functions-es6.html)
 
 Por si no queda claro, miremos el siguiente código:
 ```javascript
@@ -218,6 +224,7 @@ objTest.retardo()
 Ahora la función enviada como _callback_ a `setTimeout()` está definida con una _arrow function_ y por tanto no genera contexto nuevo en la variable `this`. Es por ello que al intentar invocar a ``this.hacerAlgo()`` no generará ningún error y se ejecutará perfectamente ese método ``hacerAlgo()``.
 
 
+---
 ---
 ---
 
@@ -282,7 +289,7 @@ Javascript se comporta de manera distinta cuando le pasamos un objeto como pará
 >En JavaScript, cuando asignamos un valor a una variable, o pasamos un argumento a una función, este proceso siempre se hace “por valor” (_by value_ en inglés). Estrictamente hablando, JavaScript no nos ofrece la opción de pasar o asignar “por referencia” (_by reference_ en inglés), como en otros lenguajes. Lo interesante en nuestro caso, es que cuando una variable hace referencia a un objeto (``Object``, ``Array`` o ``Function``), el “valor” es la referencia en sí.
 
 >#### Asignando valores primitivos
-Cuando asignamos valores primitivos (Boolean, Null, Undefined, Number, String y Symbol), el valor asignado es una copia del valor que estamos asignando.
+Cuando asignamos valores primitivos (Boolean, Null, Undefined, Number, String o Symbol), el valor asignado es una copia del valor que estamos asignando.
 ```javascript
 let a = 'hola';
 let b = a; // asignamos valor de 'a' a 'b'.
@@ -292,11 +299,11 @@ console.log(b); // hola
 ```
 
 >#### Asignando valores complejos
-Pero cuando asignamos valores __NO primitivos o complejos__ (`Object`, `Array` y `Function`), JavaScript copia “__la referencia__”, lo que implica que no se copia el valor en sí, si no una referencia a través de la cual accedemos al valor original.
+Pero cuando asignamos valores __NO primitivos o complejos__ (`Object`, `Array` o `Function`), JavaScript copia “__la referencia__”, lo que implica que no se copia el valor en sí, si no una referencia a través de la cual accedemos al valor original.
 ```javascript
 const a = [1, 2, 3];
 const b = a;
-a.push(4);
+b.push(4);
 console.log(a); // [ 1, 2, 3, 4 ]
 console.log(b); // [ 1, 2, 3, 4 ]
 ```
@@ -355,6 +362,9 @@ object1 === object2 // false
 > "__Se recomienda usar el triple igual siempre que se este comparando variables.__"
 Sacha Lifszyc
 
+
+---
+---
 ---
 
 
@@ -458,14 +468,16 @@ switch(numero) {
 
 
 ### Estructura ``while``
-La estructura ``while`` permite crear bucles que se ejecutan ninguna o más veces, dependiendo de la condición indicada. El funcionamiento del bucle ``while`` se resume en: ___"mientras se cumpla la condición indicada, repite indefinidamente las instrucciones incluidas dentro del bucle"___.
+La estructura ``while`` permite crear bucles que se ejecutan ninguna o más veces, dependiendo de la condición indicada. El funcionamiento del bucle ``while`` se resume en: _**"mientras se cumpla la condición indicada, repite indefinidamente las instrucciones incluidas dentro del bucle"**_.
 
 Evidentemente, las variables que controlan la condición deben modificarse dentro del propio bucle, ya que de otra forma, la condición se cumpliría siempre y el bucle ``while`` se repetiría indefinidamente.
 
-El siguiente ejemplo utiliza el bucle ``while`` para sumar todos los números menores o iguales que otro número. El programa debe sumar todos los números menores o igual que otro dado.
+El siguiente ejemplo utiliza el bucle ``while`` para sumar todos los números menores o iguales que otro número.
+
 ```javascript
 var resultado = 0;
 var numero = 100;
+
 var i = 0;
 
 while(i <= numero) {
@@ -488,7 +500,8 @@ do {
   resultado *= numero;  // resultado = resultado * numero
   numero--;
 } while(numero > 0);
-alert(resultado);
+
+console.log(resultado);
 ```
 
 En el código anterior, el _resultado_ se multiplica en cada repetición por el valor de la variable _numero_. Además, en cada repetición se decrementa el valor de esta variable numero. La condición del bucle ``do...while`` es que el valor de numero sea mayor que ``0``, ya que el factorial de un número multiplica todos los números menores o iguales que él mismo, pero hasta el número ``1`` (el factorial de 5 por ejemplo es ``5 x 4 x 3 x 2 x 1 = 120``).
@@ -512,7 +525,7 @@ La idea del funcionamiento de un bucle ``for`` es la siguiente: _"mientras la co
 var mensaje = "Hola, estoy dentro de un bucle";
 
 for(var i = 0; i < 5; i++) {
-  alert(mensaje);
+  console.log(mensaje);
 }
 ```
 
@@ -520,27 +533,30 @@ for(var i = 0; i < 5; i++) {
 ### Estructura ``for...in``
 Una estructura de control derivada de ``for`` es la estructura ``for...in``. Su definición exacta implica el uso de objetos, por ahora, solamente se va a presentar la estructura ``for...in`` adaptada a su uso en _arrays_.
 
-Si se quieren recorrer todos los elementos que forman un array, la estructura for...in es la forma más eficiente de hacerlo, como se muestra en el siguiente ejemplo:
-
+Si se quieren recorrer todos los elementos que forman un array, la estructura `for...in` es la forma más eficiente de hacerlo, como se muestra en el siguiente ejemplo:
 ```javascript
-var dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+var days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
-for(i in dias) {
-  alert(dias[i]);
+for(index in days) {
+  console.info(days[index]);
 }
 ```
 
-La variable que se indica como índice es la que se puede utilizar dentro del bucle ``for...in`` para acceder a los elementos del array. De esta forma, en la primera repetición del bucle la variable ``i`` vale ``0`` y en la última vale ``6``.
+La variable que se indica como índice es la que se puede utilizar dentro del bucle ``for...in`` para acceder a los elementos del array. De esta forma, en la primera repetición del bucle la variable `index` vale `0` y en la última vale `6`.
 
 Esta estructura de control es la más adecuada para recorrer _arrays_ (y objetos), ya que evita tener que indicar la inicialización y las condiciones del bucle ``for`` simple y funciona correctamente cualquiera que sea la longitud del array. De hecho, sigue funcionando igual aunque varíe el número de elementos del array.
 
+
 ---
 ---
+---
+
 
 ## Arreglos de datos _Array_
 Los _arrays_ son estructuras que nos permiten organizar elementos dentro de una colección. Estos elementos pueden ser números, strings, booleanos, objetos, etc.
 
 Los _arrays_ (arreglo o matrices) son objetos de tipo lista cuyo prototipo tiene métodos para realizar operaciones de recorrido y mutación. Ni la longitud o los tipos de los elementos del array son fijos. Dado que la longitud de un _array_ puede cambiar en cualquier momento, y los datos pueden almacenarse en ubicaciones no contiguas en él, no se garantiza que los _arrays_ JavaScript sean densos, esto depende de cómo el programador opte por usarlos. En general, estas son características convenientes, pero si estas características no son deseables para su uso en particular, se podría considerar usar _arrays_ tipados.
+
 
 #### Crear un Array
 ```javascript
@@ -548,11 +564,13 @@ var frutas = ['Manzana', 'Banana']
 console.log(frutas.length) // se imprime un: 2
 ```
 
+
 #### Acceder (por índice) a un elemento Array
 ```javascript
 var primero = frutas[0] // Manzana
 var ultimo = frutas[frutas.length - 1] // Banana
 ```
+
 
 #### Bucle sobre un Array
 Modo convencional
@@ -563,6 +581,7 @@ for (var i = 0; i < frutas.length; i++) {
 // Manzana 0
 // Banana 1
 ```
+
 Usando el método interno de los arreglos:
 ```javascript
 frutas.forEach( function (elemento, indice, array) {
@@ -572,11 +591,13 @@ frutas.forEach( function (elemento, indice, array) {
 // Banana 1
 ```
 
+
 #### Añadir elemento al final de un Array
 ```javascript
 var nuevaLongitud = frutas.push('Naranja')
 // ["Manzana", "Banana", "Naranja"]
 ```
+
 
 #### Eliminar elemento del final de un Array
 ```javascript
@@ -584,17 +605,20 @@ var ultimo = frutas.pop() // elimina Naranja del final
 // ["Manzana", "Banana"]
 ```
 
+
 #### Añadir elemento al inicio de un Array
 ```javascript
 var nuevaLongitud = frutas.unshift('Fresa') // añade al inicio
 // ["Fresa", "Banana"]
 ```
 
+
 #### Eliminar elemento del inicio de un Array
 ```javascript
 var primero = frutas.shift() // elimina Manzana del inicio
 // ["Banana"]
 ```
+
 
 #### Encontrar el índice de un elemento en el Array
 ```javascript
@@ -605,11 +629,13 @@ var pos = frutas.indexOf('Banana')
 // 1
 ```
 
+
 #### Eliminar un elemento con el índice de posición
 ```javascript
 var elementoEliminado = frutas.splice(pos, 1) // así es como se elimina un elemento
 // ["Fresa", "Mango"]
 ```
+
 
 #### Eliminar elementos con el índice de posición
 ```javascript
@@ -628,11 +654,13 @@ console.log(elementosEliminados)
 // ["Nabo", "Rábano"]
 ```
 
+
 #### Copiar un Array
 ```javascript
 var copiaSuperficial = frutas.slice() // esta es la forma de crear una copia
 // ["Fresa", "Mango"]
 ```
+
 
 ### Filtrar un array
 Para filtrar siempre se necesita establecer una condición. El método `.filter()` crea una nueva matriz con todos los elementos que pasan la prueba implementada por la función proporcionada.
@@ -645,6 +673,7 @@ const result = words.filter(word => word.length > 6);
 console.log(result);
 // expected output: Array ["exuberant", "destruction", "present"]
 ```
+
 
 ### Transformar un array `.map()` ("mapeo")
 El método `.map()` itera sobre los elementos de un array en el orden de inserción y devuelve array nuevo con los elementos modificados.
@@ -660,9 +689,10 @@ let roots = numbers.map( num => Math.sqrt(num) )
 // roots is now [1, 2, 3]
 ```
 
+
 ### Reducir `.reduce()`
 El método ``.reduce()`` aplica una función a un acumulador y a cada valor de un array (de izquierda a derecha) para reducirlo a un único valor.
-Los invito a revisar un poco más de los parámetros de la función parámetro del método, en: [Array.prototype.reduce()](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/reduce#Sintaxis)
+Los invito a revisar un poco más de los parámetros de la función en: [Array.prototype.reduce()](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/reduce#Sintaxis)
 
 ```javascript
 [1, 3, 5, 7, 11].reduce( (acumulador, nuevoValor) => acumulador + nuevoValor, 10 )
@@ -686,9 +716,11 @@ acumulador = 37, nuevoValor = 11
 // Valor Devuelto: 37
 ```
 
+
 ---
 ---
 ---
+
 
 ## Programación Orientada a Objetos en JavaScript
 Tomado de [Introducción a JavaScript orientado a objetos](https://developer.mozilla.org/es/docs/Web/JavaScript/Introducci%C3%B3n_a_JavaScript_orientado_a_objetos)
@@ -712,10 +744,10 @@ La programación orientada a objetos puede considerarse como el diseño de softw
 ## Programación basada ​​en prototipos
 > La programación basada ​​en prototipos es un estilo de programación orientada a objetos en la que las clases no están presentes y la reutilización de comportamiento (conocido como herencia en lenguajes basados ​​en clases) se lleva a cabo a través de un proceso de decoración de objetos existentes que sirven de prototipos. Este modelo también se conoce como programación sin clases, orientada a prototipos o basada en ejemplos.
 
-JavaScript tiene varios objetos incluidos en su núcleo, como Math, Object, Array y String. ___Cada objeto en JavaScript es una instancia del objeto ``Object``, por lo tanto, hereda todas sus propiedades y métodos.___
+JavaScript tiene varios objetos incluidos en su núcleo, como Math, Object, Array, String, etc. ___Cada objeto en JavaScript es una instancia del objeto ``Object``, por lo tanto, hereda todas sus propiedades y métodos.___
 
 ### La clase
-JavaScript es un lenguaje basado en prototipos que no contiene ninguna declaración de clase, como se encuentra, por ejemplo, en C + + o Java. Esto es a veces confuso para los programadores acostumbrados a los lenguajes con una declaración de clase. En su lugar, JavaScript utiliza funciones como clases. Definir una clase es tan fácil como definir una función. En el ejemplo siguiente se define una nueva clase llamada ``Persona``.
+JavaScript es un lenguaje basado en prototipos que no contiene ninguna declaración de clase, como se encuentra, por ejemplo, en C++ o Java. Esto es a veces confuso para los programadores acostumbrados a los lenguajes con una declaración de clase. En su lugar, JavaScript utiliza funciones como clases. Definir una clase es tan fácil como definir una función. En el ejemplo siguiente se define una nueva clase llamada ``Persona``.
 ```javascript
 function Persona() { }
 ```
@@ -764,11 +796,11 @@ function Persona(firstName) {
 }
 
 var persona1 = new Persona("Alicia");
-var persona2 = new Persona("Sebastian");
+var persona2 = new Persona("Sebastián");
 
 // Muestra el primer nombre de persona1
 console.log('persona1 es ' + persona1.primerNombre); // muestra "persona1 es Alicia"
-console.log('persona2 es ' + persona2.primerNombre); // muestra "persona2 es Sebastian"
+console.log('persona2 es ' + persona2.primerNombre); // muestra "persona2 es Sebastián"
 ```
 
 
@@ -787,17 +819,95 @@ Persona.prototype.diHola = function() {
 };
 
 var persona1 = new Persona("Alicia")
-var persona2 = new Persona("Sebastian")
+var persona2 = new Persona("Sebastián")
 
 // Llamadas al método diHola de la clase Persona.
 persona1.diHola() // muestra "Hola, Soy Alicia"
-persona2.diHola() // muestra "Hola, Soy Sebastian"
+persona2.diHola() // muestra "Hola, Soy Sebastián"
 ```
 
 
-### Herencia
-Dado que la herencia no se realiza como en otros lenguajes, si no que todo es por medio de prototipos, la explicación con ejemplo se deja a la lectura recomendada (casi obligatoria) de este apartado en [Introducción a JavaScript orientado a objetos - Herencia](https://developer.mozilla.org/es/docs/Web/JavaScript/Introducción_a_JavaScript_orientado_a_objetos)
+### Herencia - usando prototipos
+Dado que la herencia no se realiza como en otros lenguajes, si no que todo es por medio de prototipos, la explicación con ejemplo se deja a la lectura recomendada (casi obligatoria) de este apartado en [Introducción a JavaScript orientado a objetos - Herencia](https://developer.mozilla.org/es/docs/Web/JavaScript/Introducción_a_JavaScript_orientado_a_objetos#Custom_Objects)
 
+
+__Al final, decidí colocarlo :V__
+
+La herencia es una manera de crear una clase como una versión especializada de una o más clases (JavaScript sólo permite herencia simple). La clase especializada comúnmente se llama hija o secundaria, y la otra clase se le llama padre o primaria. En JavaScript la herencia se logra mediante la asignación de una instancia de la clase primaria a  la clase secundaria, y luego se hace la especialización.
+
+En el siguiente ejemplo se define la clase Estudiante como una clase secundaria de Persona. Luego se re-define el método `sayHello()` y se agrega el método `sayBye()`.
+
+```javascript
+// Definimos el constructor Persona
+function Persona(primerNombre) {
+  this.primerNombre = primerNombre;
+}
+
+// Agregamos un par de métodos a Persona.prototype
+Persona.prototype.caminar = function() {
+  alert("Estoy caminando!");
+};
+Persona.prototype.diHola = function(){
+  alert("Hola, Soy" + this.primerNombre);
+};
+
+// Definimos el constructor Estudiante
+function Estudiante(primerNombre, asignatura) {
+  // Llamamos al constructor padre, nos aseguramos (utilizando Function#call) que "this" se
+  // ha establecido correctamente durante la llamada
+  Persona.call(this, primerNombre);
+
+  //Inicializamos las propiedades específicas de Estudiante
+  this.asignatura = asignatura;
+};
+
+// Creamos el objeto Estudiante.prototype que hereda desde Persona.prototype
+// Nota: Un error común es utilizar "new Persona()" para crear Estudiante.prototype 
+// Esto es incorrecto por varias razones, y no menos importante que no le estamos pasando nada
+// a Persona desde el argumento "primerNombre". El lugar correcto para llamar a Persona
+// es arriba, donde llamamos a Estudiante.
+Estudiante.prototype = Object.create(Persona.prototype);    // Vea las siguientes notas
+
+// Establecer la propiedad "constructor" para referencias a Estudiante
+Estudiante.prototype.constructor = Estudiante;
+
+// Reemplazar el método "diHola"
+Estudiante.prototype.diHola = function(){
+  alert("Hola, Soy " + this.primerNombre + ". Estoy estudiando " + this.asignatura + ".");
+};
+
+// Agregamos el método "diAdios"
+Estudiante.prototype.diAdios = function() {
+  alert("¡ Adios !");
+};
+
+// Ejemplos de uso
+var estudiante1 = new Estudiante("Carolina", "Física Aplicada");
+estudiante1.diHola();    // muestra "Hola, Soy Carolina. Estoy estudianto Física Aplicada."
+estudiante1.caminar();   // muestra "Estoy caminando!"
+estudiante1.diAdios();   // muestra "¡ Adios !"
+
+// Comprobamos que las instancias funcionan correctamente
+alert(estudiante1 instanceof Persona);      // devuelve true
+alert(estudiante1 instanceof Estudiante);   // devuelve true
+```
+
+
+#### Encapsulación
+En el ejemplo anterior, Estudiante no tiene que saber cómo se aplica el método caminar() de la clase Persona, pero, sin embargo, puede utilizar ese método. La clase Estudiante no tiene que definir explícitamente ese método, a menos que queramos cambiarlo. Esto se denomina la encapsulación, por medio de la cual cada clase hereda los métodos de su elemento primario y sólo tiene que definir las cosas que desea cambiar.
+
+
+#### Abstracción
+Un mecanismo que permite modelar la parte actual del problema de trabajo. Esto se puede lograr por herencia (especialización) o por composición. JavaScript logra la especialización por herencia y por composición al permitir que las instancias de clases sean los valores de los atributos de otros objetos.
+
+La clase Function de JavaScript hereda de la clase de Object (esto demuestra la especialización del modelo) y la propiedad Function.prototype es un ejemplo de Objeto (esto demuestra la composición)
+
+
+#### Polimorfismo
+Al igual que todos los métodos y propiedades están definidas dentro de la propiedad prototipo, las diferentes clases pueden definir métodos con el mismo nombre. Los métodos están en el ámbito de la clase en que están definidos. Esto sólo es verdadero cuando las dos clases no tienen una relación primario-secundario (cuando uno no hereda del otro en una cadena de herencia).
+
+
+---
 
 
 ## Clases en JS - apariencia de otros lenguajes
@@ -808,7 +918,7 @@ Luego de leer, ahora es más claro que __las clases de javascript__, introducida
 Las clases son "funciones especiales", como las expresiones de funciones y declaraciones de funciones, la sintaxis de una clase tiene dos componentes: expresiones de clases y declaraciones de clases.
 
 #### Declaración de clases
-Una manera de definir una clase es mediante una **declaración de clase**. Para declarar una ``clase``, se utiliza la palabra reservada class y un nombre para la clase "Rectangle".
+Una manera de definir una clase es mediante una **declaración de clase**. Para declarar una ``clase``, se utiliza la palabra reservada class y un nombre para la clase.
 
 ```javascript
 class Rectangle {
@@ -824,7 +934,7 @@ Una importante diferencia entre las declaraciones de funciones y las declaracion
 
 ```javascript
 const p = new Rectangle() // ReferenceError
-class Rectangle {}
+class Rectangle {} // Debería ir antes
 ```
 
 #### Expresiones de clases
@@ -936,15 +1046,16 @@ class felino {
   }
 }
 
-class Leon extends felino {
+class lion extends felino {
   hablar() {
     super.hablar();
     console.log(this.nombre + ' ronronea');
   }
 }
 
-var miGatito = new Leon('reyLeon')
-miGatito.nombre // reyLeon
+var miGatito = new lion('reyLeón')
+miGatito.nombre // reyLeón
+miGatito.hablar()
 // reyLeon hace ruido
 // reyLeon ronronea
 ```
@@ -954,8 +1065,9 @@ miGatito.nombre // reyLeon
 ---
 ---
 
+
 ## Asincronismo
-Parte vital antes de iniciar hablar del "asincronismo" en JS, es conocer la posibilidad de pasar __funciones__ como parámetros a otras funciones.
+Antes de iniciar hablar del "asincronismo" en JS, es fundamental conocer la posibilidad de pasar __funciones__ como parámetros a otras funciones.
 
 
 ### Funciones como parámetros
@@ -1050,10 +1162,11 @@ Soy el señor@ desarrollador y mi nombre real es: Lo olvide ... :V
 
 
 ### Promesas (y haciendo múltiples)
-[¡ENTENDIENDOLO TODO! reguests y promesas](https://platzi.com/tutoriales/1339-fundamentos-javascript/4308-entendiendolo-todo-reguests-y-promesas/)
+En el siguiente link, se lee el resumen escrito (realizado por un estudiante) de la sección de asincronismo del curso de Platzi - Fundamentos de JavaScript.
+[¡ENTENDIENDOLO TODO! reguests y promesas](https://platzi.com/tutoriales/1339-fundamentos-javascript/4308-entendiendolo-todo-reguests-y-promesas/). En las explicaciones del curso se usó la librería de Jquery para realizar las peticiones al servidor, pero no quiero rellenar los apuntes con librerías o frameworks de terceros; por este motivo genero mis apuntes con la intención de ilustrar los conceptos básicos o necesarios usando solo el javascript por defecto para el 2019-08.
 
 CASO CON PROMISE directo
-1. La función inicial (__asin__) no requiere que se le pase un callback, para resolver las peticiones asíncronas.
+1. La función inicial __asin__ no requiere que se le pase un callback, para resolver las peticiones asíncronas.
 2. Para el envió de las respuesta se utiliza `resolve(respuesta satisfactoria)` y `reject(Error)`
 3. La función inicial retorna una promesa.
 4. Conforme necesitemos realizar peticiones al servidor podemos ponerlas en cola usando `then`.
@@ -1061,7 +1174,8 @@ CASO CON PROMISE directo
 6. Desaparece el temido _CallBackHell_ también conocido como _PyramidOfDoom_, por lo que el código es más fácil de mantener y leer.
 
 __Ejemplo uno__:
-Aquí recordamos que la promesa debe ser retornada como parte de la función. También, la promesa se declara como `new Promise`, recibiendo una función como parámetro la cual debe a su vez poseer como argumentos dos funciones: la primera en caso de que la promesa se resuelva correctamente y la segunda en caso de error.
+Recordamos que la promesa debe ser retornada como parte de la función. También, la promesa se declara como `new Promise`, recibiendo una función como parámetro la cual debe a su vez posee como argumentos dos funciones: la primera en caso de que la promesa se resuelva correctamente y la segunda en caso de error.
+
 ```javascript
 function asin (valor) {
   // declaración de la promesa.
@@ -1095,10 +1209,9 @@ for(let index=0; index<numbers.length; index++){
 // Error: Error de ejecución. Valor era: 5
 ```
 
-__Ejemplo dos__:
-En el siguiente ejemplo las tres funciones `responseFn`,`personaFn` y `errorFn` son _callbacks_; dado que se pasan como argumentos a otras funciones que las utilizan. En este caso la función `fetch` retorna una promesa (internamente ya fue diseñada así).
 
-Lo interesante a notar en este ejemplo es que aquí si se ve que las respuestas a las promesas se ejecutan luego de que se termina el código base y su orden es incierto.
+__Ejemplo dos__:
+En el siguiente ejemplo la función `fetch` retorna una promesa (internamente ya fue diseñada así). Las tres funciones `responseFn`,`personaFn` y `errorFn` son _callbacks_, dado que se pasan como argumentos a otras funciones que las utilizan.
 
 ```javascript
 const URL = 'https://swapi.co/api'
@@ -1130,19 +1243,17 @@ Hola yo soy Biggs Darklighter
 */
 ```
 
-__Ejemplo dos__: resolviendo las promesas en conjunto con 
-[Promise.resolve()](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Promise/resolve)
+
+__Ejemplo dos__: resolviendo las promesas en conjunto con `Promise.all()`
 ```javascript
 const URL = 'https://swapi.co/api'
 const PEOPLE_URL = '/people/:id'
 const NUM_PJs = 10
 
 const responseFn = response => {
-  response.forEach((respuesta) => {
-    respuesta.json()
-      .then(persona => {console.log(`Hola yo soy ${persona.name}`)})
-  })
+  response.forEach( respuesta => respuesta.json().then( personaFn ) )
 }
+const personaFn = persona => {console.log(`Hola yo soy ${persona.name}`)}
 const errorFn = error => {console.error('Error: ', error)}
 
 const IDs = Array.from({length: NUM_PJs}, (val, index) => index + 1)
@@ -1170,17 +1281,19 @@ Hola yo soy Obi-Wan Kenobi
 */
 ```
 
-[Post en Platzi - original](https://platzi.com/comentario/665965/)
-
 [Utilizando Fetch](https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Utilizando_Fetch)
+
+[Promise.resolve()](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Promise/resolve)
 
 
 ### Funciones Async - Await
-_Async-await_ es la manera más simple y clara de realizar tareas asíncronas. Await detiene la ejecución del programa hasta que todas las promesas sean resueltas. Para poder utilizar esta forma, hay que colocar async antes de la definición de la función, y encerrar el llamado a `Promises.all()` dentro de un bloque `try ... catch`.
+_Async-await_ es la manera más simple y clara de realizar tareas asíncronas. Con `await` detiene la ejecución del programa hasta que todas las promesas sean resueltas. Para poder utilizar esta forma, hay que colocar `async` antes de la definición de la función, y encerrar el llamado a `Promises.all()` dentro de un bloque `try ... catch`. Para mayor detalle [async-await en javascript.info](https://javascript.info/async-await)
+
 
 ---
 ---
 ---
+
 
 ## Complementos
 
