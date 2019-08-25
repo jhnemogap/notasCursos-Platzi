@@ -69,6 +69,58 @@ __Comandos básico en la terminal - _tipo Unix___
 ---
 
 
+## NodeJS
+
+Tomado de [Cómo instalar NodeJS](https://platzi.com/clases/1650-prework/21971-como-instalar-node-1/)
+
+
+### Revisión de Node en nuestro sistema
+
+En la mayoría de sistemas basados en Unix ya viene instalado por defecto Node, para asegurarnos de que esté instalado debemos irnos a nuestra terminal de comandos y ejecutar:
+
+```bash
+$ node -v
+> v12.4.0
+```
+
+Debería mostrar la versión de node que tenemos instalados en el sistema, como el ejemplo anterior, pero si la respuesta que obtenemos es como la siguiente, significa que se debe instalar:
+```bash
+$ node -v command not found: node
+```
+
+
+### Descargar e instalar
+
+[Downloads node js](https://nodejs.org/en/download/)
+
+- ***GNU/Linux***: binario, fuente de código, o como nos gusta a muchos package manager.
+- ***M. Windows***: descargar y lo típico, siguiente, siguiente, ..., finalizar.
+- ***MacOS***: se sugiere desde el package manager [homebrew](https://brew.sh/index). Una vez se tiene instalado _homebrew_ solo se ejecuta en la terminal: `$ brew install node`
+
+
+### Cómo ejecutar NodeJS
+
+Una vez se tenga instalado Node en el sistema podemos hacer uso de él. Sólo para verificar que funciona se ejecutará en la terminal lo siguiente:
+```javascript
+$ node
+
+> console.log('Hola mundo')
+Hola mundo
+>
+```
+
+Al escribir `node` se abrirá un shell interactivo donde escribir código en JavaScript. Esta herramienta es esencial en el desarrollo porque es aquí donde probar funcionalidades antes de insertarlas en un proyecto.
+
+
+### Cómo utilizar npm
+
+**npm** es el manejador de paquetes de Nod. Con él podemos instalar dependencias a nuestro proyecto o instalar programas globalmente en nuestro sistema. A lo largo de este curso y de toda la Escuela de JavaScript npm será quien nos permita correr los proyectos e instalar nuestras dependencias.
+
+
+---
+---
+
+
 ## Instalación y configuración de Visual Studio Code
 
 
@@ -79,14 +131,30 @@ Hay varios editores de código estupendos, pero la escuela de javascript _Platzi
 
 ### La configuración base
 
-Se agregan algunos plugins que le darán mayor capacidad al editor. Estos son los primeros de varios que se irán agregando en el transcurso de la escuela de javascript o de tus intereses:
+Se agregan algunas extensiones que le darán mayor capacidad al editor. Estos son los primeros de varios que se irán agregando en el transcurso de la escuela de javascript o de los intereses personales:
 
 + __Git Blame__: va a mostrar el autor de la línea de código en la que estemos trabajando.
 + __ESLint__: es una herramienta de análisis de código estático para identificar patrones problemáticos encontrados en el código JavaScript, o sea, nuestro linter. Debemos instalar y configurar eslint para que siga el estilo de código que le indiquemos.
 + __Color Highlight__: resalta el color que estemos escribiendo.
 + __SASS__: es un pre-procesador de CSS.
 
+Para la extensión ***ESLint***: se realiza una configuración extra para que trabaje con los requisitos de los cursos de React. Entonces:
 
+1. En la terminal elegida bash, hyper, etc. (ya sea embebida en VSCode o externa):
+2. Instalación de global de ESLint: `$ npm install -g eslint`
+3. Inicialización la configuración de ESLint: `$ npx eslint --init`
+   - Existen tres opciones, la que se recomienda es la que indica: verificación de sintaxis, encontrar problemas y forzar un estilo de código.
+   - Luego se generan preguntas por cada modo de esta opción, donde para la escuela de JS:
+     1. ¿Qué tipo de módulos a usar?: `JavaScript modules (import/export)`
+     2. ¿Cuál marco de trabajo?: `React`
+        - ¿Donde correrá el código?: `Browser`
+     3. ¿Cuál será la guía de estilos?: `Airbnb`
+        -  ¿Qué tipo de archivo de configuración?: `JSON`
+
+NOTA: el primer signo de precio en los comandos (`$`) es para denotar que se esta en una consola tipo UNIX. Y no debe ser copiado en los comandos. Si estás en Linux es muy probable que muchos comandos deban ser ejecutados como usuario administrador.
+
+
+---
 ---
 
 
