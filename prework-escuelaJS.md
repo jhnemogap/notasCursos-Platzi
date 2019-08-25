@@ -158,6 +158,233 @@ NOTA: el primer signo de precio en los comandos (`$`) es para denotar que se est
 ---
 
 
+## Google Chrome para desarrollo web
+
+Se usará el navegador Chrome. Ni idea que más decir, si llega a este punto y no sabes por qué Chrome y que es eso de Inspeccionar -> revisa el curso de Programación Básica o Fundamentos de JavaScript de PLatzi.
+
+
+### Del lado _frontend_
+
+Ahora si, lo más importante es instalar dos extensiones al navegador web desde [chrome web store](https://chrome.google.com/webstore/category/extensions?hl=es):
+- React Developer Tools
+- Redux DevTools
+
+
+### Del lado _Backend_
+
+- Igual desde la web store de chrome instalar: __JSON Viewer__
+- Y para instalar en el PC: [Postman](https://www.getpostman.com/downloads/)
+
+
+---
+---
+
+
+## README.md y sintaxis de markdown
+
+El README.md es el archivo en el cual hacemos la descripción del proyecto, ya sea open source o privados es importante tener un buen **README**. Este archivo se escribe con formato markdown.
+
+
+### Cómo escribir un buen README
+
+No hay un estándar sobre cómo escribir un buen *README*, cada proyecto es diferente y depende de cada uno. Pero hay ciertas partes que sí o sí debería contener un buen README.
+
+1. **Nombre**: Especificamos cómo se llama nuestro proyecto.
+2. **Descripción**: es donde diremos para qué exactamente es el proyecto, qué problemas resuelve y cualquier información relevante.
+3. **Instalación**: muestra los pasos específicos para instalar el proyecto. Por lo general se muestra un pedazo del código necesario para la instalación.
+4. **Cómo usar**: describe rápidamente casos de uso en los cuales se puede usar el proyecto, además de mostrar funcionalidades.
+5. **Cómo contribuir**: si es un proyecto open source se describe acá la forma en la que deberían crearse las contribuciones.
+6. **Licencia**: muestra la licencia que tiene el proyecto.
+
+Y el ejemplo . . . pues este mismo archivo :joy: Sí, que esperas mira el código de etiquetado de este documento y veras el uso básico de MarkDown.
+
+
+### **Markdown**
+
+**Es un formato de escritura que permite la generación de contenido fácil y rápido, permite generar una salida (por lo general) en formato HTML sin necesidad de aprender a profundidad HTML. Es ampliamente utilizado por su facilidad de generar texto enriquecido.**
+
+
+#### Encabezados:
+
+Lo utilizamos para resaltar una parte importante, títulos, subtítulos, etc. Se utiliza el símbolo `#` para demarcar el inicio de un encabezado. No olvides dejar cambios de líneas libres antes y después.
+
+```markdown
+# Encabezado nivel 1
+## Encabezado nivel 2
+### Encabezado nivel 3
+#### Encabezado nivel 4
+##### Encabezado nivel 5
+###### Encabezado nivel 6
+```
+
+
+#### Párrafos
+
+En formato Markdown escribirlos no es tan distinto a escribir en un texto plano, automáticamente se reconoce que es un párrafo. Eso si deja espacios entre párrafos y títulos, y para generar un párrafo nuevo simplemente deja un cambio de línea vacío. En markdown mil cambios de línea vacíos es igual a uno.
+
+
+#### Itálicas y negritas
+
+Hay partes en las que necesitaremos hacer énfasis en ciertas palabras, lo común es que utilicemos _itálicas_ y __negritas__ para resaltarlas, en Markdown debemos hacer lo siguiente:
+
+```markdown
+**Esto es una negrita**
+
+*Esto es una itálica*
+
+**_Esto es una negrita con itálica_**
+```
+
+Así se ve:
+**Esto es una negrita**
+
+*Esto es una itálica*
+
+**_Esto es una negrita con itálica_**
+
+Puede llegar a existir variaciones según cada editor / visualizador de markdown. Pero la idea básica es usar un solo `*` o `_` antes y después para las itálicas. Las negritas con `**` o `__`, y para la combinación puede ser desde `***`, `___`, `_**`, `**_`, `*__` o `__*`.
+
+
+#### Citas
+
+Se utilizan para mostrar referencias a otros autores y hasta citas anidadas, sería:
+
+```markdown
+> Esto es una cita normal por Yo su merced
+
+Esto párrafo normal
+
+> Primera cita
+> > Cita anidada
+```
+
+Y así se ve:
+> Esto es una cita normal por Yo su merced
+
+Esto párrafo normal
+
+> Primera cita
+> > Cita anidada
+
+
+#### Listas
+
+Podemos utilizar listas ordenadas y listas sin orden:
+
+
+##### Listas ordenadas
+
+Los números seguidos de punto los coloca uno mismo:
+```markdown
+1. Primer item
+2. Segundo item
+3. Tercer item
+```
+
+En markdown se ve así:
+1. Primer item
+2. Segundo item
+3. Tercer item
+
+
+##### Listas sin orden
+
+Se puede usar signos como `+` `-` `*`:
+
+```markdown
++ Primer item
++ Segundo item
++ Tercer item
+```
+
+En markdown se ve así:
++ Primer item
++ Segundo item
++ Tercer item
+
+
+##### Listas anidadas
+
+Solo hace falta dar sangría izquierda (_espacio con la tecla `tab`_) y markdown hace el resto:
+
+```markdown
+- Primer item
+- Segundo item
+    1. El primer anidado y númerado (lista ordenada)
+    2. Pos el segundo y síguela
+        - O mejor anidamos más verdad
+        - Bueno ya entendí la idea
+    3. Entendido, Gracias.
+- Tercer item
+```
+
+Entonces se ve así:
+- Primer item
+- Segundo item
+    1. El primer anidado y númerado (lista ordenada)
+    2. Pos el segundo y síguela
+        - O mejor anidamos más verdad
+        - Bueno ya entendí la idea
+    3. Entendido, Gracias.
+- Tercer item
+
+
+#### Código
+
+Es esencial que en los README podamos escribir código, esto para especificar la instalación o partes que debemos resaltar de nuestro proyecto. Hay dos formas en las que podemos resaltar código, dentro de un párrafo o en una sección completa, tal cual estamos haciendo en esta clase.
+
+Este es un pedazo de código dentro de un párrafo `console.log('Hola Mundo')`, y se escribe el texto dentro de las tildes invertidas ` `` `.
+
+Para insertar código en bloque lo que hacemos es dejar cambios de líneas vacías antes y después, para luego dar una tabulación y automáticamente lo reconocerá como código:
+
+    const miName = 'Simon Bolívar'
+    console.log(`Hola Mundo soy ${yo}`)
+
+Y la última y más profesional en bloque, según yo claro, es etiquetar así:
+1. Dejar espaciado vertical _(cambio de línea)_
+2. Triple tilde invertida seguidas y sin espacio (```) 
+3. De nuevo cambio de línea
+4. Escribir el código como si se estuviera en un archivo con la extensión de ese lenguaje
+5. Luego de todo el código otro cambio de línea
+6. Y se finaliza la etiqueta con una Triple tilde invertida (```)
+
+```
+let name = "Escuela de Javascript"
+console.log(name)
+```
+
+Ahora, con este etiquetado _cool_ se puede escribir varias líneas sin tener que estar dando una tabulación para cada línea de código. 
+
+> Además, se puede mejorar un poco más si el código no es genérico, como el caso anterior que todos reconocen como lenguaje ***javascript***. 
+> > Para hacer esto es tan simple como en el paso 2 luego de las tildes invertidas escribir el nombre del lenguaje en cuestión: javascript, python, ruby, etc. Así o mas padre, si con colores de sintaxis.
+
+**Código javascript**:
+```javascript
+let name = "Escuela de Javascript"
+
+console.log(name)
+```
+
+**Código python**:
+```python
+arreglo = [10, 40, 'Hola', -100.67]
+
+for valor in arreglo:
+    print(valor)
+
+""" Este es un comentario de varias líneas en Python, los resultados sería
+10
+40
+Hola
+-100.67
+"""
+```
+
+
+---
+---
+
+
 ## Crea llaves SSH
 
 Las llaves SSH van a ayudar para la autentificar los mensajes con servidores. SSH utiliza criptografía asimétrica, o sea, tenemos dos llaves:
@@ -183,3 +410,30 @@ Es probable que haga falta:
 - Agregar la llave generada al servidor ssh iniciado con: `ssh-add /YourDirLocalPrivateKey`
 - Ver el contenido de la llave pública para copiar y pegar en el servidor: `cat id_rsa.pub` 
 
+
+---
+---
+
+
+## Git y GitHub
+
+-> Si se quiere un resumen introductorio rápido _ver la sección de Git y GitHub en el_ _**curso de Prework: Buenas Prácticas y Entorno de Desarrollo**_ de Platzi.
+
+-> Para una introducción al mundo de Git y GitHub ir al curso de _**Curso profesional de Git y GitHub**_ de Platzi.
+
+-> Y para tener acceso a las notas de la clase: busca en [mi repositorio de GitHub](https://github.com/Nemo1Co/notasCursos-Platzi)
+
+
+---
+---
+
+
+## Conclusiones
+
+Seguir con la ruta de la escuela de JavaScript:
+
+1. FrontEnd developer.
+2. Fundamentos de JavaScript.
+3. JavaScript profesional.
+4. ReactJS
+-  ... continua pero por ahora eso.
