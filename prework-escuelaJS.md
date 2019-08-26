@@ -8,7 +8,6 @@
 
 ## Configurando la terminal o consola de comandos
 
-En este apartado he decidido según el sistema operativo en el que este trabajando:
 - ***Microsoft Windows***: he instalado git y su terminal git bash. Que para efectos prácticos hace lo que se necesita e incluso puede ser un reemplazo a Hyper o la terminal de Ubuntu para M. Windows. Si se va a trabar es este S.O. igualmente se deberá instalar [Git para M. Windows](https://gitforwindows.org), por lo que no instalaré adornos o duplicados hasta que no vea la real necesidad. Para este momento a mi gusto sería mejor una maquina virtual con GNU/Linux que instalar el ubuntu terminal.
 - ***GNU/Linux***: Ya tenemos terminal por defecto un aliado que saludamos con gusto. Y debería estar instalado git pero en caso de que no pues a instalarlo. Cualquier adorno extra cada quien verá si en el transcurso lo pone o no.
 - ***MacOS***: también se tiene terminal adecuada por defecto. Para más detalles mirar los videos del curso de Platzi . . . no conozco MacOS.
@@ -22,7 +21,7 @@ En este apartado he decidido según el sistema operativo en el que este trabajan
 ## Manejo archivos y directorios desde la terminal
 
 __Comandos básico en la terminal - _tipo Unix___
-- __clear__: limpia la pantalla de la terminal.
+- __clear__: limpia la pantalla de la terminal. También se puede usar `Ctrl + l`.
 - __history__: Muestra el histórico de todos los comandos que hemos ejecutado. Para ejecutar un comando previo del historial existen dos formas básicas:
   1. Usar las fechas de navegación del teclado _arriba_ y _abajo_ para buscar comandos previos.
   2. Conociendo el número de ejecución en el archivo __history__, se ejecuta con un signo de admiración y el numero: __`!134`__
@@ -30,30 +29,30 @@ __Comandos básico en la terminal - _tipo Unix___
 
 ### Listar archivos
 
-- __ls__: permite listar los archivos y directorios que se encuentren dentro de la carpeta en la que estamos ubicados, podemos pasar distintos parámetros a este comando, ej `ls -la`:
+- __ls__: permite listar los archivos y directorios que se encuentren dentro de la carpeta en la que estamos ubicados, podemos pasar distintos parámetros a este comando, ejemplo `ls -la`:
   - __a__: ver los archivos ocultos.
-  - __l__: lista los contenidos mostrando sus permisos y propiedades. Algunos comandos solo operan acompañados, ej:
-  - __lt__: lista los contenidos según su fecha de modificación.
-  - __lh__: indica el tamaño del elemento en una presentación más "humana" - fácil. 
+  - __l__: lista los contenidos mostrando sus permisos y propiedades. Algunos comandos sólo operan acompañados, ej:
+    - __lt__: lista los contenidos según su fecha de modificación.
+    - __lh__: indica el tamaño del elemento en una presentación más "humana" - fácil. 
 
 
 ### Navegar entre carpetas
 
 - __pwd__: retorna la ruta absoluta en la cual nos encontramos.
-- __cd__: mueve a alguna carpeta que le indiquemos, dentro de los archivos ocultos vimos que existe:
+- __cd__: nos sitúa en la carpeta que le indiquemos, existe tres casos especiales por defecto:
   - __.__: refiere a la carpeta en la cual se está ubicados.
   - __..__: se refiere a la carpeta padre de la actual ubicación.
   - __~__: se ubica en la carpeta home de la computadora
 
 
-### Creación, modificación y eliminación de archivos / carpetas
+### Creación, modificación y eliminación de archivos o carpetas
 
 - __mkdir__: crea una carpeta con el nombre indicado, ej: `mkdir docsPlatzi`
 - __touch__: crea un archivo vacío con el nombre que le indiquemos. Ej: `touch file.txt`
 - __mv__: permite mover archivos entre distintas carpetas, se debe indicar el nombre del archivo y la ruta de destino.
 - __rm__: elimina únicamente un archivo, añadiendo el parámetro `-rf` puede eliminar directorios también.
 - __rmdir__: elimina directorios pero sólo si está vacío.
-- __nano__: es un editor dentro de la consola, permite abrir cualquier archivo y modificarlo.
+- __nano__ o __vim__: es un editor dentro de la consola, permite abrir cualquier archivo y modificarlo.
 
 
 ### Visualizar y abrir archivos en terminal
@@ -100,7 +99,9 @@ $ node -v command not found: node
 
 ### Cómo ejecutar NodeJS
 
-Una vez se tenga instalado Node en el sistema podemos hacer uso de él. Sólo para verificar que funciona se ejecutará en la terminal lo siguiente:
+Una vez se tenga instalado Node en el sistema podemos hacer uso de él. Al escribir `node` en la terminal se abrirá un shell interactivo donde escribir código en JavaScript. Esta herramienta es esencial en el desarrollo porque es aquí donde probar funcionalidades antes de insertarlas en un proyecto.
+
+Sólo para verificar que funciona se ejecutará en la terminal lo siguiente:
 ```javascript
 $ node
 
@@ -109,12 +110,10 @@ Hola mundo
 >
 ```
 
-Al escribir `node` se abrirá un shell interactivo donde escribir código en JavaScript. Esta herramienta es esencial en el desarrollo porque es aquí donde probar funcionalidades antes de insertarlas en un proyecto.
-
 
 ### Cómo utilizar npm
 
-**npm** es el manejador de paquetes de Nod. Con él podemos instalar dependencias a nuestro proyecto o instalar programas globalmente en nuestro sistema. A lo largo de este curso y de toda la Escuela de JavaScript npm será quien nos permita correr los proyectos e instalar nuestras dependencias.
+**npm** es el manejador de paquetes de _NodeJS_. Con él podemos instalar dependencias a nuestro proyecto o instalar programas globalmente en nuestro sistema. A lo largo de este curso y de toda la Escuela de JavaScript npm será quien nos permita correr los proyectos e instalar nuestras dependencias.
 
 
 ---
@@ -134,7 +133,7 @@ Hay varios editores de código estupendos, pero la escuela de javascript _Platzi
 Se agregan algunas extensiones que le darán mayor capacidad al editor. Estos son los primeros de varios que se irán agregando en el transcurso de la escuela de javascript o de los intereses personales:
 
 + __Git Blame__: va a mostrar el autor de la línea de código en la que estemos trabajando.
-+ __ESLint__: es una herramienta de análisis de código estático para identificar patrones problemáticos encontrados en el código JavaScript, o sea, nuestro linter. Debemos instalar y configurar eslint para que siga el estilo de código que le indiquemos.
++ __ESLint__: es una herramienta de análisis de código estático para identificar patrones problemáticos encontrados en el código JavaScript. Se debe instalar y configurar _eslint_ para que siga el estilo de código que le indiquemos.
 + __Color Highlight__: resalta el color que estemos escribiendo.
 + __SASS__: es un pre-procesador de CSS.
 
@@ -173,16 +172,16 @@ Ahora si, lo más importante es instalar dos extensiones al navegador web desde 
 ### Del lado _Backend_
 
 - Igual desde la web store de chrome instalar: __JSON Viewer__
-- Y para instalar en el PC: [Postman](https://www.getpostman.com/downloads/)
+- Y para instalar en local en la computadora: [Postman](https://www.getpostman.com/downloads/)
 
 
 ---
 ---
 
 
-## README.md y sintaxis de markdown
+## README .md y sintaxis de markdown
 
-El README.md es el archivo en el cual hacemos la descripción del proyecto, ya sea open source o privados es importante tener un buen **README**. Este archivo se escribe con formato markdown.
+El README .md es el archivo en el cual hacemos la descripción del proyecto, ya sea open source o privados es importante tener un buen **README**. Este archivo se escribe con formato markdown.
 
 
 ### Cómo escribir un buen README
@@ -242,19 +241,19 @@ Así se ve:
 
 **_Esto es una negrita con itálica_**
 
-Puede llegar a existir variaciones según cada editor / visualizador de markdown. Pero la idea básica es usar un solo `*` o `_` antes y después para las itálicas. Las negritas con `**` o `__`, y para la combinación puede ser desde `***`, `___`, `_**`, `**_`, `*__` o `__*`.
+Puede llegar a existir variaciones según cada editor / visualizador de markdown. Pero la idea básica es usar un solo asterisco `*` o línea baja `_` antes y después para las itálicas. Las negritas con `**` o `__`, y para la combinación puede ser desde `***`, `___`, `_**`, `**_`, `*__` o `__*`.
 
 
 #### Citas
 
-Se utilizan para mostrar referencias a otros autores y hasta citas anidadas, sería:
+Se utilizan para mostrar referencias a otros autores y se puede hasta citas anidadas, sería:
 
 ```markdown
-> Esto es una cita normal por Yo su merced
+> Esto es una cita normal, por Yo su merced
 
 Esto párrafo normal
 
-> Primera cita
+> Segunda cita
 > > Cita anidada
 ```
 
@@ -263,13 +262,13 @@ Y así se ve:
 
 Esto párrafo normal
 
-> Primera cita
+> Segunda cita
 > > Cita anidada
 
 
 #### Listas
 
-Podemos utilizar listas ordenadas y listas sin orden:
+Podemos utilizar listas ordenadas (númeradas) y listas sin orden:
 
 
 ##### Listas ordenadas
@@ -331,7 +330,7 @@ Entonces se ve así:
 
 #### Código
 
-Es esencial que en los README podamos escribir código, esto para especificar la instalación o partes que debemos resaltar de nuestro proyecto. Hay dos formas en las que podemos resaltar código, dentro de un párrafo o en una sección completa, tal cual estamos haciendo en esta clase.
+Es esencial que en los README podamos escribir código, esto para especificar la instalación o partes que debemos resaltar de nuestro proyecto. Hay dos formas en las que podemos resaltar código, dentro de un párrafo o en una sección completa.
 
 Este es un pedazo de código dentro de un párrafo `console.log('Hola Mundo')`, y se escribe el texto dentro de las tildes invertidas ` `` `.
 
@@ -342,7 +341,7 @@ Para insertar código en bloque lo que hacemos es dejar cambios de líneas vací
 
 Y la última y más profesional en bloque, según yo claro, es etiquetar así:
 1. Dejar espaciado vertical _(cambio de línea)_
-2. Triple tilde invertida seguidas y sin espacio (```) 
+2. Triple tilde invertida seguidas (```) 
 3. De nuevo cambio de línea
 4. Escribir el código como si se estuviera en un archivo con la extensión de ese lenguaje
 5. Luego de todo el código otro cambio de línea
@@ -356,7 +355,7 @@ console.log(name)
 Ahora, con este etiquetado _cool_ se puede escribir varias líneas sin tener que estar dando una tabulación para cada línea de código. 
 
 > Además, se puede mejorar un poco más si el código no es genérico, como el caso anterior que todos reconocen como lenguaje ***javascript***. 
-> > Para hacer esto es tan simple como en el paso 2 luego de las tildes invertidas escribir el nombre del lenguaje en cuestión: javascript, python, ruby, etc. Así o mas padre, si con colores de sintaxis.
+> > Para hacer esto es tan simple como: en el paso 2, luego de las tildes invertidas escribir el nombre del lenguaje en cuestión: javascript, python, ruby, etc. Así o mas padre, si con colores de sintaxis.
 
 **Código javascript**:
 ```javascript
@@ -403,7 +402,7 @@ ssh-keygen -t rsa -b 4096 -C "comentario para recordar el pasado"
 - _`-b 4096`_: y `-b` que indica la cantidad de bits de la llave. Con 2048 podría ser suficiente pero con el doble es mejor y tampoco es excesivo.
 - _`-C "comentario ..."`_: finalmente `-C` para darle un comentario a la llave.
 
-En este momento sólo se ha pedido la creación de las llaves correspondientes, y lo más probable es que el comando nos pregunte si deseamos usar la ruta por defecto para guardar los archivos. Se generan dos archivos, la llave privada y la pública, el archivo con extensión `.pub`
+En este momento sólo se ha pedido la creación de las llaves correspondientes, y lo más probable es que el comando nos pregunte si deseamos usar la ruta por defecto para guardar los archivos. Se generan dos archivos, la llave privada y la pública que es el archivo con extensión `.pub`
 
 Es probable que haga falta:
 - Iniciar el agente generador de llaves con: `eval $(ssh-agent -s)`
@@ -419,7 +418,7 @@ Es probable que haga falta:
 
 -> Si se quiere un resumen introductorio rápido _ver la sección de Git y GitHub en el_ _**curso de Prework: Buenas Prácticas y Entorno de Desarrollo**_ de Platzi.
 
--> Para una introducción al mundo de Git y GitHub ir al curso de _**Curso profesional de Git y GitHub**_ de Platzi.
+-> Para una introducción al mundo de Git y GitHub ir al  _**Curso profesional de Git y GitHub**_ de Platzi.
 
 -> Y para tener acceso a las notas de la clase: busca en [mi repositorio de GitHub](https://github.com/Nemo1Co/notasCursos-Platzi)
 
