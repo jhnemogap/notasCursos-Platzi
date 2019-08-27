@@ -54,13 +54,17 @@ Las tres tecnologías básicas que debe conocer y manejar un Frontend son:
 ## HTML5
 
 ### Etiquetas
+
 Las etiquetas son la representación básica de la información en un documento html. Sirven para crear y organizar el contenido.
 
 La sintaxis general de una etiqueta es:
+
 ```JavaScript
 <nombre> contenido </nombre>
 ```
+
 Hay ciertas etiquetas que tienen una sintaxis diferente, ya que se cierran en sí mismas; es decir, no tienen etiqueta de cierre:
+
 ```JavaScript
 <nombre />
 ```
@@ -99,20 +103,24 @@ Los atributos son valores agregados a las etiquetas (tags) html que extienden su
 A continuación, un ejemplo de los atributos más comunes y usados en algunas etiquetas:
 
 Para __img__:
+
 - __src__: específica la ruta de la imagen que será mostrada a través de esta etiqueta. La ruta puede ser absoluta (cunado especifica una dirección exacta, incluyendo el prefijo http(s) ) o relativa (cuando la referencia a la ubicación de la imagen parte de la ubicación del archivo actual).
 - __alt__: indica un texto alternativo que será mostrado en lugar de la imagen cuando ésta no pueda ser mostrada.
 - __width__: ancho de la imagen en pixeles.
 - __height__: alto de la imagen en pixeles.
 
 Para link, en la cabecera head del documento:
+
 - __rel__: indica la relación del recurso con el contenido.
 - __type__: indica el tipo de recurso / formato.
 - __href__: indica la ubicación (url) del recurso enlazado.
 
 Para __meta__, también en la cabecera head del documento:
+
 - __charset__: indica la tabla de caracteres (utf-8 para caracteres latinos) usada en el documento.
 
 Para __a__:
+
 - __href__: la ubicación o ruta a la que enlaza esta etiqueta de ancla. En el caso de querer enlazar a elementos que se encuentran dentro del mismo documento, este atributo debe indicar el valor del atributo `id` de ese elemento destino del enlace.
 - __target__: es el atributo que le indica a los enlaces como abrir esa página, ya sea en la misma pestaña o en otra. Por defecto, abre en la misma pestaña, mas con `"_blank"` se abrirá en una nueva pestaña.
 
@@ -133,6 +141,7 @@ Los elementos creados con la etiqueta `label` muestran un texto que se puede aso
 ### Navegación entre secciones
 
 Es tan fácil como agregar un identificador único para una etiqueta concreta por medio del atributo `id="Lo-que-sea"` y luego por medio de una etiqueta de enlace con valor del atributo `href` apuntar al identificador deseado, ej:
+
 ```JavaScript
 <a href="#lo-que-sea"></a>
 ```
@@ -148,7 +157,7 @@ Es tan fácil como agregar un identificador único para una etiqueta concreta po
 Hay tres opciones para incluir estilos que definan la apariencia de tu html:
 
 1. __Estilos en línea__: se definen directamente en el elemento html que quieres estilizar, se agregan con el atributo style.
-1. __Estilos con el tag Style__: regularmente este tag se incluye dentro de la etiqueta head del html.
+2. __Estilos con el tag Style__: regularmente este tag se incluye dentro de la etiqueta head del html.
 3. __Estilos enlazados desde un archivo css externo__: utilizando la etiqueta link que nos permite enlazar recursos externos.
 
 A __CSS__, se le llama ___hojas de estilos en cascada___ porque los estilos que se definen para una página, se van aplicando de arriba hacia abajo, y de lo más general a lo más particular, teniendo prioridad lo más particular. Esto es, los estilos que prevalecen son los que han sido definidos en _línea_, luego los que fueron definidos mediante la etiqueta _style_ en la cabeza o cuerpo del html, y por último los estilos definidos en archivos externos enlazados con la etiqueta _link_. Esta prioridad se puede alterar al usar el modificador `!important` en s
