@@ -160,19 +160,28 @@ Hay tres opciones para incluir estilos que definan la apariencia de tu html:
 2. __Estilos con el tag Style__: regularmente este tag se incluye dentro de la etiqueta head del html.
 3. __Estilos enlazados desde un archivo css externo__: utilizando la etiqueta link que nos permite enlazar recursos externos.
 
-A __CSS__, se le llama ___hojas de estilos en cascada___ porque los estilos que se definen para una página, se van aplicando de arriba hacia abajo, y de lo más general a lo más particular, teniendo prioridad lo más particular. Esto es, los estilos que prevalecen son los que han sido definidos en _línea_, luego los que fueron definidos mediante la etiqueta _style_ en la cabeza o cuerpo del html, y por último los estilos definidos en archivos externos enlazados con la etiqueta _link_. Esta prioridad se puede alterar al usar el modificador `!important` en s
+A __CSS__, se le llama ___hojas de estilos en cascada___ porque los estilos que se definen para una página, se van aplicando de arriba hacia abajo, y de lo más general a lo más particular, teniendo prioridad lo más particular. Esto es, los estilos que prevalecen son los que han sido definidos en _línea_, luego los que fueron definidos mediante la etiqueta _style_ en la cabeza o cuerpo del html, y por último los estilos definidos en archivos externos enlazados con la etiqueta _link_.
+
+Esa prioridad de los estilos css se puede alterar al usar el modificador `!important` en a definición de algún estilo en particular, aunque esto no es recomendado.
 
 ### Reglas, selectores, declaraciones, propiedades y valores
 
-```CSS
-/*Todo esto es una regla*/
-body { /*Selector. Ya sea de etiqueta expresa HTML, clase o id*/
-
-  /*Ésta es una declaración*/
-  /*El primero es la propiedad de ese selector, y todo lo segundo después del ':' es el valor(es) para esa propiedad*/
+```css
+/* Todo esto es una regla */
+body { /* Selector. Ya sea de etiqueta expresa HTML, clase o id */
+  /* Todo dentro de los corchetes es la declaración */
+  /* El primero es la propiedad de ese selector, y todo lo segundo después del ':' es el valor(es) para esa propiedad */
   background-color: red;
 }
 ```
+
+Existen diferentes tipos de selectores, como ejemplo:
+
+- Etiqueta simple: `header`, `p`, `nav`, `ol`, etc.
+- Descendente: `section article ol li a`
+- Por id, que son únicos: `#portafolio`
+- Clases: `.ancho-general`
+- Otros más sofisticados o complementarios que se veán luego.
 
 [Selectors CSS3 - MDN web docs. EN](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Selectors)
 
@@ -183,3 +192,74 @@ body { /*Selector. Ya sea de etiqueta expresa HTML, clase o id*/
 Los navegadores incluyen estilos predeterminados para cada elemento html. Esto significa que aún cuando no hayas definido o asignado ningún estilo a tus etiquetas, éstas tendrán una apariencia particular que es muy similar en todos los navegadores, aunque no necesariamente idéntica.
 
 ---
+---
+
+## Agregando Clases a los componentes escritos en HTML
+
+Para aplicar estilos a los componentes html, lo más común y recomendable es hacerlo a través de clases que se asignan al elemento html mediante el atributo class.
+
+Un elemento html puede tener varias clases, se deben indicar en el mismo atributo `class` _pero separadas por un **espacio en blanco**_.
+
+```css
+/* Code CSS3 */
+.container-general {
+  width: 80%;
+}
+
+.backColor-red {
+  background-color: red;
+}
+```
+
+```html
+<!-- Code HTML5 -->
+<p class="container-general backColor-red">
+  loremsum y todas las cosas lindas de la vida :V
+</p>
+```
+
+Al escoger los nombres de clases, se debe tener en cuenta que se puedan aplicar a muchos elementos o a elementos particulares, así que la claridad y precisión en su identificación facilitará dar un contexto y mantenimiento en el futuro.
+
+Algunos de los estándares más usados para la identificación de clases son:
+
+- [OOCSS](https://www.keycdn.com/blog/oocss)
+- [BEM](http://getbem.com/naming/)
+- [Component CSS](https://www.sitepoint.com/introducing-ccss-component-css/)
+
+## Colores en CSS
+
+Los colores en CSS pueden ser representados de al menos tres formas diferentes:
+
+- Representados con palabras claves para cada color, como: `red`, `green`, `blue`, `pink`, `yellow`, `black`, etc.
+- Usando la composición de tres colores (rojo, verde y azul): para esto podemos usar notación hexadecimal o las funciones `rgb()` y `rgba()`
+- Usando la composición mediante valores de Matiz, Saturación y Luminosidad con: `hls()` y `hlsa()`
+
+```css
+.box-colored-1 {
+  color: white;
+  background-color: rgba(10, 30, 80, 0.8);
+  border-color: hsl(60, 65%, 20%);
+}
+```
+
+> NOTA - __los valores hexadecimales__. cada color está representado por 6 dígitos, que representan 3 pares de hexadecimales FF - FF - FF (rojo, verde y azul), en el que cada par puede tomar valores hexadecimales entre 00 y FF. Cada uno equivale a valores decimales entre 0 y 255, donde 0 es la ausencia de ese color y 255 la mayor cantidad disponible. De esta manera cada color se forma por la combinación de diferentes proporciones de rojo, verde y azul.
+
+> - #000000 es equivalente a Negro
+> - #FF0000 es equivalente a Rojo
+> - #00FF00 es equivalente a Verde
+> - #0000FF es equivalente a Azul
+> - #FFFFFF es equivalente a Blanco
+
+## Unidades de medida
+
+Hay varias unidades de medida con las que se puede trabajar en CSS: _**`px`**_, `%`, `em`, `rem`, `pt`, `fr`, `vw`, `vh`
+
+Las medidas más comunes y utilizadas son los píxeles. Un píxel es la menor unidad homogénea en color que forma parte de una imagen digital. Es la unidad más práctica y fácil de utilizar y manipular; por esta razón en este curso será la que se utilice mayormente (`px`).
+
+## Inspector de elementos
+
+Para ver y depurar el código de una página html, los navegadores webs incluyen una herramienta llamada Inspector de elementos, o simplemente inspector. Éste abre una ventana con secciones que contiene una serie de espacios con información técnica muy detallada sobre todo lo que sucede en el DOM, incluídos los estilos que tienen aplicados cada uno de los elementos del html.
+
+La mayoría de los navegadores incluye algún tipo de Inspector, en el curso usamos Google Chrome, pero la misma herramienta (o similar) la encuentras en Firefox, Opera, Edge, etc.
+
+Utilizando el Inspector podemos hacer modificaciones (temporales) manualmente en el html de cualquier sitio web, consultar sus estilos y recursos enlazados, hacer pruebas en tiempo real con JavaSsript, monitor de variables o eventos entre muchas otras tareas útiles para cualquier desarrollador.
