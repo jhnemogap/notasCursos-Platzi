@@ -233,6 +233,14 @@ Si por alguna razón en el último _commit_ se olvido agregar un elemento o edic
 git commit --amend -m "comentario opcional que reemplaza el último realizado"
 ```
 
+Existe una combinación que mejora la productividad al realizar un `git add` y `git commit -m` en un solo paso pero con un detalle.
+
+Este comando realiza lo esperado pero sólo agrega al _staging_ los archivos que ya estaban en seguimiento previamente (_tracked_) y termina con el _commit_ correspondiente. Esto significa que cualquier archivo que no este siendo seguido (_untracked_) no será agregado al repositorio con el _commit_.
+
+```bash
+git commit -am "Este sería el comentario del commit"
+```
+
 ---
 
 ---
@@ -242,19 +250,28 @@ git commit --amend -m "comentario opcional que reemplaza el último realizado"
 Este comando sin más banderas por defecto presenta toda la historia de cada _commit_, donde cada uno muestra los siguientes detalles:
 
 ```git
-commit: 124325455365745...2342342
-Author: Felipe Manter <felipe.manter@email.com>
-Date: Jueves agosto 29 22:43:30 2019
-    Mensaje del commit, si es que tiene. Es el comentario.
+git log
+> commit: 124325455365745...2342342
+> Author: Felipe Manter <felipe.manter@email.com>
+> Date: Jueves agosto 29 22:43:30 2019
+>    Mensaje del commit, si es que tiene. Es el comentario.
 ```
 
 Dado que con el tiempo se agregan más y más _commits_, la gran cantidad de datos hará difícil leer el log. Existen opciones o configuraciones para mejorar la visualización según la necesidad. _**Es uno de los comandos más personalizables**_
 
-### Ver solamente los 'n' últimos _commits_
+### Ver solamente los 'n' _commits_ más recientes
 
 ```bash
 # Muestra los tres más recientes
 git log -3
+```
+
+### git log --stat
+
+Muestra las diferencias históricas entre cada paso de _commit_ de manera resumida.
+
+```bash
+git log --stat
 ```
 
 ### git reflog
@@ -306,16 +323,6 @@ Similar al anterior pero agrega un poco más de formato
 ```bash
 git blame -L12,20 -c index.html
 ```
-
----
-
----
-
-## Las ramas (_branch_) en Git
-
----
-
-## git stash
 
 ---
 
@@ -376,7 +383,374 @@ git reset --hard _sha1_
 
 ---
 
-## git tags (etiquetas de hitos en un proyecto)
+## Las Ramas en Git
+
+**¿Por qué crear otra rama?** Esto es necesario cuando se requiere trabajar en una característica en partícular del proyecto y para noa afectar la rama principal (_la base_).
+
+Con el siguiente comando se crea una rama independiente basada en el HEAD de la rama actual.
+
+```bash
+git branch miNuevaRama
+```
+
+### Listar ramas del repositorio
+
+Luego de crear varias ramas, es muy útil poder listarlas. Donde con bandera se puede lograr:
+
+- `-l` : Listar todas las ramas locales dentro del repositorio.
+- `-r` : listar todas las ramas remotas del repositorio.
+- `-a` : listar todas las ramas locales y remotas.
+
+```bash
+git branch -l
+
+git branch -r
+
+git branch -a
+```
+
+Git cuenta con una interfaz gráfica por defecto, que debe ser usada como herramienta auxiliar (recomendación de los expertos).
+
+```bash
+gitk
+```
+
+### Borrar y renombrar ramas locales
+
+Para borrar una rama existen dos bandera que se pueden usar. `-d` indica eliminar la rama, pero en ocasiones el sistema git no lo permite y si aún se desea se debe forzar el borrado con `-D`.
+
+```bash
+git branch -d miNuevaRama
+
+git branch -D miNuevaRama
+```
+
+### Cambiar a otra rama
+
+Con `branch` sólo se crean nuevas ramas pero no se cambia de la rama actual a otra. Por este motivo se debe usar `checkout`.
+
+```bash
+> (master)
+
+git checkout miRama2
+
+> (miRama2)
+```
+
+Ahora, el flujo de trabajo indicaría que debemos usar primer crear la nueva rama `git branch nombreNuevaRama` y luego cambiar a ésta si se desea trabajar allí con `git checkout nombreNuevaRama`. En este caso Git combina en un solo paso estos dos procesos en uno solo, creando la rama nueva y moviéndose inmediatamente a ésta:
+
+```bash
+git checkout -b nombreNuevaRama
+```
+
+Estando en una rama específica también es posible navegar entre los _commits_ de esa ella. Donde crea una rama virtual y se mueve a ésta sin modificar el historial como lo hace `reset`.
+
+```bash
+git checkout _sha1_
+```
+
+### Fusión o mezcla de ramas
+
+[Diferencias entre `merge` y `rebase`](https://medium.com/@MiguelCasas/diferencia-entre-git-rebase-y-git-merge-workshop-de-git-8622dedde2d7)
+
+Si se requiere mezclar los cambios de un rama con otra rama, lo primero será cambiar a la rama que deseamos sea la principal (la base) para luego ejecutar:
+
+```bash
+git merge nombreRama2
+```
+
+De este modo, la rama secundaria (ej. _`nombreRama2`_) se fusiona sobre la primera en la que se está actualmente. No obstante, la rama secundaria (la fusionada) no desaparece; lo que realmente se hace es una "copia" de la rama dos y se fusiona con la rama uno.
+
+Al caso anterior, existe un modo de fusión donde la mezcla hace que desaparezca la rama dos y reescribe de manera "brutal" el historial de la rama uno, el comando es `rebase`.
+
+Es una buena practica en el caso del `rebase`: primero realizar el _rebase_ sobre la rama que va a desaparecer con una copia de la rama uno, luego que todo este bien, si se haría el _rebase_ sobre la rama requerida. Sólo usa `rebase` cuando sea extractamente necesario o tu equipo de trabajo te odiará.
+
+---
+
+## git stash
+
+> **CUIDADO**: cuando se mueve entre ramas se heredan archivos modificados, los _untracked_ y los del _staging directory_. Entonces se debe tener cuidado de cambiar de rama cuando existen archivos en el _staging area_ sin _commits_.
+
+Para solventar el problema de heredar archivos del _staging area_ si no es posible revertir los cambios o hacer un _commit_ antes de cambiar de rama, existe `stash`.
+
+**Resumen: `stach`** es un estado intermedio, donde guardaremos el estado actual del _working directory_ y del _staging directory_ sin tener que realizar un _commit_ forzado antes de cambiar de rama.
+
+Según se está trabajando en un apartado de un proyecto, normalmente el espacio de trabajo suele estar en un estado inconsistente. Pero puede que se necesite cambiar de rama durante un breve tiempo para ponerse a trabajar en algún otro tema urgente. Esto plantea el problema de confirmar cambios en un trabajo medio hecho, simplemente para poder volver a ese punto más tarde. Y su solución es el comando `git stash`.
+
+Este comando de guardado rápido (_stashing_) toma el estado del espacio de trabajo, con todas las modificaciones en los archivos bajo control de cambios, y lo guarda en una pila provisional. Desde allí, se podrán recuperar posteriormente y volverlas a aplicar de nuevo sobre el espacio de trabajo.
+
+### Lo básico de Crear, aplicar y borrar con _`stash`_
+
+```bash
+git stash
+
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#      modified:   index.html
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#
+#      modified:   lib/simplegit.rb
+```
+
+Aplica el último _stash_ apilado. La pila de _stash_ es de **tipo LIFO** (del inglés _Last In, First Out_, «último en entrar, primero en salir»)
+
+```bash
+git stash apply
+
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#
+#      modified:   index.html
+#      modified:   lib/simplegit.rb
+```
+
+Como se ve en la salida del comando, Git vuelve a aplicar los correspondientes cambios en los archivos que estaban modificados. Pero no conserva la información de lo que estaba o no estaba añadido al área de preparación. En este ejemplo se han aplicado los cambios de vuelta sobre un espacio de trabajo limpio, en la misma rama. Pero no es esta la única situación en la que se pueden re-aplicar cambios. Es perfectamente posible guardar rápidamente (stash) el estado de una rama. Cambiar posteriormente a otra rama. Y proceder a aplicar sobre esta otra rama los cambios guardados, en lugar de sobre la rama original. Es posible incluso aplicar de vuelta cambios sobre un espacio de trabajo inconsistente, donde haya otros cambios o algunos archivos añadidos al área de preparación. (Git notificará de los correspondientes conflictos de fusión si todo ello no se puede aplicar limpiamente.)
+
+Las modificaciones sobre los archivos serán aplicadas; pero no así el estado de preparación. Para conseguir esto último, es necesario emplear la opción `--index` del comando `git stash apply`. Con ella se le indica que debe intentar re-aplicar también el estado de preparación de los archivos. Y asi se puede conseguir volver exactamente al punto original:
+
+```bash
+git stash apply --index
+
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#      modified:   index.html
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#
+#      modified:   lib/simplegit.rb
+```
+
+Ahora, si se desea aplicar un conjunto de cambios anteriores al más reciente  guardado se debe especificar así:
+
+```bash
+git stash apply stash@{2}
+```
+
+Para listar los _stash_ guardados se usa:
+
+```bash
+git stash list
+> stash@{0}: WIP on master: 049d078 added the index file
+> stash@{1}: WIP on master: c264051... Revert "added file_size"
+> stash@{2}: WIP on master: 21d80a5... added number to log
+```
+
+Los comandos `git stash apply` tan solo recuperan cambios almacenados en la pila de guardado rápido, sin afectar al estado de la pila. Es decir, los cambios siguen estando guardados en la pila. Para quitarlos de ahí, es necesario lanzar expresamente el comando e indicar el número de guardado a borrar de la pila:
+
+```bash
+$ git stash drop stash@{0}
+Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
+```
+
+### Modos auxiliares interesantes de _`stash`_
+
+#### Aplicar y eliminar conjunto de cambios en un comando
+
+También es posible utilizar un comando que aplica cambios de un guardado y lo retira inmediatamente de la pila.
+
+```bash
+git stash pop
+```
+
+#### Creando una rama desde un guardado rápido temporal
+
+Si se almacena rápidamente un cierto trabajo, se deja en la pila durante bastante tiempo, y se continua mientras tanto con otros trabajos sobre la misma rama. Es muy posible que se presenten problemas al tratar de re-aplicar los cambios guardados tiempo atrás. Si para recuperar esos cambios se ha de modificar un archivo que también haya sido modificado en los trabajos posteriores, se dará un conflicto de fusión (_merge conflict_) y será preciso resolverlo manualmente. Una forma más sencilla de re-aplicar cambios es utilizando el comando `git stash branch`. Este comando crea una nueva rama, extrayendo la confirmación de cambios original en la que se estaba cuando los cambios fueron guardados en la pila, reaplica estos sobre dicha rama y los borra de la pila si se consigue completar el proceso con éxito.
+
+```bash
+git stash branch testchanges
+
+> Switched to a new branch "testchanges"
+# On branch testchanges
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#      modified:   index.html
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#
+#      modified:   lib/simplegit.rb
+#
+Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
+```
+
+Este es un buen atajo para recuperar con facilidad un cierto trabajo desde la pila y continuar con él en una nueva rama.
+
+Tomado de [Guardado rápido provisional - Git](https://git-scm.com/book/es/v1/Las-herramientas-de-Git-Guardado-r%C3%A1pido-provisional).
+
+---
+
+---
+
+## Etiqueta hitos en un proyecto _`git tag`_
+
+Tomado de [Creando etiquetas](https://git-scm.com/book/es/v1/Fundamentos-de-Git-Creando-etiquetas)
+
+Como muchos VCSs, Git tiene la habilidad de etiquetar (tag) puntos específicos en la historia como importantes. Generalmente la gente usa esta funcionalidad para marcar puntos donde se ha lanzado alguna versión (v1.0, y así sucesivamente). En esta sección aprenderás cómo listar las etiquetas disponibles, crear nuevas etiquetas y qué tipos diferentes de etiquetas hay.
+
+### Listando tus etiquetas
+
+Listar las etiquetas disponibles en Git es sencillo, Simplemente escribe `git tag`:
+
+```bash
+git tag
+
+v0.1
+v1.3
+```
+
+Este comando lista las etiquetas en orden alfabético; el orden en el que aparecen no es realmente importante.
+
+También puedes buscar etiquetas de acuerdo a un patrón en particular. El repositorio fuente de Git, por ejemplo, contiene mas de 240 etiquetas. Si solo estás interesado en la serie 1.4.2, puedes ejecutar esto:
+
+```bash
+git tag -l 'v1.4.2.*'
+
+v1.4.2.1
+v1.4.2.2
+v1.4.2.3
+v1.4.2.4
+```
+
+### Creando etiquetas
+
+Git usa dos tipos principales de etiquetas: ligeras y anotadas. Una etiqueta ligera es muy parecida a una rama que no cambia —un puntero a una confirmación específica—. Sin embargo, las etiquetas anotadas son almacenadas como objetos completos en la base de datos de Git. Tienen suma de comprobación; contienen el nombre del responsable, correo electrónico y fecha; tienen mensaje de etiquetado; y pueden estar firmadas y verificadas con GNU Privacy Guard (GPG). Generalmente se recomienda crear etiquetas anotadas para disponer de toda esta información; pero si por alguna razón quieres una etiqueta temporal y no quieres almacenar el resto de información, también tiene disponibles las etiquetas ligeras.
+
+#### Etiquetas anotadas
+
+Crear una etiqueta anotada en Git es simple. La forma más fácil es especificar `-a` al ejecutar el comando _tag_:
+
+```bash
+git tag -a v1.4 -m 'my version 1.4'
+git tag
+
+v0.1
+v1.3
+v1.4
+```
+
+El parámetro `-m` especifica el mensaje, el cual se almacena con la etiqueta. Si no se especifica un mensaje para la etiqueta anotada, Git lanza tu editor para poder escribirlo.
+
+Puedes ver los datos de la etiqueta junto con la confirmación que fue etiquetada usando el comando `git show`:
+
+```bash
+git show v1.4
+
+tag v1.4
+Tagger: Scott Chacon <schacon@gee-mail.com>
+Date:   Mon Feb 9 14:45:11 2009 -0800
+
+my version 1.4
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
+Author: Scott Chacon <schacon@gee-mail.com>
+Date:   Sun Feb 8 19:02:46 2009 -0800
+
+  Merge branch 'experiment'
+```
+
+Esto muestra la información del autor de la etiqueta, la fecha en la que la confirmación fue etiquetada, y el mensaje de anotación antes de mostrar la información de la confirmación.
+
+#### Etiquetas ligeras
+
+Otra forma de etiquetar confirmaciones es con una etiqueta ligera. Esto es básicamente la suma de comprobación de la confirmación almacenada en un archivo «ninguna otra información es guardada». Para crear una etiqueta ligera no añadas las opciones `-a`, `-s` o `-m`:
+
+```bash
+git tag v1.4-lw
+git tag
+
+v0.1
+v1.3
+v1.4
+v1.4-lw
+v1.5
+```
+
+Esta vez, si ejecutas el comando `git show` en la etiqueta, no verás ninguna información extra. El comando simplemente muestra la confirmación.
+
+```bash
+git show v1.4-lw
+
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
+Author: Scott Chacon <schacon@gee-mail.com>
+Date:   Sun Feb 8 19:02:46 2009 -0800
+
+  Merge branch 'experiment'
+```
+
+#### Etiquetando más tarde
+
+Puedes incluso etiquetar confirmaciones después de avanzar sobre ellas. Supongamos un histórico de confirmaciones que se parece a esto:
+
+```bash
+git log --pretty=oneline
+
+15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
+a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
+0d52aaab4479697da7686c15f77a3d64d9165190 one more thing
+6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch 'experiment'
+0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc added a commit function
+4682c3261057305bdd616e23b64b0857d832627b added a todo file
+166ae0c4d3f420721acbb115cc33848dfcc2121a started write support
+9fceb02d0ae598e95dc970b74767f19372d61af8 updated rakefile
+964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
+8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
+```
+
+Ahora, digamos que se olvido etiquetar el proyecto en _v1.2_, que estaba en la confirmación _"updated rakefile"_. Puedes hacerlo ahora. Para etiquetar esa confirmación especifica la suma de comprobación de la confirmación (o una parte de la misma) al final del comando:
+
+```bash
+git tag -a v1.2 -m 'version 1.2' 9fceb02
+```
+
+Se puede confirmar:
+
+```bash
+git tag
+
+v0.1
+v1.2
+v1.3
+v1.4
+v1.4-lw
+v1.5
+```
+
+```bash
+git show v1.2
+
+tag v1.2
+Tagger: Scott Chacon <schacon@gee-mail.com>
+Date:   Mon Feb 9 15:32:16 2009 -0800
+
+version 1.2
+commit 9fceb02d0ae598e95dc970b74767f19372d61af8
+Author: Magnus Chacon <mchacon@gee-mail.com>
+Date:   Sun Apr 27 20:43:35 2008 -0700
+
+    updated rakefile
+```
+
+#### Borrar un _tag_
+
+Para borrar un _tag_ en el repositorio local, solo se ejecuta el comando `tag` con la bandera `-d` seguido de la etiqueta creada, ejemplo `v1.2.5`:
+
+```bash
+git tag -d v1.2.5
+```
+
+#### Aplicando _commits_ específicos en otra rama [cherry-pick](https://www.runroom.com/realworld/seleccionando-commits-cherry-pick)
+
+---
 
 ---
 
@@ -458,6 +832,8 @@ El parámetro global se puede retirar, así solamente sería un alias para el re
 ```bash
 git config --global alias.miComandoLog "git log --all --graph --decorate --oneline"
 ```
+
+---
 
 ---
 
