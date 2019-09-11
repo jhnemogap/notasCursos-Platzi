@@ -645,13 +645,13 @@ Puedes ver los datos de la etiqueta junto con la confirmación que fue etiquetad
 git show v1.4
 
 tag v1.4
-Tagger: Scott Chacon <schacon@gee-mail.com>
+Tagger: Scott Chacon <lee@gee-mail.com>
 Date:   Mon Feb 9 14:45:11 2009 -0800
 
 my version 1.4
 commit 15027957951b64cf874c3557a0f3547bd83b3ff6
 Merge: 4a447f7... a6b4c97...
-Author: Scott Chacon <schacon@gee-mail.com>
+Author: Scott Chacon <lee@gee-mail.com>
 Date:   Sun Feb 8 19:02:46 2009 -0800
 
   Merge branch 'experiment'
@@ -681,7 +681,7 @@ git show v1.4-lw
 
 commit 15027957951b64cf874c3557a0f3547bd83b3ff6
 Merge: 4a447f7... a6b4c97...
-Author: Scott Chacon <schacon@gee-mail.com>
+Author: Scott Chacon <lee@gee-mail.com>
 Date:   Sun Feb 8 19:02:46 2009 -0800
 
   Merge branch 'experiment'
@@ -729,12 +729,12 @@ v1.5
 git show v1.2
 
 tag v1.2
-Tagger: Scott Chacon <schacon@gee-mail.com>
+Tagger: Scott Chacon <lee@gee-mail.com>
 Date:   Mon Feb 9 15:32:16 2009 -0800
 
 version 1.2
 commit 9fceb02d0ae598e95dc970b74767f19372d61af8
-Author: Magnus Chacon <mchacon@gee-mail.com>
+Author: Magnus Chacon <any@gee-mail.com>
 Date:   Sun Apr 27 20:43:35 2008 -0700
 
     updated rakefile
@@ -835,6 +835,14 @@ git config --global alias.miComandoLog "git log --all --graph --decorate --oneli
 
 ---
 
+## Ignorar archivos del _working directory_ para el repositorio
+
+Para evitar que algunos archivos no deseados estén en seguimiento y por lo tanto se les realice un versionado, se usa un archivo en la carpeta raíz del proyecto llamado _.gitignore_ (con el punto inicial de oculto).
+
+En este archivo se indicará todos los tipos de archivos que se desean ignorar para el VCS de git.
+
+---
+
 ---
 
 ---
@@ -842,3 +850,311 @@ git config --global alias.miComandoLog "git log --all --graph --decorate --oneli
 ---
 
 ## GitHub
+
+Cuando se cuenta con un repositorio remoto (Interno, GitHub, GitLab, etc.) el flujo de trabajo será muy similar. En este caso veremos Git & GitHub.
+
+### Flujo de trabajo esperado
+
+Agregar _commits_ y luego empujar los cambios al servidor remoto. El flujo anterior obedecé al caso cuando ya he conectado ambas repositorios local / remoto y nos dedicamos a mantenerlo actualizado.
+
+```bash
+git add .
+
+git commit -m "Primer commit"
+
+git push
+```
+
+### Conectarse con GitHub
+
+Existen dos modos de conectarse desde el repositorio local con GitHub:
+
+- HTTPS
+- SSH
+
+#### HTTPS
+
+En GitHub el modo más simple es usando conexión HTTPS. Donde sólo pide el usuario y contraseña de la cuenta de GitHub y ya estaría listo para trabajar.
+
+![github link https](img-md/github-link-https.png)
+
+```bash
+# Para un repo local que ya existe
+git remote add _url-HTTPS_
+```
+
+```bash
+# Clona el repo remoto desde ceros
+git clone _url-HTTPS_
+git pull
+```
+
+#### SSH
+
+El segundo método no es tan simple como el primero, pero es mejor en cuanto a la seguridad de la conexión.
+
+1. **Generar las llaves SSH**: tener una llave SSH permite una conexión fácil y segura con servidores. Para crear una llave SSH utilizamos el siguiente comando.
+   - **`ssh-keygen -t rsa -b 4096 -C "comentario para recordar el pasado"`**
+     - _`ssh-keygen`_: comando para crear llaves ssh
+     - _`-t rsa`_: donde `-t` es el parámetro para usar un tipo de algoritmo especifico. En este caso es el algoritmo `rsa`, en nombre de sus creadores Rivest, Shamir y Adelman.
+     - _`-b 4096`_: y `-b` que indica la cantidad de bits de la llave. Con 2048 podría ser suficiente pero con el doble es mejor y tampoco es excesivo.
+     - _`-C "comentario ..."`_: finalmente `-C` para darle un comentario a la llave.
+     - ![github link ssh](img-md/github-link-ssh.png)
+2. **Terminar de configurar el sistema**: En este momento sólo se ha pedido la creación de las llaves correspondientes, y lo más probable es que el comando nos pregunte si deseamos usar la ruta por defecto para guardar los archivos. Se generan dos archivos, la llave privada y la pública que es el archivo con extensión `.pub`. Es probable que haga falta:
+   - Iniciar el agente generador de llaves con: **`eval $(ssh-agent)`**
+   - Agregar la llave generada al servidor ssh iniciado con: **`ssh-add /YourDirLocalPrivateKey`**
+   - Ver el contenido de la llave pública para copiar y pegar en el servidor: `cat id_rsa.pub`
+3. **Entregar la llave publica local a GitHub**
+   - Copiar el contenido de la llave publica local.
+   - Entrar a la configuración de llaves SSH en GitHub.
+   - Crear una nueva llave SSH en GitHub con el contenido copiado.
+   - _**EXTRA**_: Ahora si ya tenemos el repositorio local previamente vinculado por HTTPS se debe cambiar al SSH con el link SSH dado por GitHub y ejecutar:
+     - **`git remote set-url _url-SSH-de-GitHub_`**
+
+```bash
+# Para un repo local que ya existe
+git remote add _url-SSH_
+```
+
+```bash
+# Clona el repo remoto desde ceros
+git clone _url-SSH_
+git pull
+```
+
+### El inicio de vincular un repositorio local al remoto
+
+Cuando creas un repositorio remoto en GitHub y en local has iniciado con `git init`, entonces se genera un error de historias diferentes entre ambos repositorios (local y remoto). Veamos el caso desde la inclusión del repositorio remoto y la solución a este inconveniente.
+
+Agregar la referencia al repo remoto se realiza con el comando `remote` la bandera `add` seguido del nombre del repositorio local, que para efectos prácticos suelen llamarlo `origin`, y finalmente la dirección url del repo remoto.
+
+```bash
+git remote add origin _URL_
+```
+
+Ahora, si se hiciera `git push origin master` lo más seguro es que rechaze la actualización pues son proyectos distintos y no vínculados aún.
+
+Es entonces cuando el sistema indica la necesidad de traer los cambios del remoto al local con `git pull`. No obstante, la primera vez Git se reusará a la mezcla de los _commits_ pues aún las historias son distintas.
+
+```bash
+git pull origin master
+```
+
+Para solventar dicho inconveniente se ejecuta el siguiente comando que traerá los cambios del remoto a la rama local.
+
+```bash
+git pull origin master --allow-unrelated-histories
+```
+
+Se verifica si la url se guardo.
+
+```bash
+git remote -v
+```
+
+Es entonces, cuando ya es posible enviar los nuevos cambios del repositorio local al remoto.
+
+```bash
+git push origin master
+```
+
+### Buena practica `fetch` y `merge`
+
+Es una practica recomendada en vez de usar `git pull`, usar su trabajo por separado con:
+
+1. `git fetch upST`
+   - Trae la actualización del repositorio remoto al vínculo del local/remoto.
+2. `git merge upST/master`
+   - Para aplicar los cambios al repositorio local.
+
+---
+
+---
+
+### Comandos hasta ahora para operar con GitHub
+
+Fuera de los comandos habituales:
+
+- `git clone ...`
+- `git merge ...`
+- `git remote add ...`
+- `git remote -v ...`
+- `git pull ...`
+  - `git fetch ...`
+  - `git merge ...`
+- `git push ...`
+
+Existen muchas cosas más que conocer, pero definitivamente hay algunas rápidas que deberías conocer ahora para iniciar en este mundo "mágico"  :sparkles:  :tophat:  :tada:
+
+---
+
+### Ramas Remotas
+
+Copia de [Ramificaciones en Git - Ramas Remotas
+](https://git-scm.com/book/es/v1/Ramificaciones-en-Git-Ramas-Remotas)
+
+Las ramas remotas son referencias al estado de ramas en tus repositorios remotos. Son ramas locales que no puedes mover; se mueven automáticamente cuando estableces comunicaciones en la red. Las ramas remotas funcionan como marcadores, para recordarte en qué estado se encontraban tus repositorios remotos la última vez que conectaste con ellos.
+
+Suelen ser referencias como `(remoto)/(rama)`. Por ejemplo, si quieres saber cómo estaba la rama `master` en el remoto `origin`. Puedes revisar la rama `origin/master`. O si estás trabajando en un problema con un compañero y este envía (_push_) una rama `iss53`, tu tendrás tu propia rama de trabajo local `iss53`; pero la rama en el servidor apuntará a la última confirmación (_commit_) en la rama `origin/iss53`.
+
+Esto puede ser un tanto confuso, pero intentemos aclararlo con un ejemplo. Supongamos que tienes un servidor Git en tu red, en _git.ourcompany.com_. Si haces un clón desde ahí, Git automáticamente lo denominará `origin`, traerá (`pull`) sus datos, creará un apuntador hacia donde esté en ese momento su rama `master`, denominará la copia local `origin/master`; y será inamovible para ti. Git te proporcionará también tu propia rama `master`, apuntando al mismo lugar que la rama `master` de `origin`; siendo en esta última donde podrás trabajar.
+
+>![git-ramaRemota_001](img-md/git-ramaRemota_001.png)
+>
+>_Fig 1. git-ramaRemota_: Un clón Git te proporciona tu propia rama master y otra rama `origin/master` apuntando a la rama `master` original.
+
+Si haces algún trabajo en tu rama `master` local, y al mismo tiempo, alguna otra persona lleva (`push`) su trabajo al servidor _git.ourcompany.com_, actualizando la rama `master` de allí, te encontrarás con que ambos registros avanzan de forma diferente. Además, mientras no tengas contacto con el servidor, tu apuntador a tu rama `origin/master` no se moverá (Fig 2. git-ramaRemota).
+
+>![git-ramaRemota_002](img-md/git-ramaRemota_002.png)
+>
+>_Fig 2. git-ramaRemota_: Trabajando localmente y que otra persona esté llevando (`push`) algo al servidor remoto, hace que cada registro avance de forma distinta.
+
+Para sincronizarte, puedes utilizar el comando `git fetch origin`. Este comando localiza en qué servidor está el origen (en este caso _git.ourcompany.com_), recupera cualquier dato presente allí que tu no tengas, y actualiza tu base de datos local, moviendo tu rama `origin/master` para que apunte a esta nueva y más reciente posición (ver Figura 3. git-ramaRemota).
+
+>![git-ramaRemota_003](img-md/git-ramaRemota_003.png)
+>
+>_Figura 3. git-ramaRemota_: El comando `git fetch` actualiza tus referencias remotas.
+
+Para ilustrar mejor el caso de tener múltiples servidores y cómo van las ramas remotas para esos proyectos remotos. Supongamos que tienes otro servidor Git; utilizado solamente para desarrollo, por uno de tus equipos _sprint_. Un servidor en _git.team1.ourcompany.com_. Puedes incluirlo como una nueva referencia remota a tu proyecto actual, mediante el comando `git remote add`, tal y como vimos en el capítulo 2. Puedes denominar `teamone` a este remoto, poniendo este nombre abreviado para la URL (ver Figura 4. git-ramaRemota)
+
+>![git-ramaRemota_004](img-md/git-ramaRemota_004.png)
+>
+>_Figura 4. git-ramaRemota_: Añadiendo otro servidor como remoto.
+
+Ahora, puedes usar el comando `git fetch teamone` para recuperar todo el contenido del servidor que tu no tenias. Debido a que dicho servidor es un subconjunto de de los datos del servidor `origin` que tienes actualmente, Git no recupera (`fetch`) ningún dato; simplemente prepara una rama remota llamada `teamone/master` para apuntar a la confirmación (`commit`) que `teamone` tiene en su rama `master`.
+
+>![git-ramaRemota_005](img-md/git-ramaRemota_005.png)
+>
+>_Figura 5. git-ramaRemota_: Obtienes una referencia local a la posición en la rama `master` de `teamone`.
+
+#### Publicando
+
+Cuando quieres compartir una rama con el resto del mundo, has de llevarla (push) a un remoto donde tengas permisos de escritura. Tus ramas locales no se sincronizan automáticamente con los remotos en los que escribes. Sino que tienes que llevar (push) expresamente, cada vez, al remoto las ramas que desees compartir. De esta forma, puedes usar ramas privadas para el trabajo que no deseas compartir. Llevando a un remoto tan solo aquellas partes que deseas aportar a los demás.
+
+Si tienes una rama llamada `serverfix`, con la que vas a trabajar en colaboración; puedes llevarla al remoto de la misma forma que llevaste tu primera rama. Con el comando `git push (remoto) (rama)`:
+
+```bash
+git push origin serverfix
+
+# Counting objects: 20, done.
+# Compressing objects: 100% (14/14), done.
+# Writing objects: 100% (15/15), 1.74 KiB, done.
+# Total 15 (delta 5), reused 0 (delta 0)
+# To git@github.com:lee/simplegit.git
+#   * [new branch]      serverfix -> serverfix
+```
+
+Esto es un poco como un atajo. Git expande automáticamente el nombre de rama serverfix a `refs/heads/serverfix:refs/heads/serverfix`, que significa: "coge mi rama local `serverfix` y actualiza con ella la rama `serverfix` del remoto". Volveremos más tarde sobre el tema de `refs/heads/`, viéndolo en detalle en el capítulo 9; aunque puedes ignorarlo por ahora. También puedes hacer `git push origin serverfix:serverfix`, que hace lo mismo; es decir: "coge mi `serverfix` y hazlo el `serverfix` remoto".
+
+Puedes utilizar este último formato para llevar una rama local a una rama remota con otro nombre distinto. Si no quieres que se llame `serverfix` en el remoto, puedes lanzar, por ejemplo, `git push origin serverfix:awesomebranch`; para llevar tu rama `serverfix` local a la rama `awesomebranch` en el proyecto remoto.
+
+La próxima vez que tus colaboradores recuperen desde el servidor, obtendrán bajo la rama remota `origin/serverfix` una referencia a donde esté la versión de `serverfix` en el servidor:
+
+```bash
+git fetch origin
+
+# remote: Counting objects: 20, done.
+# remote: Compressing objects: 100% (14/14), done.
+# remote: Total 15 (delta 5), reused 0 (delta 0)
+# Unpacking objects: 100% (15/15), done.
+# From git@github.com:lee/simplegit
+#   * [new branch]      serverfix    -> origin/serverfix
+```
+
+Es importante destacar que cuando recuperas (`fetch`) nuevas ramas remotas, no obtienes automáticamente una copia editable local de las mismas. En otras palabras, en este caso, no tienes una nueva rama `serverfix`. Sino que únicamente tienes un puntero no editable a `origin/serverfix`.
+
+Para integrar (`merge`) esto en tu actual rama de trabajo, puedes usar el comando `git merge origin/serverfix`. Y si quieres tener tu propia rama `serverfix`, donde puedas trabajar, puedes crearla directamente basándote en rama remota:
+
+```bash
+git checkout -b serverfix origin/serverfix
+
+# Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+# Switched to a new branch "serverfix"Switched to a new branch "serverfix"
+```
+
+Esto sí te da una rama local donde puedes trabajar, comenzando donde `origin/serverfix` estaba en ese momento.
+
+#### Haciendo seguimiento a las ramas
+
+Activando (`checkout`) una rama local a partir de una rama remota, se crea automáticamente lo que podríamos denominar "una rama de seguimiento" (_tracking branch_). Las ramas de seguimiento son ramas locales que tienen una relación directa con alguna rama remota. Si estás en una rama de seguimiento y tecleas el comando `git push`, Git sabe automáticamente a qué servidor y a qué rama ha de llevar los contenidos. Igualmente, tecleando `git pull` mientras estamos en una de esas ramas, recupera (`fetch`) todas las referencias remotas y las consolida (`merge`) automáticamente en la correspondiente rama remota.
+
+Cuando clonas un repositorio, este suele crear automáticamente una rama `master` que hace seguimiento de `origin/master`. Y es por eso que `git push` y `git pull` trabajan directamente, sin necesidad de más argumentos. Sin embargo, puedes preparar otras ramas de seguimiento si deseas tener unas que no hagan seguimiento de ramas en `origin` y que no sigan a la rama `master`. El ejemplo más simple, es el que acabas de ver al lanzar el comando `git checkout -b [rama] [nombreremoto]/[rama]`. Si tienes la versión 1.6.2 de Git, o superior, puedes utilizar también el parámetro `--track`:
+
+```bash
+git checkout --track origin/serverfix
+
+# Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+# Switched to a new branch "serverfix"Switched to a new branch "serverfix"
+```
+
+Para preparar una rama local con un nombre distinto a la del remoto, puedes utilizar:
+
+```bash
+git checkout -b sf origin/serverfix
+
+# Branch sf set up to track remote branch refs/remotes/origin/serverfix.
+Switched to a new branch "sf"
+```
+
+Así, tu rama local `sf` va a llevar (`push`) y traer (`pull`) hacia o desde `origin/serverfix`.
+
+#### Borrando ramas remotas
+
+Imagina que ya has terminado con una rama remota. Es decir, tanto tú como tus colaboradores habéis completado una determinada funcionalidad y la habéis incorporado (`merge`) a la rama `master` en el remoto (o donde quiera que tengais la rama de código estable). Puedes borrar la rama remota utilizando la un tanto confusa sintaxis: `git push [nombreremoto] :[rama]`. Por ejemplo, si quieres borrar la rama `serverfix` del servidor, puedes utilizar:
+
+```bash
+git push origin :serverfix
+
+# To git@github.com:lee/simplegit.git
+#  - [deleted]         serverfix
+```
+
+Y... ¡Boom!. La rama en el servidor ha desaparecido. Puedes grabarte a fuego esta página, porque necesitarás ese comando y, lo más probable es que hayas olvidado su sintaxis. Una manera de recordar este comando es dándonos cuenta de que proviene de la sintaxis git push [nombreremoto] [ramalocal]:[ramaremota]. Si omites la parte `[ramalocal]`, lo que estás diciendo es:"no cojas nada de mi lado y haz con ello `[ramaremota]`".
+
+---
+
+### Etiquetas Remotas
+
+Para ver las etiquetas en un historial de _commits_:
+
+```bash
+git show-ref --tags
+```
+
+Por defecto, el comando `git push` no transfiere etiquetas a servidores remotos. Tienes que enviarlas explicitamente a un servidor compartido después de haberlas creado. Este proceso es igual a compartir ramas remotas, puedes ejecutar `git push origin [tagname]`.
+
+```bash
+git push origin v1.5
+
+Counting objects: 50, done.
+Compressing objects: 100% (38/38), done.
+Writing objects: 100% (44/44), 4.56 KiB, done.
+Total 44 (delta 18), reused 8 (delta 1)
+To git@github.com:lee/simplegit.git
+* [new tag]         v1.5 -> v1.5
+```
+
+Si tienes un montón de etiquetas que quieres enviar a la vez, también puedes usar la opción `--tags` en el comando `git push`. Esto transfiere todas tus etiquetas que no estén ya en el servidor remoto.
+
+```bash
+git push origin --tags
+
+Counting objects: 50, done.
+Compressing objects: 100% (38/38), done.
+Writing objects: 100% (44/44), 4.56 KiB, done.
+Total 44 (delta 18), reused 8 (delta 1)
+To git@github.com:lee/simplegit.git
+  * [new tag]         v0.1 -> v0.1
+  * [new tag]         v1.2 -> v1.2
+  * [new tag]         v1.4 -> v1.4
+  * [new tag]         v1.4-lw -> v1.4-lw
+  * [new tag]         v1.5 -> v1.5
+```
+
+Ahora, cuando alguien clone o reciba de tu repositorio, obtendrá también todas tus etiquetas.
+
+Borrar un _tag_ en GitHub desde consola. Para retirar o borrar la referencia de una etiqueta en el repositorio remoto conectada a un _tag_ local que se ha borrado.
+
+```bash
+git push :refs/tags/nameTag
+```
