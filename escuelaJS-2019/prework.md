@@ -29,7 +29,7 @@ Por la facilidad de homogenizar en linux, se puede instalar la terminal **Hyper*
 ***MacOS***
 También se tiene terminal adecuada por defecto. Para más detalles mirar los videos del curso de Platzi . . . no conozco MacOS. Si alguien probo la instalación en MacOS y quiere darnos su listado de paso genial.
 
-- Try `zsh --version` before installing it from Homebrew. If not: 
+- Try `zsh --version` before installing it from Homebrew. If not:
   - `brew install zsh zsh-completions`
 - To set zsh as your default shell, execute any of the following:
   - `chsh -s $(which zsh)`
@@ -170,7 +170,7 @@ Para la extensión ***ESLint***: se realiza una configuración extra para que tr
 
 1. En la terminal elegida bash, hyper, etc. (ya sea embebida en VSCode o externa):
 2. Instalación de global de ESLint: `$ npm install -g eslint`
-3. Inicialización la configuración de ESLint: `$ npx eslint --init`
+3. Inicializar la configuración de ESLint: `$ npx eslint --init`
    - Existen tres opciones, la que se recomienda es la que indica: verificación de sintaxis, encontrar problemas y forzar un estilo de código.
    - Luego se generan preguntas por cada modo de esta opción, donde para la escuela de JS:
      1. ¿Qué tipo de módulos a usar?: `JavaScript modules (import/export)`
@@ -256,7 +256,7 @@ Así se ve:
 _Esto es una itálica_
 **_Esto es una negrita con itálica_**
 
-Puede llegar a existir variaciones según cada editor / visualizador de markdown. Pero la idea básica es usar un solo asterisco `*` o línea baja `_` antes y después para las itálicas. Las negritas con `**` o `__`, y para la combinación puede ser desde `***`, `___`, `_**`, `**_`, `*__` o `__*`.
+Puede llegar a existir variaciones según cada editor / presentación de markdown. Pero la idea básica es usar un solo asterisco `*` o línea baja `_` antes y después para las itálicas. Las negritas con `**` o `__`, y para la combinación puede ser desde `***`, `___`, `_**`, `**_`, `*__` o `__*`.
 
 #### Citas
 
