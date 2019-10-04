@@ -436,16 +436,14 @@ Configuración de Babel (`.babelrc` en la raíz del directorio): Luego configura
 
 ### ![Webpack](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Webpack.png/100px-Webpack.png)
 
-**Webpack** (estilizado **webpack** ) es un [código abierto](https://en.wikipedia.org/wiki/Open-source_software "Software de código abierto") [de JavaScript](https://en.wikipedia.org/wiki/JavaScript "JavaScript") módulo bundler. [[2]](https://en.wikipedia.org/wiki/Webpack#cite_note-2) [[3]](https://en.wikipedia.org/wiki/Webpack#cite_note-3) [[4]](https://en.wikipedia.org/wiki/Webpack#cite_note-4) [[5]](https://en.wikipedia.org/wiki/Webpack#cite_note-5) [[6]](https://en.wikipedia.org/wiki/Webpack#cite_note-6) Es un paquete de módulos principalmente para JavaScript, pero puede transformar activos front-end como HTML, CSS e imágenes si se incluyen los complementos correspondientes. [[7]](https://en.wikipedia.org/wiki/Webpack#cite_note-7) Webpack toma módulos con dependencias y genera activos estáticos que representan esos módulos. [[8]](https://en.wikipedia.org/wiki/Webpack#cite_note-8)
+**Webpack** (estilizado **webpack** ) Es un paquete de módulos principalmente para JavaScript, pero puede transformar activos front-end como HTML, CSS e imágenes si se incluyen los complementos correspondientes. [[7]](https://en.wikipedia.org/wiki/Webpack#cite_note-7) Webpack toma módulos con dependencias y genera activos estáticos que representan esos módulos. [[8]](https://en.wikipedia.org/wiki/Webpack#cite_note-8)
 
-#### Dependencias a usar
+Es una herramienta que nos ayuda a transformar multiples archivos (JavaScript, HTML, CSS, imágenes) en uno solo (o a veces un poco más) que tendrá todo nuestro código listo y óptimo para desarrollo o producción. _En resumen_ empaqueta nuestros módulos.
 
-```json
-"devDependencies": {
-  "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "webpack-cli": "^3.3.9"
-  }
+Instalación de Webpack y algunos plugins:
+
+```bash
+npm install --save-dev webpack webpack-cli html-webpack-plugin html-loader  
 ```
 
 Vamos a configurar **webpack** con el archivo `webpack.config.js` en la raíz de nuestro proyecto.
@@ -461,7 +459,7 @@ module.exports = {
     filename: "bundle.js"
   },
   resolve: {
-    extensions: [".js", ".jsx"]
+    extensions: [".js", ".jsx"],
   },
   module: {
     rules: [
@@ -469,7 +467,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_module/,
         use: {
-          loader: "babel-loader"
+          loader: "babel-loader",
         }
       },
       {
@@ -485,153 +483,26 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
-          filename: './index.html'
-      })
-  ]
+      filename: './index.html'
+    }),
+  ],
 };
 ```
 
-Configuramos en nuestro `package.json` el siguiente *script*:
+Ahora, configuramos en nuestro `package.json` el siguiente *script* que compilará el proyecto:
 
 ```json
-"scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production"
+{
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production",
   }
- ```
-
-Corremos nuestro copilador con `npm run build` para que se aloje el la carpeta `dist`.
-
-#### webpack-dev-server
-
-Use [webpack](https://webpack.js.org/) con un servidor de desarrollo que proporcione recarga en vivo. Esto debe usarse **solo** para el **desarrollo** .
-
-Utiliza [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) debajo del capó, que proporciona acceso rápido en memoria a los activos del paquete web.
-
-##### Empezando
-
-Primero lo primero, instale el módulo:
-
-npm install webpack-dev-server --save-dev
-
-_Nota: Si bien puede instalar y ejecutar webpack-dev-server a nivel mundial, recomendamos instalarlo localmente. webpack-dev-server siempre usará una instalación local sobre una global._
-
-###### Uso
-
-Hay dos métodos principales recomendados para usar el módulo:
-
-###### Con la CLI
-
-La forma más fácil de usarlo es con la CLI. En el directorio donde `webpack.config.js`está, ejecute:
-
-node_modules / .bin / webpack-dev-server
-
-_**Nota** : Muchas opciones de CLI están disponibles con `webpack-dev-server`. Explore este [enlace](https://webpack.js.org/configuration/dev-server/) ._
-
-###### Con scripts NPM
-
-Los scripts package.json de NPM son un medio conveniente y útil para ejecutar binarios instalados localmente sin tener que preocuparse por sus rutas completas. Simplemente defina un script como tal:
-
-```js
-" scripts " : { " start: dev " : " webpack-dev-server " }
-```
-
-Y ejecute lo siguiente en su terminal / consola:
-
-npm run start: dev
-
-NPM hará referencia automática al binario `node_modules`para usted y ejecutará el archivo o comando.
-
-###### El resultado
-
-Cualquiera de los métodos iniciará una instancia del servidor y comenzará a escuchar las conexiones desde `localhost`el puerto `8080`.
-
-webpack-dev-server está configurado de manera predeterminada para admitir la recarga en vivo de archivos mientras edita sus activos mientras el servidor se está ejecutando.
-
-Consulte [**la documentación**](https://webpack.js.org/configuration/dev-server/#devserver) para obtener más casos de uso y opciones.
-
-
-### sass-loader
-
-Carga un archivo Sass / SCSS y lo compila en CSS.
-
-#### Empezando
-
-Para comenzar, deberá instalar `sass-loader`:
-
-```bash
-npm install sass-loader nodo-sass webpack --save-dev
-```
-
-El sass-loader requiere que instales [Node Sass](https://github.com/sass/node-sass) o [Dart Sass](https://github.com/sass/dart-sass) por tu cuenta (puedes encontrar más documentación a continuación). Esto le permite controlar las versiones de todas sus dependencias y elegir qué implementación de Sass usar.
-
-- [node sass](https://github.com/sass/node-sass)
-- [dat sass](http://sass-lang.com/dart-sass)
-
-Encadene el sass-loader con el [css-loader](https://github.com/webpack-contrib/css-loader) y el [style-loader](https://github.com/webpack-contrib/style-loader) para aplicar inmediatamente todos los estilos al DOM o al [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) para extraerlo en un archivo separado.
-
-Luego agregue el cargador a su `webpack`configuración. Por ejemplo:
-
-**file.js**
-
-```js
-import style from './style.scss';
-```
-
-**file.scss**
-
-```css
-$body-color: red;
-
-body {
-  color: $body-color;
 }
 ```
 
-**webpack.config.js**
+#### Directorio y archivos hasta el momento
 
-```js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.s[ac]ss$/i,
-        use: [
-          // Creates `style` nodes from JS strings
-          'style-loader',
-          // Translates CSS into CommonJS
-          'css-loader',
-          // Compiles Sass to CSS
-          'sass-loader',
-        ],
-      },
-    ],
-  },
-};
-```
-
-Y corre a `webpack`través de tu método preferido.
-
-## Platzi Video
-
--> +++++++++++++++++++++++++++++++++++++++++++
-
-- ***Directorio de trabajo***:
-  - **LICENSE**
-  - **README . md** (_no tan opcional_)
-  - **.nvmrc** (_determina el entorno de Node.js_)
-  - **.babelrc**
-  - **package.json** (_archivo de configuración y reconocimiento_)
-  - **package-lock.json** (_maneja el versionado de las dependencias_)
-  - **.gitignore**
-  - Carpeta **public**:
-    - **index.html**
-  - Carpeta **src**:
-    - **index.js**
-    - Carpeta **component**:
-      - **files.**jsx****
-
-Luego en el `index.html` agregamos para este ejemplo un esquema mínimo:
+Para el archivo `index.html` agregamos para este ejemplo un esquema mínimo:
 
 ```html
 <!DOCTYPE html>
@@ -647,3 +518,273 @@ Luego en el `index.html` agregamos para este ejemplo un esquema mínimo:
 </body>
 </html>
 ```
+
+Y para el `index.js`, algo simple pero funcional por ahora:
+
+```js
+import React from "react";
+import ReactDOM from "react-dom";
+
+ReactDOM.render(<h1>Prueba seria</h1>, document.getElementById('app'));
+```
+
+Directorio de trabajo:
+
+- **LICENSE**
+- **README . md** (_no tan opcional_)
+- **.nvmrc** (_determina el entorno de Node.js_)
+- **.babelrc**
+- **webpack.config.js**
+- **package.json** (_archivo de configuración y reconocimiento_)
+- **package-lock.json** (_maneja el versionado de las dependencias_)
+- **.gitignore**
+- Carpeta **public**:
+  - **index.html**
+- Carpeta **src**:
+  - **index.js**
+  - Carpeta **component**:
+    - **files.**jsx****
+
+En este momento ya podemos correr nuestro compilador con **`npm run build`** para que se aloje el la carpeta `dist`. En este directorio `dist` (o como la llamemos) es donde se aloja nuestro proyecto final para el servidor de producción.
+
+#### Webpack Dev Server: Reporte de errores y Cambios en tiempo real
+
+Use [webpack](https://webpack.js.org/) con un servidor de desarrollo que proporcione recarga en vivo. Esto debe usarse **solo** para el **desarrollo**.
+
+Instalar el módulo en modo solo desarrollo:
+
+```bash
+npm install --save-dev webpack-dev-server
+```
+
+_Nota: Si bien puede instalar y ejecutar webpack-dev-server a nivel global, recomendamos instalarlo localmente. webpack-dev-server siempre usará una instalación local sobre una global._
+
+##### Uso
+
+Hay dos métodos principales recomendados para usar el módulo:
+
+###### Con la CLI (_Command Line Interface_)
+
+La forma más fácil de usarlo es con la CLI. En el directorio raíz ejecutar:
+
+```bash
+node_modules/.bin/webpack-dev-server
+```
+
+_**Nota** : Muchas opciones de CLI están disponibles con `webpack-dev-server`. Explore este [enlace](https://webpack.js.org/configuration/dev-server/) ._
+
+###### Con scripts NPM
+
+Los _scripts_ `package.json` de NPM son un medio conveniente y útil para ejecutar binarios instalados localmente sin tener que preocuparse por sus rutas completas. Simplemente defina un _script_ como tal, la línea del _"start": ..._:
+
+```json
+{
+. . .
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --open --mode development"
+  },
+. . .
+}
+```
+
+Y ejecute lo siguiente en su terminal / consola:
+
+```bash
+npm run start
+```
+
+Consulte [**la documentación para devserver**](https://webpack.js.org/configuration/dev-server/#devserver) para obtener más casos de uso y opciones.
+
+### Estilos con SASS
+
+Los pre-procesadores como **Sass** son herramientas que nos permiten escribir CSS con una sintaxis un poco diferente y más amigable que luego se transformará en CSS normal. Gracias a _Sass_ podemos escribir CSS con variables, _mixins_, bucles, entre otras características.
+
+> **NOTA**: antes de instalar nuevas dependencias o archivos al proyecto se debe detener el servidor de desarrollo.
+
+```bash
+npm install --save-dev mini-css-extract-plugin css-loader node-sass sass-loader
+```
+
+- **`mini-css-extract-plugin`**: este va permitir extraer el CSS resultante del _bundle_ par poder crear un nuevo archivo CSS.
+- **`css-loader`**: transforma CSS en _CommonJS_.
+- **`node-sass`**: añadir la compatibilidad con _Sass_.
+- **sass-loader**: compila Sass a CSS. Requiere que instales algunos de los dos siguientes
+  - [node sass](https://github.com/sass/node-sass)
+  - [dat sass](http://sass-lang.com/dart-sass)
+
+Luego es necesario ir al archivo de configuración de webpack y agregar la nueva regla para identificar los archivos de CSS. Además del _plugin_ para ayudar a extraer el CSS.
+
+**`webpack.config.js`**
+
+```js
+//. . .
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+//. . .
+
+module.exports = {
+  //. . .
+  module: {
+    //. . .
+    rules: [
+      //. . .
+      {
+        test: /\.(s*)css$/,
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          'css-loader',
+          'sass-loader',
+        ],
+      },
+    ],
+  },
+  plugins: [
+    //. . .
+    new MiniCssExtractPlugin({
+      filename: 'assets/[name].css',
+    }),
+  ],
+};
+```
+
+Ya es posible probar _Sass_ y la conversión automática, pero antes de esto crearemos un archivo general de _Sass_ en **`./src/assets/styles/App.scss`** con algún código de prueba.
+
+**`App.scss`**
+
+```scss
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: black;
+  background-color: cadetblue;
+}
+```
+
+Y para usarlo, si hemos creado un componente desde ese se puede invocar o para prueba ahora desde el `index.js`.
+
+```js
+import './assets/styles/App.scss';
+
+// o de la forma tradicional
+/* import style from './style.scss'; */
+```
+
+Ahora, a probar corriendo el servidor de desarrollo.
+
+### Configuración final
+
+#### ESLint
+
+Los _linters_ como **ESLint** son herramientas que nos ayudan a seguir buenas prácticas o guías de estilo de nuestro código.
+Se encargan de revisar el código que escribimos para indicarnos dónde tenemos errores o posibles errores. En algunos casos también pueden solucionar los errores automáticamente. De esta manera podemos solucionar los errores incluso antes de que sucedan.
+
+Instalación de **ESLint** (_antes detener cualquier servidor de desarrollo que este corriendo_):
+
+```bash
+npm install --save-dev eslint babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-react eslint-plugin-jsx-a11y
+```
+
+- *`eslint-plugin-jsx-a11y`*: para agregar accesibilidad a los proyectos, que pueda detectarnos aquellos que puedan ser necesarios para el navegador.
+
+Podemos configurar las reglas de ESLint en el archivo `.eslintrc` ubicado en la raíz del directorio. Desde el Team Platzi nos han regalado su ajuste interno en este _gist en Github_ [gndx/eslintrc](https://gist.github.com/gndx/60ae8b1807263e3a55f790ed17c4c57a).
+
+#### Git Ignore
+
+El _Git Ignore_ es un archivo que nos permite definir qué archivos NO queremos publicar en nuestros repositorios. Solo debemos crear el archivo `.gitignore` en la raíz del directorio proyecto y escribir los nombres de los archivos y/o carpetas que no queremos publicar.
+
+Aquí presento esta sugerencia basada en el [gist `.gitignore` del Team Platzi](https://gist.github.com/gndx/747a8913d12e96ff8374e2125efde544).
+
+```bash
+# Node template
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directory for instrumented libs generated by jscoverage/JSCover
+lib-cov
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# nyc test coverage
+.nyc_output
+
+# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Bower dependency directory (https://bower.io/)
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Typescript v1 declaration files
+typings/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+
+# IDE
+.idea/*
+*.iml
+*.sublime-*
+
+# OSX or VSCode
+.DS_Store
+.vscode
+
+# Docs Custom
+.cache/
+yarn-error.log
+
+# Build
+dist/
+
+# SASS cache
+**/.sass-cache
+**/.sass-cache/*
+**/*.css.map
+```
+
+## Platzi Video
+
+platzi video
