@@ -6,7 +6,7 @@
 
 ---
 
-Visiten esta página de la que no soy el autor pero cumple el mismo objetivo: _**[Curso Práctico de React JS by augdiaugus](https://augdiaugus.gitbook.io/recoleccion-de-notas-publicas/escuela-de-javascript/curso-practico-de-react-js)**_ Este blog usa en gran manera la [documentación de React en español](https://es.reactjs.org/docs/getting-started.html), solo colocaré la info minima requerida para una consulta rápida de configuración y estado del arte.
+Visiten esta página de la que no soy el autor pero cumple el mismo objetivo: _**[Curso Práctico de React JS by augdiaugus](https://augdiaugus.gitbook.io/recoleccion-de-notas-publicas/escuela-de-javascript/curso-practico-de-react-js)**_ Este blog usa en gran manera la [documentación de React en español](https://es.reactjs.org/docs/getting-started.html), solo colocaré la info mínima requerida para una consulta rápida de configuración y estado del arte.
 
 ---
 
@@ -192,7 +192,7 @@ Observe que el componente sin estado (_stateless component_) se escribe como una
 
 ## Componentes Visuales
 
-Conocidos en inglés como _Presentational Components_. Este tipo de componentes solo deben centrase y enfocar sus esfuerzos en como debe renderizarse la UI. Este tipo de componentes puede componerse de otros elementos visuales y suele incluir estilos y clases. Todos los datos implicados en su renderización se deben recibir a través de _props_, por lo que deben ser independientes de llamadas a servicios externos. Este tipo de componentes suelen ser de tipo _Stateless_ ya que no necesitan estado, y deben de gestionar las acciones pasándoselas a componentes padre a través de sus _props_.
+Conocidos en inglés como _Presentational Components_. Este tipo de componentes solo deben centrase y enfocar sus esfuerzos en como debe renderizarse la UI. Este tipo de componentes puede componerse de otros elementos visuales y suele incluir estilos y clases. Todos los datos implicados en su render se deben recibir a través de _props_, por lo que deben ser independientes de llamadas a servicios externos. Este tipo de componentes suelen ser de tipo _Stateless_ ya que no necesitan estado, y deben de gestionar las acciones pasándoselas a componentes padre a través de sus _props_.
 
 **_Ejemplo:_**
 
@@ -258,7 +258,7 @@ En lugar de separar artificialmente  _tecnologías_  poniendo el esquema y la l�
 
 - Correr el servidor de desarrollo local: `npm run start`
 
-**NOTA 1:** 
+**NOTA 1:**
 > dentro de React JS se usa clases de CSS por lo que al usar código HTML en cambio de `class` se cambia a `className`, esto por que la palabra `class` es reservada del lenguaje de programación.
 
 **NOTA 2:**
@@ -387,4 +387,263 @@ No olvides revisar una documentación excelente sobre **[Estado y ciclo de vida 
 
 ## Instalación y configuración de entorno
 
----
+- Crear la carpeta del proyecto, obvio pero es mejor recordarlo `mkdir PlatziVideo` (e ingresar en la carpeta `cd PlatziVideo`).
+
+- Todo desarrollador profesional lo primero que debe hacer es iniciar su repositorio local, en este caso con **[GIT](https://github.com/Nemo1Co/notasCursos-Platzi/blob/master/fundamentos-programacion/git-github.md)** y eventualmente en su repositorio online.
+
+- **[Inicializar un proyecto de Node.js](https://docs.npmjs.com/cli/init#description)** generando un archivo `package.json` sin tener que hacer preguntas:
+
+```bash
+npm init -y
+```
+
+- Seguidamente instalar lo esencial para el proyecto con React.js, que sería:
+
+```bash
+// La bandera --save es usada por defecto si no se coloca
+npm install --save react react-dom
+
+npm install react react-dom
+```
+
+### ![Babel.js - (compilador)](https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Babel_Logo.svg/250px-Babel_Logo.svg.png)
+
+**Babel** es un compilador de JavaScript gratuito y de código abierto que se utiliza principalmente para convertir el [código ECMAScript 2015+](https://en.wikipedia.org/wiki/ECMAScript#6th_Edition_-_ECMAScript_2015 "ECMAScript") (ES6 +) en una versión de JavaScript compatible con versiones anteriores que pueden ejecutar los [motores JavaScript](https://en.wikipedia.org/wiki/JavaScript_engine "JavaScript engine") más antiguos . Babel es una herramienta popular para usar las funciones más nuevas del lenguaje de programación JavaScript. [[3]](https://en.wikipedia.org/wiki/Babel_(compiler)#cite_note-3)
+
+_En resumen_, Babel es una herramienta muy popular para escribir JavaScript moderno y transformarlo en código que pueda entender cualquier navegador.
+
+Instalación de Babel y otras herramientas para que funcione con React, con la bandera `save-dev` le indicará al proyecto que estas dependencias son sólo para desarrollo:
+
+```bash
+npm install --save-dev @babel/core @babel/preset-env @babel/preset-react babel-loader
+```
+
+- `@babel/core`: las herramientas para convertir el JavaScript moderno
+- `babel-loader`: se encarga de trabajar con _webpack_
+- `@babel/preset-env`: ayudar a entender y transformar JS ES5+ y ES6+
+- `@babel/preset-react`: ayudar a entender y transformar JSX y React.js
+
+Configuración de Babel (`.babelrc` en la raíz del directorio): Luego configuramos `.babelrc` para implementar el uso de **`@babel/preset-env`** que es para usar javascript moderno y **`@babel/preset-react`** que es para usarlo junto con React.
+
+```json
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ],
+}
+```
+
+### ![Webpack](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Webpack.png/100px-Webpack.png)
+
+**Webpack** (estilizado **webpack** ) es un [código abierto](https://en.wikipedia.org/wiki/Open-source_software "Software de código abierto") [de JavaScript](https://en.wikipedia.org/wiki/JavaScript "JavaScript") módulo bundler. [[2]](https://en.wikipedia.org/wiki/Webpack#cite_note-2) [[3]](https://en.wikipedia.org/wiki/Webpack#cite_note-3) [[4]](https://en.wikipedia.org/wiki/Webpack#cite_note-4) [[5]](https://en.wikipedia.org/wiki/Webpack#cite_note-5) [[6]](https://en.wikipedia.org/wiki/Webpack#cite_note-6) Es un paquete de módulos principalmente para JavaScript, pero puede transformar activos front-end como HTML, CSS e imágenes si se incluyen los complementos correspondientes. [[7]](https://en.wikipedia.org/wiki/Webpack#cite_note-7) Webpack toma módulos con dependencias y genera activos estáticos que representan esos módulos. [[8]](https://en.wikipedia.org/wiki/Webpack#cite_note-8)
+
+#### Dependencias a usar
+
+```json
+"devDependencies": {
+  "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack-cli": "^3.3.9"
+  }
+```
+
+Vamos a configurar **webpack** con el archivo `webpack.config.js` en la raíz de nuestro proyecto.
+
+```js
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+module.exports = {
+  entry: "./src/index.js",
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js"
+  },
+  resolve: {
+    extensions: [".js", ".jsx"]
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_module/,
+        use: {
+          loader: "babel-loader"
+        }
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "html-loader"
+          }
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+          filename: './index.html'
+      })
+  ]
+};
+```
+
+Configuramos en nuestro `package.json` el siguiente *script*:
+
+```json
+"scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production"
+  }
+ ```
+
+Corremos nuestro copilador con `npm run build` para que se aloje el la carpeta `dist`.
+
+#### webpack-dev-server
+
+Use [webpack](https://webpack.js.org/) con un servidor de desarrollo que proporcione recarga en vivo. Esto debe usarse **solo** para el **desarrollo** .
+
+Utiliza [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) debajo del capó, que proporciona acceso rápido en memoria a los activos del paquete web.
+
+##### Empezando
+
+Primero lo primero, instale el módulo:
+
+npm install webpack-dev-server --save-dev
+
+_Nota: Si bien puede instalar y ejecutar webpack-dev-server a nivel mundial, recomendamos instalarlo localmente. webpack-dev-server siempre usará una instalación local sobre una global._
+
+###### Uso
+
+Hay dos métodos principales recomendados para usar el módulo:
+
+###### Con la CLI
+
+La forma más fácil de usarlo es con la CLI. En el directorio donde `webpack.config.js`está, ejecute:
+
+node_modules / .bin / webpack-dev-server
+
+_**Nota** : Muchas opciones de CLI están disponibles con `webpack-dev-server`. Explore este [enlace](https://webpack.js.org/configuration/dev-server/) ._
+
+###### Con scripts NPM
+
+Los scripts package.json de NPM son un medio conveniente y útil para ejecutar binarios instalados localmente sin tener que preocuparse por sus rutas completas. Simplemente defina un script como tal:
+
+```js
+" scripts " : { " start: dev " : " webpack-dev-server " }
+```
+
+Y ejecute lo siguiente en su terminal / consola:
+
+npm run start: dev
+
+NPM hará referencia automática al binario `node_modules`para usted y ejecutará el archivo o comando.
+
+###### El resultado
+
+Cualquiera de los métodos iniciará una instancia del servidor y comenzará a escuchar las conexiones desde `localhost`el puerto `8080`.
+
+webpack-dev-server está configurado de manera predeterminada para admitir la recarga en vivo de archivos mientras edita sus activos mientras el servidor se está ejecutando.
+
+Consulte [**la documentación**](https://webpack.js.org/configuration/dev-server/#devserver) para obtener más casos de uso y opciones.
+
+
+### sass-loader
+
+Carga un archivo Sass / SCSS y lo compila en CSS.
+
+#### Empezando
+
+Para comenzar, deberá instalar `sass-loader`:
+
+```bash
+npm install sass-loader nodo-sass webpack --save-dev
+```
+
+El sass-loader requiere que instales [Node Sass](https://github.com/sass/node-sass) o [Dart Sass](https://github.com/sass/dart-sass) por tu cuenta (puedes encontrar más documentación a continuación). Esto le permite controlar las versiones de todas sus dependencias y elegir qué implementación de Sass usar.
+
+- [node sass](https://github.com/sass/node-sass)
+- [dat sass](http://sass-lang.com/dart-sass)
+
+Encadene el sass-loader con el [css-loader](https://github.com/webpack-contrib/css-loader) y el [style-loader](https://github.com/webpack-contrib/style-loader) para aplicar inmediatamente todos los estilos al DOM o al [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) para extraerlo en un archivo separado.
+
+Luego agregue el cargador a su `webpack`configuración. Por ejemplo:
+
+**file.js**
+
+```js
+import style from './style.scss';
+```
+
+**file.scss**
+
+```css
+$body-color: red;
+
+body {
+  color: $body-color;
+}
+```
+
+**webpack.config.js**
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
+        ],
+      },
+    ],
+  },
+};
+```
+
+Y corre a `webpack`través de tu método preferido.
+
+## Platzi Video
+
+-> +++++++++++++++++++++++++++++++++++++++++++
+
+- ***Directorio de trabajo***:
+  - **LICENSE**
+  - **README . md** (_no tan opcional_)
+  - **.nvmrc** (_determina el entorno de Node.js_)
+  - **.babelrc**
+  - **package.json** (_archivo de configuración y reconocimiento_)
+  - **package-lock.json** (_maneja el versionado de las dependencias_)
+  - **.gitignore**
+  - Carpeta **public**:
+    - **index.html**
+  - Carpeta **src**:
+    - **index.js**
+    - Carpeta **component**:
+      - **files.**jsx****
+
+Luego en el `index.html` agregamos para este ejemplo un esquema mínimo:
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Platzi Video</title>
+</head>
+<body>
+  <main id="app"></main>
+</body>
+</html>
+```
