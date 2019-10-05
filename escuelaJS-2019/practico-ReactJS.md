@@ -803,6 +803,8 @@ Creamos un archivo en `./src/containers/App.jsx` que mantendra el control y orde
 import React from 'react';
 import Header from '../component/Header';
 
+import './assets/styles/App.scss';
+
 const App = () => (
   <div className='App'>
     <Header />
@@ -852,7 +854,6 @@ Y el `index.js` debería verse ahora así:
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './containers/App';
-import './assets/styles/App.scss';
 
 ReactDOM.render(<App />, document.getElementById('app'));
 ```
@@ -926,3 +927,516 @@ En `./src/assets/styles/components/Header.scss` pegamos los estilos ya creados (
 ![result_header](img-md/practico-ReactJS_003.png)
 
 > NOTA: de seguro aparecen varios problemas por las imágenes pero era de esperarse aún no se han dispuesto en el proyecto.
+
+### Los otros componentes
+
+Se agrega cada componente: `Categories`, `Carousel`, `CarouselItem` y `Footer`.
+
+![resultado hasta el momento](img-md/practico-ReactJS_004.png)
+
+### Añadiendo imágenes con Webpack
+
+Vamos a usar **File Loader** para acceder a las imágenes de nuestro proyecto desde el código.
+
+Inicialmente, estos archivos estáticos se encuentran junto al código de desarrollo. Pero al momento de compilar, Webpack guardará las imágenes en una nueva carpeta junto al código para producción y actualizará nuestros componentes (o donde sea que usemos las imágenes) con los nuevos nombres y rutas de los archivos.
+
+Instalación de **File Loader** (_pero antes detener el servidor de desarrollo_):
+
+```bash
+npm install --save-dev file-loader
+```
+
+Configuración de **File Loader** en Webpack (`webpack.config.js`):
+
+```json
+  // . . .
+  rules: [
+    // . . .
+    {
+      test: /\.(png|gif|jpg)$/,
+      use: [
+        {
+          loader: 'file-loader',
+          options: { name: 'assets/[hash].[ext]' },
+        },
+      ],
+    },
+  ],
+```
+
+Uso de **File Loader** con **React**:
+
+```jsx
+import React from 'react';
+import nombreDeLaImagen from '../assets/static/nombre-de-la-imagen.extension';
+
+const Component = () => (
+  <img src={nombreDeLaImagen} />
+);
+
+export default Component;
+```
+
+- Para el ejemplo de Platzi Video usamos los casos del `Header.jsx`:
+
+```jsx
+import React from 'react';
+import '../assets/styles/components/Header.scss';
+import logoHeader from '../assets/static/logo-platzi-video-BW2.png';
+import userIcon from '../assets/static/user-icon.png';
+
+const Header = () => (
+  <header className='header'>
+    <img className='header__img' src={logoHeader} alt='Platzi Video' />
+    <div className='header__menu'>
+      <div className='header__menu--profile'>
+        <img src={userIcon} alt='user logo' />
+        <p>Perfil</p>
+      </div>
+      <ul>
+        <li><a href='/'>Cuenta</a></li>
+        <li><a href='/'>Cerrar Sesión</a></li>
+      </ul>
+    </div>
+  </header>
+);
+
+export default Header;
+```
+
+### Sass: _Imports_, Variables, Fuentes externas y _Media queries_
+
+Antes demos unos títulos únicos acada categoria agregando un `prop` (parámetro) al componente. Se modifica el archivo `Categories.jsx` así:
+
+```jsx
+//. . .
+const Categories = ({ children, title }) => (
+  //. . .
+);
+//. . .
+```
+
+Y para el archivo `App.jsx`, sería a cada _Categories_ darle un título:
+
+```jsx
+<div className='App'>
+  <Categories title='Mi Lista'>
+    {/* ... */}
+  </Categories>
+
+  <Categories title='Tendencias'>
+    {/* ... */}
+  </Categories>
+
+  <Categories title='originales de Platzi Video'>
+    {/* ... */}
+  </Categories>
+</div>
+```
+
+#### Variables Sass y Fuente de Google
+
+Sass nos permite almacenar valores en variables que podemos usar en cualquier otra parte de nuestras hojas de estilo. En `./src/assets/styles/Vars.scss`
+
+```scss
+@import url(https://fonts.googleapis.com/css?family=Muli&display-swap);
+
+$theme-font: 'Multi', sans-serif;
+$main-color: #8f57fd;
+```
+
+#### _Media queries_
+
+En `./src/assets/styles/Vars.scss` se dispone los estilos a los _media queries_:
+
+```scss
+@media only screen and (max-width: 600px) {
+  .main__description--title {
+    font-size: 30px;
+  }
+
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+```
+
+Minetras que `App.scss` quedaría ahora:
+
+```scss
+@import './Vars.scss';
+
+// . . .
+
+body {
+  font-family: $theme-font;
+  background: $main-color;
+}
+```
+
+### React Hooks
+
+Los **React Hooks** son una característica de React disponible a partir de la versión 16.8 de React que nos _permite **agregar estado y ciclo de vida** a nuestros **componentes creados como funciones**_. Se presentó en octubre de 2018, pero solo fue lanzado hasta febrero de 2019 con React 16.8.0. y no funciona para versiones previas.
+
+#### _useState_ y _useEffect_
+
+El Hook `useState` nos devuelve un array con dos elementos: la primera posición es el valor de nuestro estado (_estado se entiende como dato_), la segunda es una función que nos permite actualizar ese valor.
+
+El argumento que enviamos a esta función es el valor por defecto de nuestro estado (_initial state_).
+
+```jsx
+import React, { useState } from 'react';
+
+const Component = () => {
+  const [name, setName] = useState('Nombre por defecto');
+
+  return <div>{name}div>;
+}
+```
+
+El Hook `useEffect` nos permite ejecutar código cuando se monta, desmonta o actualiza nuestro componente.
+
+El primer argumento que le enviamos a `useEffect` es una función que se ejecutará cuando React monte o actualice el componente. Esta función puede devolver otra función que se ejecutará cuando el componente se desmonte.
+
+El segundo argumento es un array donde podemos especificar qué propiedades deben cambiar para que React vuelva a llamar nuestro código. Si el componente actualiza pero estas `props` no cambian, la función no se ejecutará.
+
+Por defecto, cuando no enviamos un segundo argumento, React ejecutará la función de `useEffect` cada vez que el componente o sus componentes padres actualicen. En cambio, si enviamos un array vacío, esta función solo se ejecutará al montar o desmontar el componente.
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+const Component = () => {
+  const [name, setName] = useState('Nombre por defecto');
+
+  useEffect(() => {
+    document.title = name;
+    return () => {
+      document.title = 'el componente se desmontó';
+    };
+  }, [name]);
+
+  return <div>{name}div>;
+}
+```
+
+No olvides importar las funciones de los hooks desde la librería de React. También puedes usarlos de esta forma: `React.useNombreDelHook`.
+
+#### Custom Hooks
+
+React nos permite crear nuestros propios **Hooks**. Solo debemos seguir algunas convenciones:
+
+- Los hooks siempre deben empezar con la palabra 'use': _useAPI_, _useMovies_, _useWhatever_.
+- El custom hook permite consumir/interactuar con dos elementos (por ejemplo, title y setTitle), nuestro hook debe devolver un array.
+- Si nuestro custom hook nos permite consumir/interactuar con tres o más elementos (por ejemplo, name, setName, lastName, setLastName, etc.), nuestro hook debe devolver un objeto.
+
+Recuerda que puedes aprender más sobre Custom Hooks y las nuevas características de React en el [Curso Avanzado de React JS](https://platzi.com/clases/react-avanzado/).
+
+#### PropTypes
+
+Los PropTypes son una propiedad de nuestros componentes que nos permiten especificar qué tipo de elementos son nuestras props: arrays, strings, números, etc.
+
+Instalación de PropTypes:
+
+npm install --save prop-types
+Uso de PropTypes:
+
+import React from 'react';
+import PropTypes from 'prop-types';
+
+const Component = ({ name, lastName, age, list }) => {
+  // ...
+};
+
+Component.propTypes = {
+  name: PropTypes.string,
+  lastName: PropTypes.string,
+  age: PropTypes.number,
+  list: PropTypes.array,
+};
+
+export default Component;
+Por defecto, enviar todas nuestras props es opcional, pero con los propTypes podemos especificar cuáles props son obligatorias para que nuestro componente funcione correctamente con el atributo isRequired.
+
+Component.propTypes = {
+  name: PropTypes.string.isRequired, // obligatorio
+  lastName: PropTypes.string.isRequired, // obligatorio
+  age: PropTypes.number, // opcional,
+  list: PropTypes.array, // opcional
+};
+
+#### Usando Hooks en Platzi Video
+
+Usando Hooks no tendremos que reformar todo a clases para usar los estados, ya que el componente principal `App.jsx` es una función de tipo presentación y su cambio a una función estándar y con lógica es ridículamente fácil.
+
+> **NOTA:** en este momento supondremos que ya existe un servidor que nos 'servirá' la información de cada video. Ver la sección extra del montaje servidor `.json`.
+
+Primero creamos un nuevo Hook propio en `./src/hooks/useInitialState.js`, y es de tipo `.js` dado que no manejará lógica _jsx_.
+
+Nuestra `App.jsx` tiene un return explicito y se debe cambiar a una función con las llaves esperadas.
+
+```jsx
+import React from 'react';
+
+import Header from '../component/Header';
+import Search from '../component/Search';
+import Categories from '../component/Categories';
+import Carousel from '../component/Carousel';
+import CategoriesItem from '../component/CarouselItem';
+import Footer from '../component/Footer';
+
+import useInitialState from '../hooks/useInitialState';
+
+import '../assets/styles/App.scss';
+
+const API = 'http://localhost:3000/initialState';
+
+const App = () => {
+  const videosInitial = useInitialState(API);
+
+  return videosInitial.length === 0 ? <h1> Loading... </h1> : (
+    <div className='App'>
+      <Header />
+      <Search />
+
+      {
+        videosInitial.myList.length > 0 && (
+          <Categories title='Mi Lista'>
+            <Carousel>
+              <CategoriesItem />
+            </Carousel>
+          </Categories>
+        )
+      }
+
+      {
+        videosInitial.trends.length > 0 && (
+          <Categories title='Tendencias'>
+            <Carousel>
+              {
+                videosInitial.trends.map((item) => {
+                  return (<CategoriesItem key={item.id} {...item} />);
+                })
+              }
+            </Carousel>
+          </Categories>
+        )
+      }
+
+      {
+        videosInitial.originals.length > 0 && (
+          <Categories title='Originales de Platzi Video'>
+            <Carousel>
+              {
+                videosInitial.originals.map((item) => {
+                  return (<CategoriesItem key={item.id} {...item} />);
+                })
+              }
+            </Carousel>
+          </Categories>
+        )
+      }
+
+      <Footer />
+    </div>
+  );
+};
+
+export default App;
+```
+
+## Extra
+
+### Creando una Fake API
+
+Vamos a usar **JSON** Server para crear una Fake API: una API "falsa" construida a partir de un archivo **JSON** que nos permite preparar nuestro código para consumir una API de verdad en el futuro.
+
+Instalación de **JSON** Server, prueba si corre en local ¿se puede?:
+
+```bash
+sudo npm install -g json-server
+```
+
+> _NOTA_: Recuerda que en Windows debes correr tu terminal de comandos en modo administrador.
+
+Usando NVM se puede instalar en local y se ejecuta:
+
+```bash
+node_modules/.bin/json-server fakeAPI/initialState.json
+```
+
+Ejecutar el servidor de **JSON** Server:
+
+```bash
+json-server archivoParaTuAPI.json
+```
+
+- El [archivo dispuesto de prueba](https://gist.github.com/Nemo1Co/db5bbe832f6798439fc265781f587e91) es el siguiente:
+
+```json
+{
+  "initialState": {
+    "myList": [],
+    "trends": [
+      {
+        "id": 2,
+        "slug": "tvshow-2",
+        "title": "In the Dark",
+        "type": "Scripted",
+        "language": "English",
+        "year": 2009,
+        "contentRating": "16+",
+        "duration": 164,
+        "cover": "http://dummyimage.com/800x600.png/99118E/ffffff",
+        "description": "Vestibulum ac est lacinia nisi venenatis tristique",
+        "source": "https://mdstrm.com/video/58333e214ad055d208427db5.mp4"
+      },
+      {
+        "id": 3,
+        "slug": "tvshow-3",
+        "title": "Instinct",
+        "type": "Adventure",
+        "language": "English",
+        "year": 2002,
+        "contentRating": "16+",
+        "duration": 137,
+        "cover": "http://dummyimage.com/800x600.png/302140/ffffff",
+        "description": "Vestibulum ac est lacinia nisi venenatis tristique",
+        "source": "https://mdstrm.com/video/58333e214ad055d208427db5.mp4"
+      },
+      {
+        "id": 4,
+        "slug": "tvshow-4",
+        "title": "Grand Hotel",
+        "type": "Comedy",
+        "language": "English",
+        "year": 2014,
+        "contentRating": "16+",
+        "duration": 163,
+        "cover": "http://dummyimage.com/800x600.png/5472FF/ffffff",
+        "description": "Vestibulum ac est lacinia nisi venenatis tristique",
+        "source": "https://mdstrm.com/video/58333e214ad055d208427db5.mp4"
+      },
+      {
+        "id": 5,
+        "slug": "tvshow-5",
+        "title": "Stargate Atlantis",
+        "type": "Scripted",
+        "language": "English",
+        "year": 2014,
+        "contentRating": "16+",
+        "duration": 194,
+        "cover": "http://dummyimage.com/800x600.png/B36F20/ffffff",
+        "description": "Vestibulum ac est lacinia nisi venenatis tristique",
+        "source": "https://mdstrm.com/video/58333e214ad055d208427db5.mp4"
+      },
+      {
+        "id": 6,
+        "slug": "tvshow-6",
+        "title": "Final Space",
+        "type": "Scripted",
+        "language": "English",
+        "year": 2017,
+        "contentRating": "16+",
+        "duration": 124,
+        "cover": "http://dummyimage.com/800x600.png/CCC539/ffffff",
+        "description": "Vestibulum ac est lacinia nisi venenatis tristique",
+        "source": "https://mdstrm.com/video/58333e214ad055d208427db5.mp4"
+      },
+      {
+        "id": 7,
+        "slug": "tvshow-7",
+        "title": "The InBetween",
+        "type": "Drama",
+        "language": "English",
+        "year": 2011,
+        "contentRating": "16+",
+        "duration": 179,
+        "cover": "http://dummyimage.com/800x600.png/FF7A90/ffffff",
+        "description": "Vestibulum ac est lacinia nisi venenatis tristique",
+        "source": "https://mdstrm.com/video/58333e214ad055d208427db5.mp4"
+      }
+    ],
+    "originals": [
+      {
+        "id": 8,
+        "slug": "tvshow-8",
+        "title": "Stargate Atlantis",
+        "type": "Action",
+        "language": "English",
+        "year": 2012,
+        "contentRating": "16+",
+        "duration": 148,
+        "cover": "http://dummyimage.com/800x600.png/306880/ffffff",
+        "description": "Vestibulum ac est lacinia nisi venenatis tristique",
+        "source": "https://mdstrm.com/video/58333e214ad055d208427db5.mp4"
+      },
+      {
+        "id": 9,
+        "slug": "tvshow-9",
+        "title": "Alien Highway",
+        "type": "Action",
+        "language": "English",
+        "year": 2019,
+        "contentRating": "16+",
+        "duration": 128,
+        "cover": "http://dummyimage.com/800x600.png/604180/ffffff",
+        "description": "Vestibulum ac est lacinia nisi venenatis tristique",
+        "source": "https://mdstrm.com/video/58333e214ad055d208427db5.mp4"
+      },
+      {
+        "id": 10,
+        "slug": "tvshow-10",
+        "title": "Elementary",
+        "type": "Animation",
+        "language": "English",
+        "year": 2011,
+        "contentRating": "16+",
+        "duration": 346,
+        "cover": "http://dummyimage.com/800x600.png/FF91BA/ffffff",
+        "description": "Vestibulum ac est lacinia nisi venenatis tristique",
+        "source": "https://mdstrm.com/video/58333e214ad055d208427db5.mp4"
+      },
+      {
+        "id": 11,
+        "slug": "tvshow-11",
+        "title": "Strange Angel",
+        "type": "War",
+        "language": "English",
+        "year": 2015,
+        "contentRating": "16+",
+        "duration": 226,
+        "cover": "http://dummyimage.com/800x600.png/45807C/ffffff",
+        "description": "Vestibulum ac est lacinia nisi venenatis tristique",
+        "source": "https://mdstrm.com/video/58333e214ad055d208427db5.mp4"
+      },
+      {
+        "id": 12,
+        "slug": "tvshow-12",
+        "title": "Private Eyes",
+        "type": "Comedy",
+        "language": "English",
+        "year": 2018,
+        "contentRating": "16+",
+        "duration": 190,
+        "cover": "http://dummyimage.com/800x600.png/577380/ffffff",
+        "description": "Vestibulum ac est lacinia nisi venenatis tristique",
+        "source": "https://mdstrm.com/video/58333e214ad055d208427db5.mp4"
+      },
+      {
+        "id": 13,
+        "slug": "tvshow-13",
+        "title": "NCIS: Los Angeles",
+        "type": "Drama",
+        "language": "English",
+        "year": 2010,
+        "contentRating": "16+",
+        "duration": 160,
+        "cover": "http://dummyimage.com/800x600.png/5472FF/ffffff",
+        "description": "Vestibulum ac est lacinia nisi venenatis tristique",
+        "source": "https://mdstrm.com/video/58333e214ad055d208427db5.mp4"
+      }
+    ]
+  }
+}
+```
