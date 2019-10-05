@@ -6,7 +6,7 @@
 
 ---
 
-Visiten esta página de la que no soy el autor pero cumple el mismo objetivo: _**[Curso Práctico de React JS by augdiaugus](https://augdiaugus.gitbook.io/recoleccion-de-notas-publicas/escuela-de-javascript/curso-practico-de-react-js)**_ Este blog usa en gran manera la [documentación de React en español](https://es.reactjs.org/docs/getting-started.html), solo colocaré la info mínima requerida para una consulta rápida de configuración y estado del arte.
+Visiten esta página de la que no soy el autor pero cumple el mismo objetivo hasta la instalación y configuración manual, pero con mayor detalle en explicación: _**[Curso Práctico de React JS by augdiaugus](https://augdiaugus.gitbook.io/recoleccion-de-notas-publicas/escuela-de-javascript/curso-practico-de-react-js)**_ Este blog usa en gran manera la [documentación de React en español](https://es.reactjs.org/docs/getting-started.html), solo colocaré la info mínima requerida para una consulta rápida de configuración y estado del arte.
 
 ---
 
@@ -514,7 +514,7 @@ Para el archivo `index.html` agregamos para este ejemplo un esquema mínimo:
   <title>Platzi Video</title>
 </head>
 <body>
-  <main id="app"></main>
+  <div id="app"></div>
 </body>
 </html>
 ```
@@ -609,7 +609,7 @@ npm install --save-dev mini-css-extract-plugin css-loader node-sass sass-loader
 
 - **`mini-css-extract-plugin`**: este va permitir extraer el CSS resultante del _bundle_ par poder crear un nuevo archivo CSS.
 - **`css-loader`**: transforma CSS en _CommonJS_.
-- **`node-sass`**: añadir la compatibilidad con _Sass_.
+- **`node-sass`**: agrega la compatibilidad con _Sass_.
 - **sass-loader**: compila Sass a CSS. Requiere que instales algunos de los dos siguientes
   - [node sass](https://github.com/sass/node-sass)
   - [dat sass](http://sass-lang.com/dart-sass)
@@ -787,4 +787,138 @@ dist/
 
 ## Platzi Video
 
-platzi video
+Vamos a usar el [Proyecto Final](https://github.com/platzi/curso-frontend-escuelajs) del [Curso de Frontend Developer](https://platzi.com/clases/frontend-developer/) para dividir la aplicación en componentes y agregar actividad con React.
+
+La forma rápida de probar es crear un componente tal vez _Header.jsx_ luego se importa desde el _index.js_ y se renderiza. Pero existe una mejor forma de separar contenedores y componentes.
+
+### El contenedor de los componentes `App.jsx`
+
+Creamos un archivo en `./src/containers/App.jsx` que mantendra el control y orden de los componentes que se agreguen.
+
+```jsx
+import React from 'react';
+import Header from '../component/Header';
+
+const App = () => (
+  <div className='App'>
+    <Header />
+  </div>
+);
+
+export default App;
+```
+
+### Componente Header
+
+Iniciamos usando los archivos del directorio `vista-principal` del curso _FrontendDev_:
+
+- vista-principal.html
+- styles.css
+
+#### Estructura del Header
+
+Ahora, en nuestro proyecto creamos un archivo en `./src/components/Header.jsx`. Por convención se usa los componentes iniciando con letra mayúscula (_por la idea de que vienen de ser una clase en sí_).
+
+```jsx
+import React from 'react';
+import '../assets/styles/components/Header.scss';
+
+const Header = () => (
+  <header className='header'>
+    <img className='header__img' src='../assets/logo-platzi-video-BW2.png' alt='Platzi Video' />
+    <div className='header__menu'>
+      <div className='header__menu--profile'>
+        <img src='../assets/user-icon.png' alt='user logo' />
+        <p>Perfil</p>
+      </div>
+      <ul>
+        <li><a href='/'>Cuenta</a></li>
+        <li><a href='/'>Cerrar Sesión</a></li>
+      </ul>
+    </div>
+  </header>
+);
+
+export default Header;
+```
+
+Y el `index.js` debería verse ahora así:
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './containers/App';
+import './assets/styles/App.scss';
+
+ReactDOM.render(<App />, document.getElementById('app'));
+```
+
+#### Estilos del Header
+
+En `./src/assets/styles/components/Header.scss` pegamos los estilos ya creados (o los creas).
+
+```scss
+.header {
+  align-items: center;
+  background: #8f57fd;
+  color: white;
+  display: flex;
+  height: 100px;
+  justify-content: space-between;
+  top: 0px;
+  width: 100%;
+}
+
+.header__img {
+  margin-left: 30px;
+  width: 200px;
+}
+
+.header__menu {
+  margin-right: 30px;
+}
+
+.header__menu ul {
+  display: none;
+  list-style: none;
+  margin: 0px 0px 0px -14px;
+  padding: 0px;
+  position: absolute;
+  width: 100px;
+  text-align: right;
+}
+
+.header__menu:hover ul, ul:hover {
+  display: block;
+}
+
+.header__menu li {
+  margin: 10px 0px;
+}
+
+.header__menu li a {
+  color: white;
+  text-decoration: none;
+}
+
+.header__menu li a:hover {
+  text-decoration: underline;
+}
+
+.header__menu--profile {
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+}
+
+.header__menu--profile img {
+  margin-right: 8px;
+  width: 40px;
+}
+```
+
+> Tenemos nuestro primer componente de presentación llamado desde un contenedor y con estilos CSS. Es hora de correr el servidor de desarrollo y apreciar el resultado.
+
+![result_header](img-md/Header_initial.png)
+
+> NOTA: de seguro aparecen varios problemas por las imágenes pero era de esperarse aún no se han dispuesto en el proyecto.
