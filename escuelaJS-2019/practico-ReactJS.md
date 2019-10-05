@@ -789,6 +789,10 @@ dist/
 
 Vamos a usar el [Proyecto Final](https://github.com/platzi/curso-frontend-escuelajs) del [Curso de Frontend Developer](https://platzi.com/clases/frontend-developer/) para dividir la aplicación en componentes y agregar actividad con React.
 
+![components-1](img-md/practico-ReactJS_001.png)
+
+![components-2](img-md/practico-ReactJS_002.png)
+
 La forma rápida de probar es crear un componente tal vez _Header.jsx_ luego se importa desde el _index.js_ y se renderiza. Pero existe una mejor forma de separar contenedores y componentes.
 
 ### El contenedor de los componentes `App.jsx`
@@ -919,6 +923,6 @@ En `./src/assets/styles/components/Header.scss` pegamos los estilos ya creados (
 
 > Tenemos nuestro primer componente de presentación llamado desde un contenedor y con estilos CSS. Es hora de correr el servidor de desarrollo y apreciar el resultado.
 
-![result_header](img-md/Header_initial.png)
+![result_header](img-md/practico-ReactJS_003.png)
 
 > NOTA: de seguro aparecen varios problemas por las imágenes pero era de esperarse aún no se han dispuesto en el proyecto.
