@@ -1177,7 +1177,7 @@ Component.propTypes = {
 
 Usando Hooks no tendremos que reformar todo a clases para usar los estados, ya que el componente principal `App.jsx` es una función de tipo presentación y su cambio a una función estándar y con lógica es ridículamente fácil.
 
-> **NOTA:** en este momento supondremos que ya existe un servidor que nos entregará como respuesta la información en formato `JSON` de cada video. Ver la sección extra del montaje del servidor de archivos _JSON_ [Creando una Fake API](practico-ReactJS.md#fakeAPI).
+> **NOTA:** en este momento supondremos que ya existe un servidor que nos entregará como respuesta la información en formato `JSON` de cada video. Ver la sección extra del montaje del servidor de archivos _JSON_ [Creando una Fake API](practico-ReactJS.md#creando-una-fake-api).
 
 Primero creamos un nuevo Hook propio en `./src/hooks/useInitialState.js`, y es de tipo `.js` dado que no manejará lógica _jsx_.
 
