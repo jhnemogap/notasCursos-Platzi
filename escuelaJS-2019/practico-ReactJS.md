@@ -1277,6 +1277,10 @@ export default App;
 
 Los demás componentes se presentan en la [sección de Extras](practico-ReactJS.md#Código-de-los-otros-componentes).
 
+#### Resultado Final Platzi Video
+
+![foto final](img-md/practico-ReactJS_final.png)
+
 ## Extra
 
 ### Creando una Fake API
