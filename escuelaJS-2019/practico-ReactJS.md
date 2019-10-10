@@ -346,7 +346,7 @@ Para conocer más sobre **[Componentes y propiedades - React.js](https://es.reac
 
 ## _State_ y _Events_
 
-React nos permite responder a las interacciones de los usuarios con propiedades como onClick, onChange, onKeyPress, onFocus, onScroll, entre otras.
+React nos permite responder a las interacciones de los usuarios con propiedades como `onClick`, `onChange`, `onKeyPress`, `onFocus`, `onScroll`, entre otras.
 
 Estas propiedades reciben el nombre de la función que ejecuta el código que responde a las interacciones de los usuarios. Seguramente, esta función usará la función this.setState para actualizar el estado de nuestro componente.
 
@@ -934,7 +934,7 @@ Se agrega cada componente: `Categories`, `Carousel`, `CarouselItem` y `Footer`.
 
 ![resultado hasta el momento](img-md/practico-ReactJS_004.png)
 
-### Añadiendo imágenes con Webpack
+### Añadiendo imágenes de `static` con Webpack
 
 Vamos a usar **File Loader** para acceder a las imágenes de nuestro proyecto desde el código.
 
@@ -1062,7 +1062,7 @@ En `./src/assets/styles/Vars.scss` se dispone los estilos a los _media queries_:
 }
 ```
 
-Minetras que `App.scss` quedaría ahora:
+Mientras que `App.scss` quedaría ahora:
 
 ```scss
 @import './Vars.scss';
@@ -1091,7 +1091,7 @@ import React, { useState } from 'react';
 const Component = () => {
   const [name, setName] = useState('Nombre por defecto');
 
-  return <div>{name}div>;
+  return <div>{name}</div>;
 }
 ```
 
@@ -1116,7 +1116,7 @@ const Component = () => {
     };
   }, [name]);
 
-  return <div>{name}div>;
+  return <div>{name}</div>;
 }
 ```
 
@@ -1138,9 +1138,13 @@ Los PropTypes son una propiedad de nuestros componentes que nos permiten especif
 
 Instalación de PropTypes:
 
+```bash
 npm install --save prop-types
+```
+
 Uso de PropTypes:
 
+```jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -1156,24 +1160,46 @@ Component.propTypes = {
 };
 
 export default Component;
-Por defecto, enviar todas nuestras props es opcional, pero con los propTypes podemos especificar cuáles props son obligatorias para que nuestro componente funcione correctamente con el atributo isRequired.
+```
 
+Por defecto, enviar todas nuestras `props` es opcional, pero con los propTypes podemos especificar cuáles `props` son obligatorias para que nuestro componente funcione correctamente con el atributo `isRequired`.
+
+```jsx
 Component.propTypes = {
   name: PropTypes.string.isRequired, // obligatorio
   lastName: PropTypes.string.isRequired, // obligatorio
   age: PropTypes.number, // opcional,
   list: PropTypes.array, // opcional
 };
+```
 
 #### Usando Hooks en Platzi Video
 
 Usando Hooks no tendremos que reformar todo a clases para usar los estados, ya que el componente principal `App.jsx` es una función de tipo presentación y su cambio a una función estándar y con lógica es ridículamente fácil.
 
-> **NOTA:** en este momento supondremos que ya existe un servidor que nos 'servirá' la información de cada video. Ver la sección extra del montaje servidor `.json`.
+> **NOTA:** en este momento supondremos que ya existe un servidor que nos entregará como respuesta la información en formato `JSON` de cada video. Ver la sección extra del montaje del servidor de archivos _JSON_ [Creando una Fake API](practico-ReactJS.md#fakeAPI).
 
 Primero creamos un nuevo Hook propio en `./src/hooks/useInitialState.js`, y es de tipo `.js` dado que no manejará lógica _jsx_.
 
-Nuestra `App.jsx` tiene un return explicito y se debe cambiar a una función con las llaves esperadas.
+```jsx
+import { useEffect, useState } from 'react';
+
+const useInitialState = (API) => {
+  const [videos, setVideos] = useState([]);
+
+  useEffect(() => {
+    fetch(API)
+      .then((response) => response.json())
+      .then((data) => setVideos(data));
+  }, []);
+
+  return videos;
+};
+
+export default useInitialState;
+```
+
+Nuestra `App.jsx` tiene un `return` explicito y se debe cambiar a una función con las llaves esperadas.
 
 ```jsx
 import React from 'react';
@@ -1203,7 +1229,11 @@ const App = () => {
         videosInitial.myList.length > 0 && (
           <Categories title='Mi Lista'>
             <Carousel>
-              <CategoriesItem />
+              {
+                videosInitial.trends.map((item) => {
+                  return (<CategoriesItem key={item.id} { ...item } />);
+                })
+              }
             </Carousel>
           </Categories>
         )
@@ -1215,7 +1245,7 @@ const App = () => {
             <Carousel>
               {
                 videosInitial.trends.map((item) => {
-                  return (<CategoriesItem key={item.id} {...item} />);
+                  return (<CategoriesItem key={item.id} { ...item } />);
                 })
               }
             </Carousel>
@@ -1229,7 +1259,7 @@ const App = () => {
             <Carousel>
               {
                 videosInitial.originals.map((item) => {
-                  return (<CategoriesItem key={item.id} {...item} />);
+                  return (<CategoriesItem key={item.id} { ...item } />);
                 })
               }
             </Carousel>
@@ -1244,6 +1274,8 @@ const App = () => {
 
 export default App;
 ```
+
+Los demás componentes se presentan en la [sección de Extras](practico-ReactJS.md#Código-de-los-otros-componentes).
 
 ## Extra
 
@@ -1439,4 +1471,137 @@ json-server archivoParaTuAPI.json
     ]
   }
 }
+```
+
+### Código de los otros componentes
+
+#### Header.jsx - código final
+
+```jsx
+import React from 'react';
+import '../assets/styles/components/Header.scss';
+import logoHeader from '../assets/static/logo-platzi-video-BW2.png';
+import userIcon from '../assets/static/user-icon.png';
+
+const Header = () => (
+  <header className='header'>
+    <img className='header__img' src={logoHeader} alt='Platzi Video' />
+    <div className='header__menu'>
+      <div className='header__menu--profile'>
+        <img src={userIcon} alt='user logo' />
+        <p>Perfil</p>
+      </div>
+      <ul>
+        <li><a href='/'>Cuenta</a></li>
+        <li><a href='/'>Cerrar Sesión</a></li>
+      </ul>
+    </div>
+  </header>
+);
+
+export default Header;
+```
+
+#### Search.jsx - código final
+
+```jsx
+import React from 'react';
+import '../assets/styles/components/Search.scss';
+
+const Search = () => (
+  <section className='search'>
+    <h2 className='search__title'>¿Qué quieres ver hoy?</h2>
+    <input type='text' className='input' placeholder='Buscar...' />
+  </section>
+);
+
+export default Search;
+```
+
+#### Categories.jsx - código final
+
+```jsx
+import React from 'react';
+import '../assets/styles/components/Categories.scss';
+
+const Categories = ({ children, title }) => (
+  <section className='categories'>
+    <h3 className='categories_title'>{title}</h3>
+    {children}
+  </section>
+);
+
+export default Categories;
+```
+
+#### Carousel.jsx - código final
+
+```jsx
+import React from 'react';
+import '../assets/styles/components/Carousel.scss';
+
+const Carousel = ({ children }) => (
+  <section className='carousel'>
+    <div className='carousel__container'>
+      {children}
+    </div>
+  </section>
+);
+
+export default Carousel;
+```
+
+#### CarouselItem.jsx - código final
+
+```jsx
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import '../assets/styles/components/CarouselItem.scss';
+
+import playIcon from '../assets/static/play-icon.png';
+import plusIcon from '../assets/static/plus-icon.png';
+
+const CarpouselItem = ({ title, cover, year, contentRating, duration }) => {
+  return (
+    <div className='carousel-item'>
+      <img className='carousel-item__img' src={cover} alt={title} />
+      <div className='carousel-item__details'>
+        <div>
+          <img className='carousel-item__details--img' src={playIcon} alt='Play Icon' />
+          <img className='carousel-item__details--img' src={plusIcon} alt='Plus Icon' />
+        </div>
+        <p className='carousel-item__details--title'>{title}</p>
+        <p className='carousel-item__details--subtitle'>{`${year} ${contentRating} ${duration} minutos`}</p>
+      </div>
+    </div>
+  );
+};
+
+CarpouselItem.propTypes = {
+  title: PropTypes.string,
+  cover: PropTypes.string,
+  year: PropTypes.number,
+  contentRating: PropTypes.string,
+  duration: PropTypes.number,
+};
+
+export default CarpouselItem;
+```
+
+#### Footer.jsx - código final
+
+```jsx
+import React from 'react';
+import '../assets/styles/components/Footer.scss';
+
+const Footer = ({ children }) => (
+  <footer className='footer'>
+    <a href='/'>Terminos de uso</a>
+    <a href='/'>Declaración de privacidad</a>
+    <a href='/'>Centro de ayuda</a>
+  </footer>
+);
+
+export default Footer;
 ```
