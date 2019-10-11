@@ -6,12 +6,6 @@
 
 ---
 
-Visiten esta página de la que no soy el autor pero cumple el mismo objetivo hasta la instalación y configuración manual, pero con mayor detalle en explicación: _**[Curso Práctico de React JS by augdiaugus](https://augdiaugus.gitbook.io/recoleccion-de-notas-publicas/escuela-de-javascript/curso-practico-de-react-js)**_ Este blog usa en gran manera la [documentación de React en español](https://es.reactjs.org/docs/getting-started.html), solo colocaré la info mínima requerida para una consulta rápida de configuración y estado del arte.
-
----
-
----
-
 ## React
 
 ![React.svg](https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/React.svg/245px-React.svg.png)
